@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Anuncios - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/mis_anuncios.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+        <div class="contenedor">
+            <div class="menu">
+                <span id="nombre-usuario" style="margin-right: 1rem;"></span>
+            </div>
+        </div>
+
+    <main class="contenedor">
+        <div class="mis-anuncios-container">
+            <!-- Header con estadísticas -->
+            <div class="header-panel">
+                <div class="bienvenida">
+                    <h1>🏠 Mis Anuncios</h1>
+                    <p>Gestiona tus ofertas de alojamiento y colaboración</p>
+                </div>
+                <div class="acciones-principales">
+                    <a href="../anuncios/crear_anuncio.html" class="boton-principal">
+                        <span style="margin-right: 5px;">+</span> Crear Nuevo Anuncio
+                    </a>
+                    <a href="../perfil/panel_control.html" class="boton-secundario" style="background-color: aliceblue;">
+                        ← Volver al Panel
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Estadísticas -->
+            <div class="estadisticas-anuncios" id="estadisticas-container">
+                <div class="cargando">Cargando estadísticas...</div>
+            </div>
+            
+            <!-- Filtros -->
+            <div class="filtros-anuncios">
+                <div class="filtros-header">
+                    <h3>🔍 Filtrar anuncios</h3>
+                    <button id="btn-limpiar-filtros" class="boton-secundario" style="padding: 6px 12px; font-size: 0.85rem;">
+                        Limpiar filtros
+                    </button>
+                </div>
+                <div class="controles-filtro">
+                    <select id="filtro-estado" class="select-filtro">
+                        <option value="">Todos los estados</option>
+                        <option value="activo">✅ Activos</option>
+                        <option value="inactivo">⏸️ Inactivos</option>
+                        <option value="completo">🏁 Completos</option>
+                    </select>
+                    
+                    <select id="filtro-tipo" class="select-filtro">
+                        <option value="">Todos los tipos</option>
+                        <option value="agricultura">🌱 Agricultura</option>
+                        <option value="ensenanza">📚 Enseñanza</option>
+                        <option value="construccion">🏗️ Construcción</option>
+                        <option value="cocina">👨‍🍳 Cocina</option>
+                        <option value="jardineria">🌿 Jardinería</option>
+                        <option value="ninos">👶 Cuidado de niños</option>
+                        <option value="animales">🐕 Cuidado de animales</option>
+                    </select>
+                    
+                    <select id="filtro-orden" class="select-filtro">
+                        <option value="reciente">Más recientes primero</option>
+                        <option value="antiguo">Más antiguos primero</option>
+                        <option value="titulo">Ordenar por título (A-Z)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Lista de Anuncios -->
+            <div id="contenido-anuncios">
+                <div class="cargando">Cargando tus anuncios...</div>
+            </div>
+        </div>
+    </main>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/mis_anuncios.js"></script>
+</body>
+</html>

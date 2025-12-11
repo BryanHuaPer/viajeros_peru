@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/perfil.css">
+    <script src="/proyectoWeb/viajeros_peru/public/js/perfil.js"></script>
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+        <div class="contenedor">
+            <div class="menu">
+                <span id="nombre-usuario" style="margin-right: 1rem;"></span>
+            </div>
+        </div>
+
+    <main class="contenedor">
+        <!-- Header del Perfil -->
+        <header class="header-perfil">
+            <div class="foto-perfil-container">
+                <div class="foto-perfil" id="foto-perfil">
+                    <img id="imagen-perfil" src="/proyectoWeb/viajeros_peru/public/img/placeholder-usuario.jpg" alt="Foto de perfil">
+                    <div class="cambiar-foto">
+                        📷 Cambiar
+                    </div>
+                </div>
+                <input type="file" id="input-foto" accept="image/*" style="display: none;">
+            </div>
+            
+            <div class="info-principal">
+                <h1 id="nombre-completo">Cargando...</h1>
+                <div class="badge-rol" id="badge-rol">Viajero</div>
+                <p class="bio" id="bio-usuario">Esta persona aún no ha agregado una biografía.</p>
+                
+                <div class="estadisticas-perfil">
+                    <div class="estadistica">
+                        <strong id="contador-resenas">0</strong>
+                        <span>reseñas</span>
+                    </div>
+                    <div class="estadistica">
+                        <strong id="contador-estancias">0</strong>
+                        <span>estancias</span>
+                    </div>
+                    <div class="estadistica">
+                        <strong id="contador-anuncios">0</strong>
+                        <span>anuncios</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="acciones-perfil">
+                <button class="boton-principal" id="boton-editar-perfil">✏️ Editar Perfil</button>
+                <button class="boton-secundario" id="boton-ver-publico">👁️ Ver perfil público</button>
+            </div>
+        </header>
+
+        <!-- Modo Visualización -->
+        <div id="modo-visualizacion">
+            <div class="grid-perfil">
+                <!-- Información Personal -->
+                <section class="seccion-perfil">
+                    <h3>📋 Información Personal</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Correo electrónico</label>
+                            <p id="info-correo">Cargando...</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Teléfono</label>
+                            <p id="info-telefono">No especificado</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Fecha de registro</label>
+                            <p id="info-fecha-registro">Cargando...</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="seccion-perfil">
+                    <h3>📍 Ubicación</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>País</label>
+                            <p id="info-pais">No especificado</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Ciudad</label>
+                            <p id="info-ciudad">No especificada</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Dirección</label>
+                            <p id="info-ubicacion-detalle">No especificada</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Información Personal Adicional -->
+                <section class="seccion-perfil">
+                    <h3>👤 Información Personal</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Fecha de nacimiento</label>
+                            <p id="info-fecha-nacimiento">No especificada</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Edad</label>
+                            <p id="info-edad">No especificada</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Idioma preferido</label>
+                            <p id="info-idioma-preferido">Español</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Zona horaria</label>
+                            <p id="info-zona-horaria">UTC</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Experiencias Previas -->
+                <section class="seccion-perfil">
+                    <h3>📚 Experiencias Previas</h3>
+                    <div class="lista-experiencias" id="lista-experiencias">
+                        <div class="sin-datos">No se han agregado experiencias previas</div>
+                    </div>
+                </section>
+
+                <!-- Redes Sociales -->
+                <section class="seccion-perfil">
+                    <h3>🌐 Redes Sociales</h3>
+                    <div class="lista-redes-sociales" id="lista-redes-sociales">
+                        <div class="sin-datos">No se han agregado redes sociales</div>
+                    </div>
+                </section>
+
+                <!-- Habilidades -->
+                <section class="seccion-perfil">
+                    <h3>🛠️ Habilidades</h3>
+                    <div class="lista-habilidades" id="lista-habilidades">
+                        <div class="sin-datos">No se han agregado habilidades</div>
+                    </div>
+                </section>
+
+                <!-- Idiomas -->
+                <section class="seccion-perfil">
+                    <h3>🗣️ Idiomas</h3>
+                    <div class="lista-idiomas" id="lista-idiomas">
+                        <div class="sin-datos">No se han agregado idiomas</div>
+                    </div>
+                </section>
+
+                <!-- Intereses -->
+                <section class="seccion-perfil">
+                    <h3>🎯 Intereses</h3>
+                    <div class="lista-intereses" id="lista-intereses">
+                        <div class="sin-datos">No se han agregado intereses</div>
+                    </div>
+                </section>
+
+                <!-- Disponibilidad -->
+                <section class="seccion-perfil">
+                    <h3>📅 Disponibilidad</h3>
+                    <div class="info-disponibilidad" id="info-disponibilidad">
+                        <div class="sin-datos">No se ha especificado disponibilidad</div>
+                    </div>
+                </section>
+
+                <!-- Verificación -->
+                <section class="seccion-perfil">
+                    <h3>✅ Verificación</h3>
+                    <div class="estado-verificacion">
+                        <div class="badge no-verificado">⏳ No verificado</div>
+                        <p>Verifica tu identidad para generar más confianza en la comunidad</p>
+                        <button class="boton-secundario pequeño" onclick="window.manejadorPerfil.iniciarVerificacion()">Iniciar verificación</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Modo Edición -->
+        <div id="modo-edicion" style="display: none;">
+            <form id="formulario-edicion" class="formulario-edicion">
+                <div class="cabecera-edicion">
+                    <h2>✏️ Editar Perfil</h2>
+                    <div class="acciones-edicion">
+                        <button type="button" class="boton-secundario" onclick="cancelarEdicion()">Cancelar</button>
+                        <button type="submit" class="boton-principal">Guardar Cambios</button>
+                    </div>
+                </div>
+
+                <div class="grid-edicion">
+                    <!-- Información Básica -->
+                    <section class="seccion-edicion">
+                        <h3>Información Básica</h3>
+                        <div class="grupo-formulario">
+                            <label for="editar-biografia">Biografía</label>
+                            <textarea id="editar-biografia" name="biografia" rows="4" placeholder="Cuéntanos sobre ti, tus intereses, experiencias..."></textarea>
+                        </div>
+                        
+                        <div class="grupo-formulario">
+                            <label for="editar-telefono">Teléfono</label>
+                            <input type="tel" id="editar-telefono" name="telefono" placeholder="+51 XXX XXX XXX">
+                        </div>
+                    </section>
+                    <section class="seccion-edicion">
+                        <h3>📍 Ubicación </h3>
+                        <div class="grupo-formulario">
+                            <label for="editar-pais">País</label>
+                            <input type="text" id="editar-pais" name="pais" placeholder="Ej: Perú">
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="editar-ciudad">Ciudad</label>
+                            <input type="text" id="editar-ciudad" name="ciudad" placeholder="Ej: Lima">
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="editar-ubicacion-detalle">Dirección específica</label>
+                            <input type="text" id="editar-ubicacion-detalle" name="ubicacion" placeholder="Ej: Miraflores, Av. Larco 123">
+                        </div>
+                    </section>
+
+                    <!-- Información Personal Adicional -->
+                    <section class="seccion-edicion">
+                        <h3>👤 Información Personal</h3>
+                        <div class="grupo-formulario">
+                            <label for="editar-fecha-nacimiento">Fecha de nacimiento</label>
+                            <input type="date" id="editar-fecha-nacimiento" name="fecha_nacimiento">
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="editar-idioma-preferido">Idioma preferido</label>
+                            <select id="editar-idioma-preferido" name="idioma_preferido">
+                                <option value="es">Español</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="editar-zona-horaria">Zona horaria</label>
+                            <select id="editar-zona-horaria" name="zona_horaria">
+                                <option value="UTC-5">UTC-5 (Perú, Colombia, Ecuador)</option>
+                                <option value="UTC-6">UTC-6 (México, Costa Rica)</option>
+                                <option value="UTC-3">UTC-3 (Argentina, Chile)</option>
+                                <option value="UTC">UTC (Hora universal)</option>
+                            </select>
+                        </div>
+                    </section>
+
+                    <!-- Experiencias Previas -->
+                    <section class="seccion-edicion">
+                        <h3>📚 Experiencias Previas</h3>
+                        <div class="grupo-formulario">
+                            <label for="editar-experiencias">Describe tus experiencias previas (una por línea)</label>
+                            <textarea id="editar-experiencias" name="experiencias_previas" rows="4" placeholder="Ej: Voluntariado en granja orgánica en Cusco
+                    Enseñanza de inglés a niños en comunidad rural
+                    Proyecto de construcción en zona rural"></textarea>
+                        </div>
+                    </section>
+
+                    <!-- Redes Sociales -->
+                    <section class="seccion-edicion">
+                        <h3>🌐 Redes Sociales</h3>
+                        <div class="grupo-formulario">
+                            <label>Selecciona tus redes sociales</label>
+                            <div class="lista-checkbox">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="redes_sociales" value="facebook"> Facebook
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="redes_sociales" value="instagram"> Instagram
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="redes_sociales" value="twitter"> Twitter/X
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="redes_sociales" value="linkedin"> LinkedIn
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="redes_sociales" value="whatsapp"> WhatsApp
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="redes_sociales" value="telegram"> Telegram
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Habilidades -->
+                    <section class="seccion-edicion">
+                        <h3>🛠️ Habilidades</h3>
+                        <div class="grupo-formulario">
+                            <label>Selecciona tus habilidades</label>
+                            <div class="lista-checkbox">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="habilidades" value="ensenanza"> Enseñanza
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="habilidades" value="cocina"> Cocina
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="habilidades" value="agricultura"> Agricultura
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="habilidades" value="construccion"> Construcción
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="habilidades" value="jardineria"> Jardinería
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="habilidades" value="ninos"> Cuidado de niños
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="habilidades" value="animales"> Cuidado de animales
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="habilidades" value="idiomas"> Enseñanza de idiomas
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="habilidades" value="manualidades"> Manualidades
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="habilidades" value="tecnologia"> Tecnología
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Idiomas -->
+                    <section class="seccion-edicion">
+                        <h3>🗣️ Idiomas</h3>
+                        <div class="grupo-formulario">
+                            <label>Selecciona los idiomas que hablas</label>
+                            <div class="lista-checkbox">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="idiomas" value="espanol" checked> Español
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="idiomas" value="ingles"> Inglés
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="idiomas" value="quechua"> Quechua
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="idiomas" value="aimara"> Aimara
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="idiomas" value="portugues"> Portugués
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="idiomas" value="frances"> Francés
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="idiomas" value="aleman"> Alemán
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="idiomas" value="italiano"> Italiano
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Intereses -->
+                    <section class="seccion-edicion">
+                        <h3>🎯 Intereses</h3>
+                        <div class="grupo-formulario">
+                            <label>Selecciona tus intereses</label>
+                            <div class="lista-checkbox">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="intereses" value="cultura"> Cultura local
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="intereses" value="naturaleza"> Naturaleza
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="intereses" value="gastronomia"> Gastronomía
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="intereses" value="aventura"> Aventura
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="intereses" value="voluntariado"> Voluntariado
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="intereses" value="aprendizaje"> Aprendizaje
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="intereses" value="deportes"> Deportes
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="intereses" value="musica"> Música
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="intereses" value="arte"> Arte
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Disponibilidad -->
+                    <section class="seccion-edicion">
+                        <h3>📅 Disponibilidad</h3>
+                        <div class="grupo-formulario">
+                            <label for="editar-disponibilidad">¿Cuándo estás disponible?</label>
+                            <select id="editar-disponibilidad" name="disponibilidad">
+                                <option value="">Selecciona tu disponibilidad</option>
+                                <option value="siempre">Siempre disponible</option>
+                                <option value="fines_semana">Fines de semana</option>
+                                <option value="temporal">Disponibilidad temporal</option>
+                                <option value="fechas_especificas">Fechas específicas</option>
+                                <option value="no_disponible">No disponible por ahora</option>
+                            </select>
+                        </div>
+                    </section>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+<script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+</html>

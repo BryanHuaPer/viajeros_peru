@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/perfilPublico.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/perfil.css">
+    <script src="/proyectoWeb/viajeros_peru/public/js/perfilPublico.js"></script>
+    <!-- Añade este estilo en el head -->
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+        
+        /* Estilos adicionales */
+        .badge-verificado {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            font-size: 12px;
+            margin-left: 8px;
+            vertical-align: middle;
+            cursor: help;
+        }
+        
+        .activo-favorito {
+            background-color: #e91e63 !important;
+        }
+        
+        .activo-favorito:hover {
+            background-color: #d81b60 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+
+    <main class="contenedor" role="main">
+        <!-- Header del Perfil Público -->
+        <header class="header-perfil-publico" id="header-perfil" role="banner">
+            <div class="contenedor-header-publico">
+                <div class="foto-perfil-container">
+                    <img id="imagen-perfil-publica" 
+                         src="/proyectoWeb/viajeros_peru/public/img/placeholder-usuario.jpg" 
+                         alt="Foto de perfil del usuario" 
+                         class="foto-perfil-publica"
+                         loading="lazy">
+                </div>
+                
+                <div class="info-principal-publica">
+                    <h1 id="nombre-completo-publico">Cargando...</h1>
+                    <div class="badge-rol" id="badge-rol-publico" aria-label="Rol del usuario">Usuario</div>
+                    <p class="bio-publica" id="bio-usuario-publica">Este usuario aún no ha agregado una biografía.</p>
+                    
+                    <div class="estadisticas-perfil" role="group" aria-label="Estadísticas del perfil">
+                        <div class="estadistica">
+                            <strong id="contador-resenas-publico">0</strong>
+                            <span>reseñas</span>
+                        </div>
+                        <div class="estadistica">
+                            <strong id="contador-estancias-publico">0</strong>
+                            <span>estancias</span>
+                        </div>
+                        <div class="estadistica">
+                            <strong id="contador-anuncios-publico">0</strong>
+                            <span>anuncios</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="acciones-perfil-publico">
+                    <button class="boton-principal" id="boton-contactar" style="display: none;">
+                        <span aria-hidden="true">📩</span> Contactar
+                    </button>
+                    <button class="boton-principal" onclick="window.history.back()">
+                        <span aria-hidden="true">←</span> Volver
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido del Perfil Público -->
+        <div class="grid-perfil-publico" id="contenido-perfil">
+            <!-- Mensaje de carga -->
+            <div class="cargando" id="mensaje-carga" aria-live="polite">
+                <p>Cargando perfil...</p>
+            </div>
+            <!-- El contenido se cargará dinámicamente aquí -->
+        </div>
+
+        <!-- Mensaje de error -->
+        <div class="mensaje-error" id="mensaje-error" style="display: none;" aria-live="assertive">
+            <p id="texto-error">Error al cargar el perfil</p>
+        </div>
+    </main>
+
+    <!-- Modal de Contacto -->
+    <div id="modal-contacto" class="modal" style="display: none;" role="dialog" aria-labelledby="modal-titulo" aria-hidden="true">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h3 id="modal-titulo">Contactar a <span id="modal-nombre-usuario"></span></h3>
+                <button class="modal-cerrar" onclick="cerrarModalContacto()" aria-label="Cerrar modal">×</button>
+            </div>
+            <div class="modal-cuerpo">
+                <form id="formulario-contacto">
+                    <div class="grupo-formulario">
+                        <label for="mensaje-contacto">Mensaje</label>
+                        <textarea id="mensaje-contacto" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                    </div>
+                    <div class="modal-acciones">
+                        <button type="button" class="boton-secundario" onclick="cerrarModalContacto()">Cancelar</button>
+                        <button type="submit" class="boton-principal">Enviar Mensaje</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+</html>

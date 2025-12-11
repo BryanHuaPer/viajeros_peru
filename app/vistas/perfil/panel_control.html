@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="navegacion-global">
+        <!-- La navegación se cargará aquí automáticamente -->
+    </div>
+    <main class="contenedor">
+        <!-- Header del Panel -->
+        <header class="header-panel">
+            <div class="bienvenida">
+                <h2 id="titulo-bienvenida">Bienvenido de vuelta</h2>
+                <p id="subtitulo-panel">Gestiona tu experiencia en Viajeros Perú</p>
+            </div>
+            <div class="estado-usuario">
+                <div class="badge-rol" id="badge-rol">Viajero</div>
+                <div class="estado-cuenta" id="estado-cuenta">Cuenta activa</div>
+            </div>
+        </header>
+
+        <!-- Estadísticas Rápidas -->
+        <section class="estadisticas-rapidas">
+            <!-- Estadísticas para ANFITRION -->
+            <div class="tarjeta-estadistica" id="estadistica-anuncios" style="display: none;">
+                <div class="icono-estadistica">🏠</div>
+                <div class="contenido-estadistica">
+                    <h3 id="contador-anuncios">0</h3>
+                    <p>Anuncios Activos</p>
+                </div>
+            </div>
+            
+            <div class="tarjeta-estadistica" id="estadistica-solicitudes-anfitrion" style="display: none;">
+                <div class="icono-estadistica">📥</div>
+                <div class="contenido-estadistica">
+                    <h3 id="contador-solicitudes-anfitrion">0</h3>
+                    <p>Solicitudes Pendientes</p>
+                </div>
+            </div>
+            
+            <div class="tarjeta-estadistica" id="estadistica-reservas" style="display: none;">
+                <div class="icono-estadistica">✅</div>
+                <div class="contenido-estadistica">
+                    <h3 id="contador-reservas">0</h3>
+                    <p>Reservas Confirmadas</p>
+                </div>
+            </div>
+            
+            <div class="tarjeta-estadistica" id="estadistica-calificacion-anfitrion" style="display: none;">
+                <div class="icono-estadistica">⭐</div>
+                <div class="contenido-estadistica">
+                    <h3 id="contador-calificacion-anfitrion">0</h3>
+                    <p>Calificación Promedio</p>
+                </div>
+            </div>
+
+            <!-- Estadísticas para VIAJERO -->
+            <div class="tarjeta-estadistica" id="estadistica-solicitudes-viajero" style="display: none;">
+                <div class="icono-estadistica">📊</div>
+                <div class="contenido-estadistica">
+                    <h3 id="contador-solicitudes-viajero">0</h3>
+                    <p>Solicitudes Enviadas</p>
+                </div>
+            </div>
+            
+            <div class="tarjeta-estadistica" id="estadistica-aceptadas" style="display: none;">
+                <div class="icono-estadistica">✅</div>
+                <div class="contenido-estadistica">
+                    <h3 id="contador-aceptadas">0</h3>
+                    <p>Solicitudes Aceptadas</p>
+                </div>
+            </div>
+            
+            <div class="tarjeta-estadistica" id="estadistica-resenas" style="display: none;">
+                <div class="icono-estadistica">⭐</div>
+                <div class="contenido-estadistica">
+                    <h3 id="contador-resenas">0</h3>
+                    <p>Reseñas Recibidas</p>
+                </div>
+            </div>
+            
+            <div class="tarjeta-estadistica" id="estadistica-calificacion-viajero" style="display: none;">
+                <div class="icono-estadistica">⭐</div>
+                <div class="contenido-estadistica">
+                    <h3 id="contador-calificacion-viajero">0.0</h3>
+                    <p>Calificación Promedio</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navegación Principal -->
+        <section class="navegacion-panel">
+            <div class="grid-accesos">
+                <!-- Para Viajeros -->
+                <div class="acceso-rapido" id="acceso-viajero-1" style="display: none;" onclick="irA('../inicio/busqueda.html')">
+                    <div class="icono-acceso">🔍</div>
+                    <h4>Buscar Anuncios</h4>
+                    <p>Encuentra alojamientos disponibles</p>
+                </div>
+                
+                <div class="acceso-rapido" id="acceso-viajero-2" style="display: none;" onclick="irA('../reservas/mis_reservas.html')">
+                    <div class="icono-acceso">📅</div>
+                    <h4>Mis Reservas</h4>
+                    <p>Gestiona tus solicitudes de estancia</p>
+                </div>
+                <div class="acceso-rapido" id="acceso-viajero-3" style="display: none;" onclick="irA('../inicio/favoritos.html')">
+                    <div class="icono-acceso">❤️</div>
+                    <h4>Favoritos</h4>
+                    <p>Tus anuncios guardados</p>
+                </div>
+                
+                <!-- Para Anfitriones -->
+                <div class="acceso-rapido" id="acceso-anfitrion-1" style="display: none;" onclick="irA('../anuncios/crear_anuncio.html')">
+                    <div class="icono-acceso">🏠</div>
+                    <h4>Publicar Anuncio</h4>
+                    <p>Crea un nuevo anuncio de alojamiento</p>
+                </div>
+
+                <div class="acceso-rapido" id="acceso-anfitrion-2" style="display: none;" onclick="irA('../inicio/mis_anuncios.html')">
+                    <div class="icono-acceso">📑</div>
+                    <h4>Mis Anuncios</h4>
+                    <p>Gestiona tus anuncios publicados</p>
+                </div>
+
+                <div class="acceso-rapido" id="acceso-anfitrion-3" style="display: none;" onclick="irA('../reservas/mis_reservas.html')">
+                    <div class="icono-acceso">📅</div>
+                    <h4>Reservas</h4>
+                    <p>Gestiona tus solicitudes de estancia</p>
+                </div>
+
+                <!-- Para Administradores -->
+                <div class="acceso-rapido" id="acceso-admin" style="display: none;" onclick="irA('../admin/panel_admin.html')">
+                    <div class="icono-acceso">⚙️</div>
+                    <h4>Panel Administrador</h4>
+                    <p>Gestiona toda la plataforma</p>
+                </div>
+
+                <!-- Común para todos -->
+                <div class="acceso-rapido" onclick="irA('../mensajes/mensajes.html')">
+                    <div class="icono-acceso">💬</div>
+                    <h4>Mensajes</h4>
+                    <p>Revisa tus conversaciones</p>
+                </div>
+                <div class="acceso-rapido" onclick="irA('../comunidad/foro.html')">
+                    <div class="icono-acceso">👥</div>
+                    <h4>Comunidad</h4>
+                    <p>Comparte experiencias y consejos</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Anuncios (diferente según rol) -->
+        <section class="seccion-anuncios" style="display: none;" id="seccion-anuncios">       
+            <!-- Contenido dinámico según rol -->
+            <div id="contenido-anuncios">
+                <!-- Para viajeros: anuncios recomendados -->
+                <div class="grid-anuncios" id="lista-anuncios-recomendados">
+                </div>
+                <!-- Para anfitriones: mis anuncios -->
+                <div id="lista-mis-anuncios" style="display: none;">
+                    <div class="estado-carga"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actividad Reciente -->
+        <section class="actividad-reciente">
+            <h3>Actividad Reciente</h3>
+            <div class="lista-actividad" id="lista-actividad">
+                <div class="item-actividad">
+                    <div class="icono-actividad">✅</div>
+                    <div class="contenido-actividad">
+                        <p><strong>Te has registrado exitosamente</strong></p>
+                        <span class="fecha-actividad">Hace unos momentos</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script src="/proyectoWeb/viajeros_peru/public/js/panel_control.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+</body>
+</html>

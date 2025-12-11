@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_admin.css">
+    <style>
+        .navegacion-principal, .menu-hamburguesa{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="navegacion-global"></div>
+        <div class="contenedor">
+            <div class="menu">
+                <span id="nombre-usuario" style="margin-right: 1rem;"></span>
+            </div>
+        </div>
+
+    <main class="contenedor">
+        <!-- Header -->
+        <header class="header-panel">
+            <div class="bienvenida">
+                <h2>⚙️ Panel de Administración</h2>
+                <p>Gestiona la plataforma Viajeros Perú</p>
+            </div>
+            <div class="estado-usuario">
+                <div class="badge-rol" id="badge-rol">Administrador</div>
+                <div class="estado-cuenta">Sistema</div>
+            </div>
+        </header>
+
+        <!-- Navegación del Admin -->
+        <nav class="navegacion-admin">
+            <button class="nav-admin-activo" data-seccion="estadisticas">📊 Estadísticas</button>
+            <button data-seccion="usuarios">👥 Usuarios</button>
+            <button data-seccion="anuncios">🏠 Anuncios</button>
+            <button data-seccion="verificaciones">✅ Verificaciones</button>
+            <button data-seccion="reportes">📋 Reportes</button>
+        </nav>
+
+        <!-- Sección de Estadísticas -->
+        <section id="seccion-estadisticas" class="seccion-admin">
+            <h3>Estadísticas del Sistema</h3>
+            <div class="grid-estadisticas-admin">
+                <div class="tarjeta-estadistica-admin">
+                    <div class="icono-estadistica-admin">👥</div>
+                    <div class="contenido-estadistica-admin">
+                        <h3 id="total-usuarios">0</h3>
+                        <p>Total Usuarios</p>
+                    </div>
+                </div>
+                <div class="tarjeta-estadistica-admin">
+                    <div class="icono-estadistica-admin">🧳</div>
+                    <div class="contenido-estadistica-admin">
+                        <h3 id="total-viajeros">0</h3>
+                        <p>Viajeros</p>
+                    </div>
+                </div>
+                <div class="tarjeta-estadistica-admin">
+                    <div class="icono-estadistica-admin">🏠</div>
+                    <div class="contenido-estadistica-admin">
+                        <h3 id="total-anfitriones">0</h3>
+                        <p>Anfitriones</p>
+                    </div>
+                </div>
+                <div class="tarjeta-estadistica-admin">
+                    <div class="icono-estadistica-admin">📋</div>
+                    <div class="contenido-estadistica-admin">
+                        <h3 id="total-anuncios">0</h3>
+                        <p>Anuncios</p>
+                    </div>
+                </div>
+                <div class="tarjeta-estadistica-admin">
+                    <div class="icono-estadistica-admin">📅</div>
+                    <div class="contenido-estadistica-admin">
+                        <h3 id="total-reservas">0</h3>
+                        <p>Reservas</p>
+                    </div>
+                </div>
+                <div class="tarjeta-estadistica-admin">
+                    <div class="icono-estadistica-admin">⭐</div>
+                    <div class="contenido-estadistica-admin">
+                        <h3 id="total-resenas">0</h3>
+                        <p>Reseñas</p>
+                    </div>
+                </div>
+                <div class="tarjeta-estadistica-admin">
+                    <div class="icono-estadistica-admin">✅</div>
+                    <div class="contenido-estadistica-admin">
+                        <h3 id="reservas-completadas">0</h3>
+                        <p>Reservas Completadas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Usuarios -->
+        <section id="seccion-usuarios" class="seccion-admin" style="display: none;">
+            <div class="cabecera-seccion-admin">
+                <h3>Gestión de Usuarios</h3>
+                <div class="buscador-admin">
+                    <input type="text" id="buscar-usuarios" placeholder="Buscar usuarios...">
+                </div>
+            </div>
+            <div class="contenido-tabla">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Fecha Registro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-usuarios">
+                        <tr>
+                            <td colspan="7" class="cargando">Cargando usuarios...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sección de Anuncios -->
+        <section id="seccion-anuncios" class="seccion-admin" style="display: none;">
+            <div class="cabecera-seccion-admin">
+                <h3>Gestión de Anuncios</h3>
+                <div class="buscador-admin">
+                    <input type="text" id="buscar-anuncios" placeholder="Buscar anuncios...">
+                </div>
+            </div>
+            <div class="contenido-tabla">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Anfitrión</th>
+                            <th>Ubicación</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-anuncios">
+                        <tr>
+                            <td colspan="7" class="cargando">Cargando anuncios...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sección de Reservas -->
+        <section id="seccion-reservas" class="seccion-admin" style="display: none;">
+            <div class="cabecera-seccion-admin">
+                <h3>Gestión de Reservas</h3>
+                <div class="filtros-admin">
+                    <select id="filtro-estado-reservas">
+                        <option value="">Todos los estados</option>
+                        <option value="pendiente">Pendientes</option>
+                        <option value="aceptada">Aceptadas</option>
+                        <option value="rechazada">Rechazadas</option>
+                        <option value="completada">Completadas</option>
+                        <option value="cancelada">Canceladas</option>
+                    </select>
+                </div>
+            </div>
+            <div class="contenido-tabla">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Anuncio</th>
+                            <th>Viajero</th>
+                            <th>Anfitrión</th>
+                            <th>Fechas</th>
+                            <th>Estado</th>
+                            <th>Fecha Solicitud</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-reservas">
+                        <tr>
+                            <td colspan="7" class="cargando">Cargando reservas...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sección de Mensajes -->
+        <section id="seccion-mensajes" class="seccion-admin" style="display: none;">
+            <div class="cabecera-seccion-admin">
+                <h3>Gestión de Mensajes</h3>
+                <div class="buscador-admin">
+                    <input type="text" id="buscar-mensajes" placeholder="Buscar en mensajes...">
+                </div>
+            </div>
+            <div class="contenido-tabla">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Remitente</th>
+                            <th>Destinatario</th>
+                            <th>Contenido</th>
+                            <th>Fecha</th>
+                            <th>Leído</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-mensajes">
+                        <tr>
+                            <td colspan="6" class="cargando">Cargando mensajes...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- Sección de Verificaciones -->
+        <section id="seccion-verificaciones" class="seccion-admin" style="display: none;">
+            <!-- Navegación interna para filtros -->
+            <nav class="navegacion-verificaciones">
+                <button class="boton-filtro-activo" data-filtro="todas">📋 Todas</button>
+                <button data-filtro="pendientes">⏳ Pendientes</button>
+                <button data-filtro="aprobadas">✅ Aprobadas</button>
+                <button data-filtro="rechazadas">❌ Rechazadas</button>
+            </nav>
+
+            <div class="cabecera-seccion-admin">
+                <h3>Gestión de Verificaciones de Identidad</h3>
+                <div class="contador-verificaciones">
+                    <span id="contador-pendientes">0</span> verificaciones pendientes
+                </div>
+            </div>
+            
+            <div class="contenido-tabla">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Tipo Documento</th>
+                            <th>Número</th>
+                            <th>Fecha Solicitud</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-verificaciones">
+                        <tr>
+                            <td colspan="7" class="cargando">Cargando verificaciones...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- Sección de Reportes Actualizada -->
+        <section id="seccion-reportes" class="seccion-admin" style="display: none;">
+            <div class="cabecera-seccion-admin">
+                <h3>Gestión de Reportes</h3>
+                <div class="filtros-admin">
+                    
+                    <!-- Nuevo Filtro por Tipo de Contenido -->
+                    <select id="filtro-tipo-reporte">
+                        <option value="">Todos los tipos</option>
+                        <option value="usuario">Usuarios</option>
+                        <option value="anuncio">Anuncios</option>
+                        <option value="publicacion">Publicaciones</option>
+                        <option value="mensaje">Mensajes</option>
+                    </select>
+
+                    <!-- Filtro de Estado Existente -->
+                    <select id="filtro-estado-reportes">
+                        <option value="">Todos los estados</option>
+                        <option value="pendiente">Pendientes</option>
+                        <option value="revisado">Revisados</option>
+                        <!-- 'resuelto' y 'rechazado' de tu HTML original son compatibles con 'revisado' si se unifican estados -->
+                        <option value="resuelto">Resuelto</option>
+                        <option value="rechazado">Rechazado</option>
+                    </select>
+                </div>
+            </div>
+            <div class="contenido-tabla">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>ID Reporte</th>
+                            <th>Reportador</th>
+                            <th>Tipo Contenido</th>
+                            <th>Motivo/Descripción</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-reportes">
+                        <tr>
+                            <td colspan="8" class="cargando">Cargando reportes...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/panel_admin.js"></script>
+</body>
+</html>

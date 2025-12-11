@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Anuncios - Viajeros Perú</title>
+    <link rel="icon" type="image/png" href="/proyectoWeb/viajeros_peru/public/img/logos/logo.png">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- En el head, después de Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/busqueda.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="navegacion-global">
+        <!-- La navegación se cargará aquí automáticamente -->
+    </div>
+
+    <!-- Overlay para móvil -->
+    <div class="overlay-filtros" id="overlay-filtros"></div>
+
+     <button class="boton-filtros-flotante" id="btn-filtros-flotante">🔍</button>
+
+    <div class="contenedor-busqueda">
+        <!-- Panel de filtros lateral -->
+        <aside class="panel-filtros" id="panel-filtros">
+            <div class="cabecera-filtros">
+                <h3>🔍 Filtros</h3>
+                <button type="button" id="btn-cerrar-filtros" class="boton-cerrar">×</button>
+            </div>
+            
+            <form id="form-busqueda" class="formulario-busqueda">
+                <div class="campos-busqueda">
+                    <div class="campo-formulario">
+                        <label for="filtro-ubicacion">📍 Ubicación</label>
+                        <input type="text" id="filtro-ubicacion" placeholder="Ciudad, región o país">
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="filtro-tipo-actividad">🎯 Tipo de Actividad</label>
+                        <select id="filtro-tipo-actividad">
+                            <option value="">Todas las actividades</option>
+                            <option value="agricultura">🌱 Agricultura</option>
+                            <option value="ensenanza">📚 Enseñanza</option>
+                            <option value="construccion">🏗️ Construcción</option>
+                            <option value="cocina">👨‍🍳 Cocina</option>
+                            <option value="jardineria">🌿 Jardinería</option>
+                            <option value="ninos">👶 Cuidado de niños</option>
+                            <option value="animales">🐕 Cuidado de animales</option>
+                            <option value="tecnologia">💻 Tecnología</option>
+                            <option value="manualidades">🎨 Manualidades</option>
+                        </select>
+                    </div>
+
+                    <div class="campos-dobles">
+                        <div class="campo-formulario">
+                            <label for="filtro-duracion-min">⏱️ Días mín.</label>
+                            <input type="number" id="filtro-duracion-min" min="1" placeholder="Mínimo">
+                        </div>
+
+                        <div class="campo-formulario">
+                            <label for="filtro-duracion-max">⏱️ Días máx.</label>
+                            <input type="number" id="filtro-duracion-max" min="1" placeholder="Máximo">
+                        </div>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="filtro-cupos">👥 Cupos mínimos</label>
+                        <input type="number" id="filtro-cupos" min="1" value="1">
+                    </div>
+                </div>
+
+                <div class="acciones-busqueda">
+                    <button type="submit" class="boton-principal">
+                        🔍 Buscar Anuncios
+                    </button>
+                    <button type="button" id="btn-limpiar" class="boton-secundario">
+                        🗑️ Limpiar
+                    </button>
+                </div>
+            </form>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="contenido-principal">
+            <!-- Header dinámico según rol -->
+            <header class="header-panel">
+                <div class="bienvenida">
+                    <h1 id="titulo-busqueda">🔍 Buscar Alojamientos</h1>
+                    <p id="subtitulo-busqueda">Encuentra tu próxima experiencia de viaje</p>
+                </div>
+                <div class="estado-usuario">
+                    <div class="badge-rol" id="badge-rol">Invitado</div>
+                    <div class="estado-cuenta" id="modo-busqueda">Buscando alojamientos</div>
+                    <button id="btn-abrir-filtros" class="boton-filtros-mobile">🔍 Filtros</button>
+                </div>
+            </header>
+
+            <!-- Resultados de Búsqueda -->
+            <section class="seccion-panel">
+                <div class="cabecera-seccion">
+                    <h3 id="titulo-resultados">Anuncios Disponibles</h3>
+                    <div class="controles-vista">
+                        <button class="boton-vista activo" data-vista="lista">📋 Lista</button>
+                        <button class="boton-vista" data-vista="mapa">🗺️ Mapa</button>
+                    </div>
+                    <div id="contador-resultados" class="contador-resultados">
+                        <span id="numero-resultados">0</span> anuncios encontrados
+                    </div>
+                </div>
+                <!-- Vista Mapa -->
+                <div id="vista-mapa" class="vista-mapa">
+                    <div class="contenedor-mapa">
+                        <div id="mapa-peru"></div>
+                    </div>
+                </div>
+                <!-- Vista Lista -->
+                <div id="vista-lista" class="vista-lista activa">
+                    <!-- Estados de carga/error -->
+                    <div id="estado-busqueda" class="estado-busqueda">
+                        <div class="mensaje-bienvenida">
+                            <h4>🏠 Encuentra tu próxima experiencia</h4>
+                            <p>Usa los filtros para encontrar alojamientos que se adapten a tus necesidades</p>
+                        </div>
+                    </div>
+
+                    <!-- Lista de resultados -->
+                    <div id="lista-resultados" class="grid-resultados">
+                        <!-- Los resultados se cargarán aquí dinámicamente -->
+                    </div>
+
+                    <!-- Paginación -->
+                    <div id="paginacion" class="paginacion" style="display: none;">
+                        <!-- Controles de paginación -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/busqueda.js"></script>
+</body>
+</html>

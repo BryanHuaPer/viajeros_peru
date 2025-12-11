@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Anuncio - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/crear_anuncio.css">
+    <!-- Leaflet para selección de ubicación interactiva -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+    /* Indicar que esta página no necesita la navegación principal */
+    .navegacion-principal, .menu-hamburguesa{
+        display: none;
+    }
+    
+    /* Animaciones para tooltips */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-10px); }
+    }
+    
+    /* Tooltip temporal */
+    .tooltip-temporal {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #3b82f6;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        z-index: 10000;
+        font-size: 14px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        animation: fadeIn 0.3s;
+        max-width: 300px;
+    }
+</style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+        <div class="contenedor">
+            <div class="menu">
+                <span id="nombre-usuario" style="margin-right: 1rem;"></span>
+            </div>
+        </div>
+
+    <main class="contenedor">
+        <!-- Header específico para crear anuncio -->
+        <header class="header-panel">
+            <div class="bienvenida">
+                <h1>🏠 Crear Nuevo Anuncio</h1>
+                <p>Comparte tu alojamiento y recibe viajeros de todo el mundo</p>
+            </div>
+            <div class="estado-usuario">
+                <div class="badge-rol" id="badge-rol">Anfitrión</div>
+                <div class="estado-cuenta">Creando anuncio</div>
+            </div>
+        </header>
+
+        <!-- Formulario de creación -->
+        <section class="seccion-panel">
+            <form id="form-crear-anuncio" class="formulario-panel">
+                <div class="campo-formulario">
+                    <label for="titulo">Título del anuncio *</label>
+                    <input type="text" id="titulo" required placeholder="Ej: Ayuda en granja orgánica en Cusco">
+                    <small>Describe brevemente tu oferta</small>
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="descripcion">Descripción detallada *</label>
+                    <textarea id="descripcion" rows="6" required placeholder="Describe las actividades, el ambiente, tu ubicación, lo que hace especial tu oferta..."></textarea>
+                    <small>Sé específico sobre las tareas, horarios y expectativas</small>
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="ubicacion">📍 Ubicación exacta *</label>
+                    <input type="text" id="ubicacion" required value="hogar, Perú" >
+                    <small>Indica la ciudad y región donde se encuentra el alojamiento</small>
+
+                    <div class="selector-ubicacion" style="margin-top:8px;">
+                        <div class="campos-dobles">
+                            <div class="campo-formulario">
+                                <label for="departamento">Departamento *</label>
+                                <select id="departamento" aria-label="Seleccionar departamento" required>
+                                    <option value="">-- Elegir departamento --</option>
+                                    <option value="Lima">Lima</option>
+                                    <option value="Cusco">Cusco</option>
+                                    <option value="Arequipa">Arequipa</option>
+                                    <option value="Puno">Puno</option>
+                                    <option value="La Libertad">La Libertad (Trujillo)</option>
+                                    <option value="Piura">Piura</option>
+                                    <option value="Loreto">Loreto (Iquitos)</option>
+                                    <option value="Ancash">Ancash (Huaraz)</option>
+                                    <option value="Tacna">Tacna</option>
+                                    <option value="Cajamarca">Cajamarca</option>
+                                    <option value="Ayacucho">Ayacucho</option>
+                                    <option value="San Martín">San Martín (Tarapoto)</option>
+                                    <option value="Junín">Junín (Huancayo)</option>
+                                    <option value="Ica">Ica</option>
+                                    <option value="Ucayali">Ucayali (Pucallpa)</option>
+                                    <option value="Tumbes">Tumbes</option>
+                                    <option value="Moquegua">Moquegua</option>
+                                </select>
+                            </div>
+                            
+                            <div class="campo-formulario">
+                                <label for="ciudad">Ciudad/Localidad *</label>
+                                <input type="text" id="ciudad" value="" placeholder="Ej: Cusco, Miraflores, etc." required>
+                            </div>
+                        </div>
+
+                        <div class="ubicacion-acciones" style="margin-top:8px; display:flex; gap:8px; align-items:center;">
+                            <button type="button" id="btn-abrir-mapa" class="boton-secundario"title="Selecciona la ubicación exacta en el mapa interactivo">📌 Seleccionar en mapa</button>
+                            <div style="font-size:0.9rem; color:#666;">Coordenadas: <span id="coord-readout">No seleccionadas</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Contenedor del mapa (oculto hasta que el usuario lo abra) -->
+                    <div id="map-editor-container" style="display:none; margin-top:10px; border:1px solid #e5e7eb; height:320px; border-radius:6px; overflow:hidden;">
+                        <div id="map-editor" style="height:100%; width:100%;"></div>
+                    </div>
+
+                    <!-- ✅ NUEVO: Información para el usuario -->
+                    <div id="info-mapa" style="margin-top: 8px; font-size: 0.85rem; color: #666; display: none; padding: 8px; background: #f8fafc; border-radius: 6px; border-left: 4px solid #3b82f6;">
+                        <div style="display: flex; align-items: flex-start; gap: 8px;">
+                            <span style="font-size: 1rem;">💡</span>
+                            <div>
+                                <strong>Instrucción:</strong> Haz clic en el mapa para seleccionar la ubicación exacta.<br>
+                                <small>Las coordenadas se guardan automáticamente. Si la ciudad no se detecta, puedes escribirla manualmente.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inputs ocultos para lat/long que serán enviados con FormData -->
+                    <input type="hidden" id="latitud_field" name="latitud" />
+                    <input type="hidden" id="longitud_field" name="longitud" />
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="tipo_actividad">Tipo de actividad principal *</label>
+                    <select id="tipo_actividad" required>
+                        <option value="">Selecciona una actividad</option>
+                        <option value="agricultura">🌱 Agricultura / Granja</option>
+                        <option value="ensenanza">📚 Enseñanza / Educación</option>
+                        <option value="construccion">🏗️ Construcción / Reparaciones</option>
+                        <option value="cocina">👨‍🍳 Cocina / Gastronomía</option>
+                        <option value="jardineria">🌿 Jardinería / Paisajismo</option>
+                        <option value="ninos">👶 Cuidado de niños</option>
+                        <option value="animales">🐕 Cuidado de animales</option>
+                        <option value="tecnologia">💻 Tecnología / Informática</option>
+                        <option value="manualidades">🎨 Manualidades / Arte</option>
+                        <option value="turismo">🏞️ Turismo / Guía</option>
+                        <option value="proyectos">🔨 Proyectos comunitarios</option>
+                    </select>
+                </div>
+
+                <div class="campos-dobles">
+                    <div class="campo-formulario">
+                        <label for="duracion_minima">Duración mínima (días) *</label>
+                        <input type="number" id="duracion_minima" min="1" value="7" required>
+                        <small>Estancia mínima requerida</small>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="duracion_maxima">Duración máxima (días) *</label>
+                        <input type="number" id="duracion_maxima" min="1" value="30" required>
+                        <small>Estancia máxima permitida</small>
+                    </div>
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="cupos_disponibles">Cupos disponibles *</label>
+                    <input type="number" id="cupos_disponibles" min="1" value="2" required>
+                    <small>Número de viajeros que puedes recibir simultáneamente</small>
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="requisitos">Requisitos para el viajero</label>
+                    <textarea id="requisitos" rows="3" placeholder="Ej: Nivel básico de español, experiencia previa, habilidades específicas..."></textarea>
+                    <small>Qué necesitas que sepa o pueda hacer el viajero</small>
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="comodidades">Comodidades que ofreces</label>
+                    <textarea id="comodidades" rows="3" placeholder="Ej: Habitación privada, comidas incluidas, WiFi, acceso a cocina..."></textarea>
+                    <small>Qué incluye el alojamiento para el viajero</small>
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="horario">Horario y tiempo de trabajo</label>
+                    <input type="text" id="horario" placeholder="Ej: 4-5 horas al día, 5 días a la semana">
+                    <small>Especifica las horas de trabajo esperadas</small>
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="dias_libres">Días libres por semana</label>
+                    <input type="number" id="dias_libres" min="0" max="7" value="2" placeholder="Ej: 2">
+                    <small>Número de días libres que ofreces por semana</small>
+                </div>
+
+
+                <div class="campo-formulario">
+                    <label for="imagenes-anuncio">Imágenes del anuncio (máximo 5)</label>
+                    <input type="file" id="imagenes-anuncio" name="imagenes[]" accept="image/*" multiple>
+                    <small>Formatos: JPG, PNG, GIF. Máximo 5MB por imagen. La primera imagen será la principal.</small>
+                    <div id="preview-imagenes" class="contenedor-previews"></div>
+                </div>
+
+                <div class="nota-importante">
+                    <h4>📝 Información importante:</h4>
+                    <ul>
+                        <li>Los campos marcados con * son obligatorios</li>
+                        <li>Sé claro y honesto en tu descripción</li>
+                        <li>Las mejores ofertas son específicas y detalladas</li>
+                        <li>Puedes editar tu anuncio después de publicarlo</li>
+                    </ul>
+                </div>
+
+                <div class="acciones-formulario">
+                    <button type="button" onclick="window.location.href='../perfil/panel_control.html' "class="boton-secundario">
+                        ← Volver al Panel
+                    </button>
+                    <button type="submit" class="boton-principal">
+                        🚀 Publicar Anuncio
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script>
+        // Coordenadas de centros por departamento
+        const centrosDepartamentos = {
+            'Lima': { lat: -12.0464, lng: -77.0428, zoom: 10 },
+            'Cusco': { lat: -13.5320, lng: -71.9675, zoom: 11 },
+            'Arequipa': { lat: -16.4090, lng: -71.5375, zoom: 11 },
+            'Puno': { lat: -15.8402, lng: -70.0219, zoom: 10 },
+            'La Libertad': { lat: -8.1092, lng: -79.0215, zoom: 11 },
+            'Piura': { lat: -5.1945, lng: -80.6328, zoom: 10 },
+            'Loreto': { lat: -3.7491, lng: -73.2538, zoom: 8 },
+            'Ancash': { lat: -9.5279, lng: -77.5286, zoom: 10 },
+            'Tacna': { lat: -18.0066, lng: -70.2463, zoom: 12 },
+            'Cajamarca': { lat: -7.1617, lng: -78.5128, zoom: 10 },
+            'Ayacucho': { lat: -13.1631, lng: -74.2236, zoom: 11 },
+            'San Martín': { lat: -6.4833, lng: -76.3667, zoom: 10 },
+            'Junín': { lat: -12.0667, lng: -75.2333, zoom: 10 },
+            'Ica': { lat: -14.0681, lng: -75.7256, zoom: 11 },
+            'Ucayali': { lat: -8.3792, lng: -74.5539, zoom: 9 },
+            'Tumbes': { lat: -3.5667, lng: -80.4414, zoom: 12 },
+            'Moquegua': { lat: -17.1927, lng: -70.9328, zoom: 11 }
+        };
+        // Script específico para esta página
+        class ManejadorCrearAnuncio {
+            constructor() {
+                this.usuario = null;
+                this.imagenesSeleccionadas = [];
+                this.MAX_IMAGENES = 5;
+                // Caché simple para resultados de reverse geocoding (evita repetir peticiones)
+                this._reverseGeocodeCache = new Map();
+                // Control básico para evitar alertar repetidamente al usuario si la red falla
+                this._reverseGeocodeNetworkProblems = 0;
+                this.inicializar();
+            }
+
+            inicializar() {
+                this.verificarAutenticacion();
+                this.cargarDatosUsuario();
+                this.configurarManejadores();
+            }
+
+            verificarAutenticacion() {
+                const datosUsuario = localStorage.getItem('datos_usuario');
+                const token = localStorage.getItem('token_usuario');
+                
+                if (!datosUsuario || !token) {
+                    alert('Debes iniciar sesión para crear un anuncio');
+                    window.location.href = '../auth/iniciar_sesion.html';
+                    return;
+                }
+
+                try {
+                    this.usuario = JSON.parse(datosUsuario);
+                    
+                    if (this.usuario.rol !== 'anfitrion') {
+                        alert('Solo los anfitriones pueden crear anuncios');
+                        window.location.href = '../perfil/panel_control.html';
+                        return;
+                    }
+                    
+                } catch (error) {
+                    console.error('Error parseando datos de usuario:', error);
+                    this.cerrarSesion();
+                }
+            }
+
+            cargarDatosUsuario() {
+                if (!this.usuario) return;
+                document.getElementById('badge-rol').textContent = 'Anfitrión';
+            }
+            mostrarTooltipTemporal(mensaje, tipo = 'info') {
+                // Eliminar tooltips anteriores
+                const tooltipsAnteriores = document.querySelectorAll('.tooltip-temporal');
+                tooltipsAnteriores.forEach(t => t.remove());
+                
+                // Crear tooltip nuevo
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip-temporal';
+                
+                // Color según tipo
+                if (tipo === 'exito') {
+                    tooltip.style.background = '#10b981';
+                } else if (tipo === 'error') {
+                    tooltip.style.background = '#ef4444';
+                } else {
+                    tooltip.style.background = '#3b82f6';
+                }
+                
+                tooltip.textContent = mensaje;
+                document.body.appendChild(tooltip);
+                
+                // Auto-eliminar después de 3 segundos
+                setTimeout(() => {
+                    tooltip.style.animation = 'fadeOut 0.3s';
+                    setTimeout(() => {
+                        if (tooltip.parentNode) {
+                            tooltip.parentNode.removeChild(tooltip);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+
+            mostrarFeedbackPositivo(mensaje) {
+                this.mostrarTooltipTemporal('✅ ' + mensaje, 'exito');
+            }
+
+            mostrarFeedbackNeutral(mensaje) {
+                this.mostrarTooltipTemporal('📍 ' + mensaje, 'info');
+            }
+
+            actualizarUbicacionManualmente(lat, lng) {
+                // Método fallback cuando el servicio no responde
+                const ciudadInput = document.getElementById('ciudad');
+                const ubicacionInput = document.getElementById('ubicacion');
+                
+                if (ciudadInput && ubicacionInput) {
+                    // ✅ Sugerir al usuario que complete manualmente
+                    if (!ciudadInput.value.trim()) {
+                        ciudadInput.placeholder = 'Ej: Lima, Cusco, Arequipa...';
+                        ciudadInput.style.borderColor = '#3b82f6';
+                        ciudadInput.style.borderWidth = '2px';
+                    }
+                    
+                    // ✅ Mostrar coordenadas en el campo de ubicación
+                    ubicacionInput.value = `Coordenadas: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                    
+                    // ✅ Feedback al usuario
+                    this.mostrarFeedbackNeutral('Ubicación seleccionada. Completa ciudad y departamento.');
+                }
+                
+                // Siempre actualizar coordenadas
+                this.updateCoordFields(lat, lng);
+            }
+
+            configurarManejadores() {
+                const formulario = document.getElementById('form-crear-anuncio');
+                if (formulario) {
+                    formulario.addEventListener('submit', (e) => this.guardarAnuncio(e));
+                }
+
+                // Validación en tiempo real de duraciones
+                const duracionMinima = document.getElementById('duracion_minima');
+                const duracionMaxima = document.getElementById('duracion_maxima');
+                
+                if (duracionMinima && duracionMaxima) {
+                    duracionMinima.addEventListener('change', () => this.validarDuraciones());
+                    duracionMaxima.addEventListener('change', () => this.validarDuraciones());
+                }
+
+                // SOLO UN manejador para el input de imágenes
+                const inputImagenes = document.getElementById('imagenes-anuncio');
+                if (inputImagenes) {
+                    inputImagenes.addEventListener('change', (e) => this.procesarNuevasImagenes(e.target.files));
+                }
+
+                // Mapa / geolocalización para elegir coordenadas exactas
+                const btnAbrirMapa = document.getElementById('btn-abrir-mapa');
+                if (btnAbrirMapa) btnAbrirMapa.addEventListener('click', () => this.toggleMapEditor());
+
+                const departamento = document.getElementById('departamento');
+                const ciudad = document.getElementById('ciudad');
+                const ubicacion = document.getElementById('ubicacion');
+
+                // Cuando cambia el departamento, centrar el mapa en ese departamento
+                if (departamento) {
+                    departamento.addEventListener('change', (e) => {
+                        const deptSeleccionado = e.target.value;
+                        
+                        // Actualizar campo de ubicación principal
+                        if (ubicacion && ciudad && ciudad.value.trim()) {
+                            if(!deptSeleccionado){
+                                ubicacion.value =`${ciudad.value.trim()}, Perú`;
+                            }else{
+                                ubicacion.value = `${ciudad.value.trim()}, ${deptSeleccionado}, Perú`;
+                            }
+                        } else if (ubicacion && !ubicacion.value.trim()) {
+                            ubicacion.value = deptSeleccionado ? `${deptSeleccionado}, Perú` : '';
+                        }
+                        
+                        // Centrar mapa en el departamento seleccionado
+                        if (deptSeleccionado && centrosDepartamentos[deptSeleccionado]) {
+                            this.centrarMapaEnDepartamento(deptSeleccionado);
+                        }
+                    });
+                }
+
+                // Cuando cambia la ciudad, actualizar ubicación
+                if (ciudad) {
+                    ciudad.addEventListener('input', (e) => {
+                        const deptSeleccionado = departamento?.value;
+                        if (deptSeleccionado && ubicacion) {
+                            ubicacion.value = `${e.target.value.trim()}, ${deptSeleccionado}, Perú`;
+                        }
+                    });
+                }
+
+                // Cuando cambia la ubicación manualmente, intentar detectar departamento
+                if (ubicacion) {
+                    ubicacion.addEventListener('blur', (e) => {
+                        this.detectarDepartamentoDesdeTexto(e.target.value);
+                    });
+                }
+            }
+
+            // Centrar mapa en departamento seleccionado
+            centrarMapaEnDepartamento(departamento) {
+                if (!this.mapEditor || !centrosDepartamentos[departamento]) return;
+                
+                const centro = centrosDepartamentos[departamento];
+                this.mapEditor.setView([centro.lat, centro.lng], centro.zoom);
+                
+                // Opcional: Actualizar coordenadas al centro del departamento
+                // this.updateCoordFields(centro.lat, centro.lng);
+                // this.mapEditorMarker.setLatLng([centro.lat, centro.lng]);
+            }
+
+            // Detectar departamento desde texto ingresado
+            detectarDepartamentoDesdeTexto(texto) {
+                if (!texto.trim()) return;
+                
+                const textoLower = texto.toLowerCase();
+                const departamentoSelect = document.getElementById('departamento');
+                const ciudadInput = document.getElementById('ciudad');
+                
+                if (!departamentoSelect || !ciudadInput) return;
+                
+                // Buscar coincidencia con nombres de departamento
+                const opciones = Array.from(departamentoSelect.options);
+                const departamentoEncontrado = opciones.find(opt => 
+                    opt.value && textoLower.includes(opt.value.toLowerCase())
+                );
+                
+                if (departamentoEncontrado && departamentoEncontrado.value) {
+                    departamentoSelect.value = departamentoEncontrado.value;
+                    
+                    // Extraer ciudad (asumiendo formato "Ciudad, Departamento")
+                    const partes = texto.split(',').map(p => p.trim());
+                    if (partes.length >= 2) {
+                        const posibleCiudad = partes[0];
+                        if (posibleCiudad && posibleCiudad !== departamentoEncontrado.value) {
+                            ciudadInput.value = posibleCiudad;
+                        }
+                    }
+                    
+                    // Centrar mapa en el departamento detectado
+                    this.centrarMapaEnDepartamento(departamentoEncontrado.value);
+                }
+            }
+
+            validarDuraciones() {
+                const min = parseInt(document.getElementById('duracion_minima').value);
+                const max = parseInt(document.getElementById('duracion_maxima').value);
+                
+                if (min > max) {
+                    alert('La duración mínima no puede ser mayor que la máxima');
+                    document.getElementById('duracion_maxima').value = min;
+                }
+            }
+
+            // ÚNICA función para procesar imágenes
+            procesarNuevasImagenes(nuevosArchivos) {
+                const archivosArray = Array.from(nuevosArchivos);
+                
+                console.log('📁 Archivos recibidos:', archivosArray.length);
+                
+                // Verificar límite
+                const totalDespues = this.imagenesSeleccionadas.length + archivosArray.length;
+                if (totalDespues > this.MAX_IMAGENES) {
+                    alert(`Solo puedes subir máximo ${this.MAX_IMAGENES} imágenes. Ya tienes ${this.imagenesSeleccionadas.length}.`);
+                    // Limpiar el input
+                    document.getElementById('imagenes-anuncio').value = '';
+                    return;
+                }
+                
+                // Validar y agregar nuevos archivos
+                let archivosValidos = 0;
+                archivosArray.forEach(archivo => {
+                    if (!archivo.type.startsWith('image/')) {
+                        alert(`El archivo "${archivo.name}" no es una imagen válida`);
+                        return;
+                    }
+
+                    if (archivo.size > 5 * 1024 * 1024) {
+                        alert(`La imagen "${archivo.name}" es demasiado grande (máximo 5MB)`);
+                        return;
+                    }
+                    
+                    // Agregar a la lista
+                    this.imagenesSeleccionadas.push(archivo);
+                    archivosValidos++;
+                });
+                
+                console.log('✅ Archivos válidos agregados:', archivosValidos);
+                console.log('📊 Total imágenes seleccionadas:', this.imagenesSeleccionadas.length);
+                
+                // Actualizar previews
+                this.actualizarPreviews();
+                
+                // Limpiar el input para permitir seleccionar los mismos archivos otra vez
+                document.getElementById('imagenes-anuncio').value = '';
+            }
+
+            eliminarImagen(index) {
+                console.log('🗑️ Eliminando imagen en índice:', index);
+                this.imagenesSeleccionadas.splice(index, 1);
+                this.actualizarPreviews();
+            }
+
+            actualizarPreviews() {
+                const contenedor = document.getElementById('preview-imagenes');
+                contenedor.innerHTML = '';
+
+                console.log('🎨 Actualizando previews. Total imágenes:', this.imagenesSeleccionadas.length);
+
+                // Mostrar contador
+                const contador = document.createElement('div');
+                contador.className = 'contador-imagenes';
+                contador.textContent = `${this.imagenesSeleccionadas.length} de ${this.MAX_IMAGENES} imágenes seleccionadas`;
+                contenedor.appendChild(contador);
+
+                // Mostrar previews
+                this.imagenesSeleccionadas.forEach((archivo, index) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const preview = document.createElement('div');
+                        preview.className = 'preview-imagen';
+                        
+                        preview.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview ${archivo.name}">
+                            <button type="button" class="eliminar-imagen" onclick="manejadorAnuncios.eliminarImagen(${index})">×</button>
+                            <div class="nombre-imagen">${archivo.name}</div>
+                        `;
+                        
+                        contenedor.appendChild(preview);
+                    };
+                    reader.readAsDataURL(archivo);
+                });
+
+                // Mostrar advertencia si se alcanzó el límite
+                if (this.imagenesSeleccionadas.length >= this.MAX_IMAGENES) {
+                    const advertencia = document.createElement('div');
+                    advertencia.className = 'limite-imagenes';
+                    advertencia.textContent = `Límite de ${this.MAX_IMAGENES} imágenes alcanzado`;
+                    contenedor.appendChild(advertencia);
+                }
+            }
+
+                /* ---------------- Map editor & geolocation ---------------- */
+                async initMapEditor() {
+                    if (this.mapEditor) return;
+
+                    // Inicializar mapa con valores por defecto centrados en Perú
+                    try {
+                        // Bounding box aproximado de Perú (lng/lat)
+                        const boundsPeru = L.latLngBounds(
+                            L.latLng(-18.3518, -81.3281), // SW
+                            L.latLng(0.0384, -68.6531)    // NE
+                        );
+
+                        this.mapEditor = L.map('map-editor', { center: [-9.1900, -75.0152], zoom: 5.5, minZoom: 4, maxZoom: 16, maxBounds: boundsPeru, maxBoundsViscosity: 1.0 });
+                        // Guardar bounds para validaciones posteriores
+                        this.peruBounds = boundsPeru;
+
+                        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                            attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+                            maxZoom: 19,
+                        }).addTo(this.mapEditor);
+
+                        // Intentar leer coords existentes
+                        const latVal = document.getElementById('latitud_field').value;
+                        const lngVal = document.getElementById('longitud_field').value;
+                        let initialLat = -9.1900;
+                        let initialLng = -75.0152;
+                        if (latVal && lngVal) {
+                            initialLat = parseFloat(latVal);
+                            initialLng = parseFloat(lngVal);
+                        }
+
+                        this.mapEditorMarker = L.marker([initialLat, initialLng], { draggable: true }).addTo(this.mapEditor);
+                        this.updateCoordFields(initialLat, initialLng);
+
+                        this.mapEditor.on('click', async (e) => {
+                            const { lat, lng } = e.latlng;
+                            this.mapEditorMarker.setLatLng(e.latlng);
+                            
+                            // ✅ PASO 1: Actualización INMEDIATA de coordenadas (esto siempre funciona)
+                            this.updateCoordFields(lat, lng);
+                            
+                            // ✅ PASO 2: Feedback visual inmediato
+                            this.mostrarFeedbackNeutral('Ubicación seleccionada. Detectando detalles...');
+                            
+                            // ✅ PASO 3: Intentar obtener información automática (en segundo plano)
+                            try {
+                                const place = await this.reverseGeocode(lat, lng);
+                                if (place) {
+                                    this.actualizarCamposDesdeCoordenadas(place, lat, lng);
+                                } else {
+                                    // Servicio no disponible - modo manual
+                                    this.actualizarUbicacionManualmente(lat, lng);
+                                }
+                            } catch (error) {
+                                // Error silencioso - usar modo manual
+                                console.log('ℹ️ Usando modo manual para ubicación');
+                                this.actualizarUbicacionManualmente(lat, lng);
+                            }
+                        });
+
+                        this.mapEditorMarker.on('dragend', async (e) => {
+                            const { lat, lng } = e.target.getLatLng();
+                            
+                            // ✅ Actualizar coordenadas inmediatamente
+                            this.updateCoordFields(lat, lng);
+                            this.mostrarFeedbackNeutral('Ubicación actualizada. Detectando...');
+                            
+                            // Intentar reverse geocode
+                            try {
+                                const place = await this.reverseGeocode(lat, lng);
+                                if (place) {
+                                    this.actualizarCamposDesdeCoordenadas(place, lat, lng);
+                                } else {
+                                    this.actualizarUbicacionManualmente(lat, lng);
+                                }
+                            } catch (error) {
+                                this.actualizarUbicacionManualmente(lat, lng);
+                            }
+                        });
+                    } catch (e) {
+                        console.error('Error inicializando mapa editor:', e);
+                    }
+                }
+                // Función para actualizar ciudad y departamento desde coordenadas
+                actualizarCamposDesdeCoordenadas(place, lat, lng) {
+                    const ubicInput = document.getElementById('ubicacion');
+                    const deptSelect = document.getElementById('departamento');
+                    const ciudadInput = document.getElementById('ciudad');
+                    
+                    if (!ubicInput || !deptSelect || !ciudadInput) return;
+
+                    // ✅ SIEMPRE actualizar coordenadas primero (esto nunca falla)
+                    this.updateCoordFields(lat, lng);
+                    
+                    // Verificar si tenemos información del lugar
+                    if (!place || !place.address) {
+                        // Servicio no disponible - usar método manual
+                        this.actualizarUbicacionManualmente(lat, lng);
+                        return;
+                    }
+
+                    const address = place.address || {};
+                    const ciudad = address.city || address.town || address.village || address.municipality || '';
+                    const departamento = address.state || address.region || '';
+
+                    // ✅ PASO 1: Actualizar CIUDAD si existe
+                    if (ciudad) {
+                        ciudadInput.value = ciudad;
+                    }
+                    
+                    // ✅ PASO 2: Actualizar DEPARTAMENTO si existe
+                    if (departamento) {
+                        const deptOptions = Array.from(deptSelect.options);
+                        const match = deptOptions.find(opt => 
+                            opt.text.toLowerCase().includes(departamento.toLowerCase()) ||
+                            departamento.toLowerCase().includes(opt.text.toLowerCase())
+                        );
+                        if (match) {
+                            deptSelect.value = match.value;
+                        }
+                    }
+                    
+                    // ✅ PASO 3: Construir ubicación completa
+                    let nuevaUbicacion = '';
+                    if (ciudad && departamento) {
+                        nuevaUbicacion = `${ciudad}, ${departamento}, Perú`;
+                        this.mostrarFeedbackPositivo(`Ubicación detectada: ${ciudad}, ${departamento}`);
+                    } else if (ciudad) {
+                        nuevaUbicacion = `${ciudad}, Perú`;
+                        this.mostrarFeedbackPositivo(`Ubicación detectada: ${ciudad}`);
+                    } else if (departamento) {
+                        nuevaUbicacion = `${departamento}, Perú`;
+                        this.mostrarFeedbackPositivo(`Departamento detectado: ${departamento}`);
+                    } else if (place.display_name) {
+                        nuevaUbicacion = place.display_name;
+                        this.mostrarFeedbackNeutral('Ubicación aproximada detectada');
+                    } else {
+                        nuevaUbicacion = `Ubicación exacta (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
+                        this.mostrarFeedbackNeutral('Ubicación seleccionada. Completa los detalles si es necesario.');
+                    }
+
+                    // ✅ PASO 4: Actualizar campo de ubicación principal
+                    ubicInput.value = nuevaUbicacion;
+                }
+
+                // Reverse geocoding usando Nominatim (devuelve place o null)
+                async reverseGeocode(lat, lng) {
+                    try {
+                        const key = `${lat.toFixed(6)},${lng.toFixed(6)}`;
+                        if (this._reverseGeocodeCache.has(key)) {
+                            console.log('📍 Usando caché de reverse geocode');
+                            return this._reverseGeocodeCache.get(key);
+                        }
+
+                        // Reducir timeout para ser más rápido
+                        const timeoutMs = 4000; // 4 segundos máximo
+
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => {
+                            controller.abort();
+                            console.log('⏱️ Timeout para reverse geocode');
+                        }, timeoutMs);
+
+                        try {
+                            const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lng)}&accept-language=es&zoom=10`;
+                            
+                            const res = await fetch(url, {
+                                headers: { 
+                                    'User-Agent': 'ViajerosPeru/1.0 (contacto@viajerosperu.com)',
+                                    'Accept': 'application/json'
+                                },
+                                signal: controller.signal
+                            });
+                            clearTimeout(timeoutId);
+
+                            if (!res.ok) {
+                                console.log('ℹ️ Servicio de ubicación ocupado');
+                                return null;
+                            }
+
+                            const data = await res.json();
+                            this._reverseGeocodeCache.set(key, data);
+                            return data;
+                        } catch (err) {
+                            clearTimeout(timeoutId);
+                            console.log('ℹ️ No se pudo obtener detalles de ubicación');
+                            return null;
+                        }
+                    } catch (e) {
+                        console.log('ℹ️ Error temporal en servicio de ubicación');
+                        return null;
+                    }
+                }
+
+                toggleMapEditor() {
+                    const cont = document.getElementById('map-editor-container');
+                    const info = document.getElementById('info-mapa');
+                    
+                    if (!cont) return;
+
+                    if (cont.style.display === 'none' || cont.style.display === '') {
+                        cont.style.display = 'block';
+                        if (info) info.style.display = 'block';
+                        
+                        // Mostrar instrucción amigable
+                        this.mostrarFeedbackNeutral('Selecciona un punto en el mapa');
+                        
+                        setTimeout(async () => {
+                            await this.initMapEditor();
+                            try { 
+                                this.mapEditor.invalidateSize(); 
+                            } catch (e) { }
+                        }, 120);
+                    } else {
+                        cont.style.display = 'none';
+                        if (info) info.style.display = 'none';
+                    }
+                }
+
+                updateCoordFields(lat, lng) {
+                    const latField = document.getElementById('latitud_field');
+                    const lngField = document.getElementById('longitud_field');
+                    const readout = document.getElementById('coord-readout');
+
+                    if (latField && lngField) {
+                        latField.value = lat.toFixed(6);
+                        lngField.value = lng.toFixed(6);
+                    }
+
+                    if (readout) {
+                        readout.textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                    }
+                }
+
+                
+
+            async validarConsistenciaUbicacion(ubicacionTexto, coordenadas) {
+                try {
+                    // Hacer reverse geocode de las coordenadas
+                    const place = await this.reverseGeocode(coordenadas.lat, coordenadas.lng);
+                    if (!place) return true; // Si no hay datos, no podemos validar
+                    
+                    const address = place.address;
+                    const ciudadCoords = address.city || address.town || address.village || '';
+                    const departamentoCoords = address.state || '';
+                    
+                    const textoLower = ubicacionTexto.toLowerCase();
+                    
+                    // Verificar si el texto coincide con la ubicación de las coordenadas
+                    const coincideCiudad = ciudadCoords && textoLower.includes(ciudadCoords.toLowerCase());
+                    const coincideDept = departamentoCoords && textoLower.includes(departamentoCoords.toLowerCase());
+                    
+                    if (!coincideCiudad && !coincideDept) {
+                        return confirm(`Las coordenadas seleccionadas corresponden a ${ciudadCoords || departamentoCoords}, pero has escrito "${ubicacionTexto}". ¿Estás seguro de que esta es la ubicación correcta?`);
+                    }
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Error validando consistencia:', error);
+                    return true; // En caso de error, permitir continuar
+                }
+            }
+
+            async guardarAnuncio(evento) {
+                evento.preventDefault();
+                
+                // Validar formulario básico
+                const titulo = document.getElementById('titulo').value.trim();
+                const descripcion = document.getElementById('descripcion').value.trim();
+                const ciudad = document.getElementById('ciudad').value.trim();
+                const departamento = document.getElementById('departamento').value;
+                const ubicacion = document.getElementById('ubicacion').value.trim();
+                
+                if (!titulo || !descripcion || !ciudad || !departamento) {
+                    alert('Por favor completa todos los campos obligatorios (título, descripción, ciudad y departamento)');
+                    return;
+                }
+                
+                // Construir ubicación completa
+                let ubicacionCompleta;
+                if (!ciudad && !departamento) {
+                    // Si no hay ni ciudad ni departamento, usar lo que haya en ubicacion
+                    ubicacionCompleta = ubicacion;
+                } else if (!ciudad) {
+                    // Si solo hay departamento
+                    ubicacionCompleta = `${departamento}, Perú`;
+                } else if (!departamento) {
+                    // Si solo hay ciudad
+                    ubicacionCompleta = `${ciudad}, Perú`;
+                } else {
+                    // Si hay ambos
+                    ubicacionCompleta = `${ciudad}, ${departamento}, Perú`;
+                }
+                document.getElementById('ubicacion').value = ubicacionCompleta;
+
+                const botonGuardar = evento.target.querySelector('button[type="submit"]');
+                const textoOriginal = botonGuardar.textContent;
+                botonGuardar.disabled = true;
+
+                try {
+                    // PRIORIDAD: si el usuario seleccionó coordenadas en el mapa, usarlas
+                    const latFieldVal = document.getElementById('latitud_field')?.value;
+                    const lngFieldVal = document.getElementById('longitud_field')?.value;
+                    let coordenadas = null;
+
+                    if (latFieldVal && lngFieldVal) {
+                        coordenadas = { lat: parseFloat(latFieldVal), lng: parseFloat(lngFieldVal) };
+                        console.log('📍 Usando coordenadas seleccionadas:', coordenadas);
+                        // Llamar esta función en guardarAnuncio antes de enviar:
+                        const esConsistente = await this.validarConsistenciaUbicacion(ubicacion, coordenadas);
+                        if (!esConsistente) {
+                            botonGuardar.disabled = false;
+                            botonGuardar.textContent = textoOriginal;
+                            return;
+                        }
+                    } else {
+                        console.warn('⚠️ Usando geocodificación para:', ubicacionCompleta);
+                        coordenadas = await geocodificarUbicacion(ubicacionCompleta);
+                    }
+
+                    botonGuardar.textContent = 'Publicando...';
+
+                    // Crear FormData para enviar archivos
+                    const formData = new FormData();
+                    // Datos básicos del anuncio
+                    formData.append('accion', 'crear');
+                    formData.append('anfitrion_id', this.usuario.id);
+                    formData.append('titulo', titulo);
+                    formData.append('descripcion', descripcion);
+                    formData.append('ubicacion', ubicacionCompleta);
+                    formData.append('latitud', coordenadas.lat); 
+                    formData.append('longitud', coordenadas.lng); 
+                    formData.append('tipo_actividad', document.getElementById('tipo_actividad').value);
+                    formData.append('duracion_minima', document.getElementById('duracion_minima').value);
+                    formData.append('duracion_maxima', document.getElementById('duracion_maxima').value);
+                    formData.append('cupos_disponibles', document.getElementById('cupos_disponibles').value);
+                    formData.append('requisitos', document.getElementById('requisitos').value || '');
+                    formData.append('comodidades', document.getElementById('comodidades').value || '');
+
+                    console.log('📤 Enviando formulario CON imágenes y coordenadas...');
+                    console.log('🖼️ Imágenes a enviar:', this.imagenesSeleccionadas.length);
+
+                    // Agregar imágenes si existen
+                    if (this.imagenesSeleccionadas.length > 0) {
+                        this.imagenesSeleccionadas.forEach((imagen, index) => {
+                            formData.append('imagenes[]', imagen);
+                        });
+                    }
+
+                    const respuesta = await fetch('/proyectoWeb/viajeros_peru/backend/api/anuncios.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    console.log('📡 Status de respuesta:', respuesta.status);
+                    console.log('📡 URL de respuesta:', respuesta.url);
+
+                    const textoRespuesta = await respuesta.text();
+                    console.log('📄 Respuesta CRUDA del servidor:', textoRespuesta);
+                    let jsonRespuesta;
+                    const jsonMatch = textoRespuesta.match(/\{[\s\S]*\}/);
+                    if (jsonMatch) {
+                        try {
+                            jsonRespuesta = JSON.parse(jsonMatch[0]);
+                            console.log('✅ JSON extraído exitosamente:', jsonRespuesta);
+                        } catch (parseError) {
+                            console.error('❌ Error parseando JSON extraído:', parseError);
+                            // Si falla, intentar parsear directamente
+                            try {
+                                jsonRespuesta = JSON.parse(textoRespuesta);
+                            } catch (e) {
+                                throw new Error('No se pudo parsear la respuesta del servidor');
+                            }
+                        }
+                    } else {
+                        // Si no hay match, intentar parsear directamente
+                        try {
+                            jsonRespuesta = JSON.parse(textoRespuesta);
+                        } catch (e) {
+                            throw new Error('Respuesta inválida del servidor');
+                        }
+                    }
+
+                    console.log('📊 Resultado parseado:', jsonRespuesta);
+
+                    if (jsonRespuesta.exito) {
+                        const mensaje = this.imagenesSeleccionadas.length > 0 
+                            ? `✅ Anuncio creado con ${this.imagenesSeleccionadas.length} imágenes` 
+                            : '✅ Anuncio creado correctamente';
+                        
+                        this.mostrarExito(mensaje);
+                        
+                        setTimeout(() => {
+                            window.location.href = '../perfil/panel_control.html';
+                        }, 2000);
+                    } else {
+                        throw new Error(jsonRespuesta.error || 'Error desconocido al crear anuncio');
+                    }
+                } catch (error) {
+                    console.error('💥 Error guardando anuncio:', error);
+                    this.mostrarError('Error al crear anuncio: ' + error.message);
+                } finally {
+                    botonGuardar.disabled = false;
+                    botonGuardar.textContent = textoOriginal;
+                }
+            }
+            
+            mostrarError(mensaje) {
+                this.mostrarTooltipTemporal('❌ ' + mensaje, 'error');
+            }
+
+            mostrarExito(mensaje) {
+                this.mostrarTooltipTemporal('✅ ' + mensaje, 'exito');
+            }
+
+            cerrarSesion() {
+                localStorage.removeItem('token_usuario');
+                localStorage.removeItem('datos_usuario');
+                window.location.href = '../auth/iniciar_sesion.html';
+            }
+        }
+
+        // Funciones globales
+        function cerrarSesion() {
+            localStorage.removeItem('token_usuario');
+            localStorage.removeItem('datos_usuario');
+            window.location.href = '../auth/iniciar_sesion.html';
+        }
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Inicializando Crear Anuncio...');
+            window.manejadorAnuncios = new ManejadorCrearAnuncio();
+        });
+
+        async function geocodificarUbicacion(ubicacion) {
+            try {
+                console.log('📍 Geocodificando ubicación completa:', ubicacion);
+
+                const attemptSearch = async (url) => {
+                    const controller = new AbortController();
+                    const timeoutMs = 7000;
+                    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+                    try {
+                        const resp = await fetch(url, { headers: { 'User-Agent': 'ViajerosPeru/1.0 (contacto@viajerosperu.com)' }, signal: controller.signal });
+                        clearTimeout(timeoutId);
+                        if (!resp.ok) return null;
+                        const j = await resp.json();
+                        return (j && j.length) ? j : null;
+                    } catch (err) {
+                        clearTimeout(timeoutId);
+                        console.warn('Geocode attempt failed', err && err.name ? err.name : err);
+                        return null;
+                    }
+                };
+
+                // Usar la ubicación completa que ahora incluye ciudad, departamento, Perú
+                let url = `https://nominatim.openstreetmap.org/search?format=json&countrycodes=pe&limit=1&q=${encodeURIComponent(ubicacion)}`;
+                let data = await attemptSearch(url);
+
+                // fallback a búsqueda más amplia si no hay resultados
+                if (!data) {
+                    url = `https://nominatim.openstreetmap.org/search?format=json&countrycodes=pe&limit=1&q=${encodeURIComponent(ubicacion + ', Perú')}`;
+                    data = await attemptSearch(url);
+                }
+
+                if (data && data.length > 0) {
+                    const resultado = data[0];
+                    console.log('✅ Coordenadas encontradas para:', ubicacion);
+                    return { lat: parseFloat(resultado.lat), lng: parseFloat(resultado.lon) };
+                }
+
+                console.log('⚠️ No se encontraron coordenadas exactas, usando geocodificación local');
+                return geocodificarLocalmente(ubicacion);
+            } catch (error) {
+                console.error('❌ Error en geocodificación:', error);
+                return geocodificarLocalmente(ubicacion);
+            }
+        }
+
+        function geocodificarLocalmente(ubicacion) {
+            const ciudadesPeru = {
+                'lima': { lat: -12.0464, lng: -77.0428 },
+                'cusco': { lat: -13.5320, lng: -71.9675 },
+                'arequipa': { lat: -16.4090, lng: -71.5375 },
+                'trujillo': { lat: -8.1092, lng: -79.0215 },
+                'chiclayo': { lat: -6.7760, lng: -79.8446 },
+                'piura': { lat: -5.1945, lng: -80.6328 },
+                'iquitos': { lat: -3.7491, lng: -73.2538 },
+                'huaraz': { lat: -9.5279, lng: -77.5286 },
+                'tacna': { lat: -18.0066, lng: -70.2463 },
+                'cajamarca': { lat: -7.1617, lng: -78.5128 },
+                'puno': { lat: -15.8402, lng: -70.0219 },
+                'tarapoto': { lat: -6.4833, lng: -76.3667 },
+                'huancayo': { lat: -12.0667, lng: -75.2333 },
+                'ica': { lat: -14.0681, lng: -75.7256 }
+            };
+
+            const ubicacionLower = ubicacion.toLowerCase().trim();
+            
+            for (let ciudad in ciudadesPeru) {
+                if (ubicacionLower.includes(ciudad)) {
+                    console.log(`📍 Geocodificado localmente como: ${ciudad}`);
+                    return ciudadesPeru[ciudad];
+                }
+            }
+
+            console.log('📍 Usando coordenadas por defecto (centro de Perú)');
+            return { lat: -9.1900, lng: -75.0152 };
+        }
+    </script>
+</body>
+</html>

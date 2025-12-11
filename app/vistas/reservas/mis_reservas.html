@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Reservas - Viajeros Perú</title>
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+        /* Estilos para botones de reseña */
+        .boton-reseniar {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        .boton-reseniar:hover {
+            background: #e67e22;
+        }
+
+        .boton-ver-resena {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        .boton-ver-resena:hover {
+            background: #2980b9;
+        }
+
+        .resenia-hecha {
+            color: #27ae60;
+            font-weight: 500;
+            padding: 8px 15px;
+            background: #d5f4e6;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .resenia-expirada {
+            color: #95a5a6;
+            font-style: italic;
+            padding: 8px 15px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .sin-acciones {
+            color: #7f8c8d;
+            font-style: italic;
+            padding: 8px 15px;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        /* Estilos para acciones de reserva */
+        .acciones-reserva {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .boton-aceptar, .boton-rechazar, .boton-completar, .boton-cancelar {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: opacity 0.3s;
+        }
+
+        .boton-aceptar {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .boton-rechazar {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .boton-completar {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .boton-cancelar {
+            background: #e67e22;
+            color: white;
+        }
+
+        .boton-aceptar:hover, .boton-rechazar:hover, 
+        .boton-completar:hover, .boton-cancelar:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+        <div class="contenedor">
+            <div class="menu">
+                <span id="nombre-usuario" style="margin-right: 1rem;"></span>
+            </div>
+        </div>
+
+    <main class="contenedor">
+        <header class="header-panel">
+            <div class="bienvenida">
+                <h2>📅 Mis Reservas</h2>
+                <p>Gestiona tus solicitudes de estancia</p>
+            </div>
+        </header>
+
+        <!-- Filtros -->
+        <section class="filtros-reservas">
+            <div class="filtros-contenedor">
+                <button class="filtro-activo" data-estado="todas">Todas</button>
+                <button data-estado="pendiente">Pendientes</button>
+                <button data-estado="aceptada">Aceptadas</button>
+                <button data-estado="rechazada">Rechazadas</button>
+                <button data-estado="completada">Completadas</button>
+            </div>
+        </section>
+
+        <!-- Lista de Reservas -->
+        <section class="lista-reservas">
+            <div id="contenido-reservas">
+                <div class="cargando">Cargando tus reservas...</div>
+            </div>
+        </section>
+    </main>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/mis_reservas.js"></script>
+</body>
+</html>

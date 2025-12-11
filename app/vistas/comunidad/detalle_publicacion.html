@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="titulo-pagina">Publicación - Viajeros Perú</title>
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/comunidad.css">
+    <style>
+        .navegacion-principal, .menu-hamburguesa { display: none; }
+        
+        .detalle-publicacion {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .cabecera-detalle {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--sombra-suave);
+            margin-bottom: 2rem;
+        }
+        
+        .info-autor-detalle {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .avatar-autor {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--color-primario);
+        }
+        
+        .contenido-publicacion {
+            line-height: 1.8;
+            margin: 2rem 0;
+            white-space: pre-line;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .etiquetas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .etiqueta {
+            background: var(--color-fondo);
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            color: var(--color-secundario);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .seccion-comentarios {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--sombra-suave);
+            margin-top: 2rem;
+        }
+        
+        .lista-comentarios {
+            margin: 2rem 0;
+        }
+        
+        .comentario {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--color-borde);
+            background: #f9f9f9;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .comentario:last-child {
+            border-bottom: none;
+        }
+        
+        .info-comentario {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .avatar-comentario {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .form-comentario {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f0f7ff;
+            border-radius: 0.5rem;
+        }
+        
+        .acciones-publicacion {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .volver-foro {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-primario);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .volver-foro:hover {
+            text-decoration: underline;
+        }
+        
+        .sin-comentarios {
+            text-align: center;
+            padding: 3rem;
+            color: var(--color-secundario);
+            font-style: italic;
+        }
+        
+        .alerta-error {
+            padding: 2rem;
+            text-align: center;
+            background: #fee2e2;
+            border-radius: 0.5rem;
+            color: #dc2626;
+        }
+        
+        .boton-volver {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="navegacion-global"></div>
+
+    <main class="contenedor">
+        <br>
+        <a href="foro.html" class="boton-principal">← Volver al foro</a>
+        
+        <div id="detalle-contenedor" class="detalle-publicacion">
+            <div class="cargando">Cargando publicación...</div>
+        </div>
+    </main>
+
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script>
+        class ManejadorDetallePublicacion {
+            constructor() {
+                this.publicacionId = this.obtenerIdDeURL();
+                this.usuario = null;
+                this.publicacion = null;
+                this.inicializar();
+            }
+
+            obtenerIdDeURL() {
+                const params = new URLSearchParams(window.location.search);
+                return params.get('id');
+            }
+
+            inicializar() {
+                this.verificarAutenticacion();
+                this.cargarDetalle();
+                this.configurarEventos();
+            }
+
+            verificarAutenticacion() {
+                const token = localStorage.getItem('token_usuario');
+                const datosUsuario = localStorage.getItem('datos_usuario');
+                
+                if (token && datosUsuario) {
+                    try {
+                        this.usuario = JSON.parse(datosUsuario);
+                        console.log('Usuario autenticado:', this.usuario);
+                    } catch (e) {
+                        console.error('Error parseando datos usuario:', e);
+                        this.usuario = null;
+                    }
+                }
+            }
+
+            async cargarDetalle() {
+                if (!this.publicacionId) {
+                    this.mostrarError('ID de publicación no válido');
+                    return;
+                }
+
+                try {
+                    const respuesta = await fetch(
+                        `/proyectoWeb/viajeros_peru/backend/api/comunidad.php?accion=obtener_detalle&id=${this.publicacionId}`
+                    );
+                    const datos = await respuesta.json();
+                    
+                    console.log('Detalles recibidos:', datos);
+                    
+                    if (datos.exito) {
+                        this.publicacion = datos.publicacion;
+                        this.mostrarDetalle();
+                    } else {
+                        this.mostrarError(datos.error || 'Error al cargar la publicación');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    this.mostrarError('Error de conexión con el servidor');
+                }
+            }
+
+            mostrarDetalle() {
+                const contenedor = document.getElementById('detalle-contenedor');
+                
+                if (!this.publicacion) {
+                    this.mostrarError('Publicación no encontrada');
+                    return;
+                }
+                
+                // Actualizar título de la página
+                document.getElementById('titulo-pagina').textContent = this.publicacion.titulo + ' - Viajeros Perú';
+                
+                const iconos = {
+                    'experiencia': '🌟',
+                    'pregunta': '❓', 
+                    'consejo': '💡',
+                    'evento': '🎉'
+                };
+                
+                const nombresCategoria = {
+                    'experiencia': 'Experiencia',
+                    'pregunta': 'Pregunta', 
+                    'consejo': 'Consejo',
+                    'evento': 'Evento'
+                };
+                
+                const icono = iconos[this.publicacion.tipo] || '📝';
+                const nombreCategoria = nombresCategoria[this.publicacion.tipo] || 'Publicación';
+                
+                let html = `
+                    <div class="cabecera-detalle">
+                        <div class="info-autor-detalle">
+                            <img src="${this.publicacion.foto_perfil || '/proyectoWeb/viajeros_peru/public/img/placeholder-usuario.jpg'}" 
+                                 alt="${this.publicacion.autor_nombre_completo}" class="avatar-autor">
+                            <div>
+                                <h3>${this.publicacion.autor_nombre_completo}</h3>
+                                <span class="fecha">Publicado: ${this.publicacion.fecha_formateada}</span>
+                            </div>
+                        </div>
+                        
+                        <h1>${this.publicacion.titulo}</h1>
+                        <div class="badge-categoria ${this.publicacion.tipo}" style="display: inline-block; margin-bottom: 1rem;">
+                            ${icono} ${nombreCategoria}
+                        </div>
+                        
+                        <div class="contenido-publicacion">
+                            ${this.publicacion.contenido}
+                        </div>`;
+                
+                // Mostrar etiquetas si existen
+                if (this.publicacion.etiquetas_array && this.publicacion.etiquetas_array.length > 0) {
+                    html += `
+                        <div class="etiquetas">
+                            ${this.publicacion.etiquetas_array.map(etiqueta => 
+                                `<span class="etiqueta">#${etiqueta}</span>`
+                            ).join('')}
+                        </div>`;
+                }
+                
+                html += `
+                        <div class="acciones-publicacion">
+                            <div class="estadisticas">
+                                <span class="comentarios">💬 ${this.publicacion.comentarios?.length || 0} comentarios</span>
+                            </div>
+                            ${this.usuario && (this.usuario.id == this.publicacion.autor_id || this.usuario.rol === 'administrador') ? `
+                                <button class="boton-secundario" onclick="manejadorDetalle.eliminarPublicacion()">
+                                    🗑️ Eliminar publicación
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="seccion-comentarios">
+                        <h2>Comentarios (${this.publicacion.comentarios?.length || 0})</h2>
+                        
+                        <div id="lista-comentarios" class="lista-comentarios">
+                            ${this.publicacion.comentarios?.length ? 
+                                this.publicacion.comentarios.map(comentario => this.crearHTMLComentario(comentario)).join('') :
+                                '<p class="sin-comentarios">No hay comentarios aún. ¡Sé el primero en comentar!</p>'
+                            }
+                        </div>
+                        
+                        ${this.usuario ? `
+                            <div class="form-comentario">
+                                <h3>Deja un comentario</h3>
+                                <div class="campo-formulario">
+                                    <textarea id="nuevo-comentario" placeholder="Escribe tu comentario aquí..." rows="4" style="width: 100%; padding: 1rem;"></textarea>
+                                </div>
+                                <button onclick="manejadorDetalle.agregarComentario()" class="boton-principal" style="margin-top: 1rem;">Publicar comentario</button>
+                            </div>
+                        ` : `
+                            <div class="alerta-info" style="padding: 1rem; background: #dbeafe; border-radius: 0.5rem;">
+                                <p>🔐 <a href="../auth/iniciar_sesion.html">Inicia sesión</a> para dejar un comentario.</p>
+                            </div>
+                        `}
+                    </div>`;
+                
+                contenedor.innerHTML = html;
+                
+                // Configurar eventos después de renderizar
+                setTimeout(() => {
+                    if (this.usuario) {
+                        document.getElementById('nuevo-comentario')?.addEventListener('keypress', (e) => {
+                            if (e.key === 'Enter' && e.ctrlKey) {
+                                this.agregarComentario();
+                            }
+                        });
+                    }
+                }, 100);
+            }
+
+            crearHTMLComentario(comentario) {
+                return `
+                    <div class="comentario" data-id="${comentario.id}">
+                        <div class="info-comentario">
+                            <img src="${comentario.foto_perfil || '/proyectoWeb/viajeros_peru/public/img/placeholder-usuario.jpg'}" 
+                                 alt="${comentario.nombre} ${comentario.apellido}" class="avatar-comentario">
+                            <div>
+                                <strong>${comentario.nombre} ${comentario.apellido}</strong>
+                                <div class="fecha">${comentario.fecha_formateada}</div>
+                            </div>
+                        </div>
+                        <p style="white-space: pre-line;">${comentario.contenido}</p>
+                    </div>
+                `;
+            }
+
+            configurarEventos() {
+                // Ya se configuran en mostrarDetalle()
+            }
+
+            async agregarComentario() {
+                const textarea = document.getElementById('nuevo-comentario');
+                const contenido = textarea.value.trim();
+                
+                if (!contenido) {
+                    alert('Por favor, escribe un comentario');
+                    return;
+                }
+                
+                if (!this.usuario) {
+                    alert('Debes iniciar sesión para comentar');
+                    window.location.href = '../auth/iniciar_sesion.html';
+                    return;
+                }
+
+                try {
+                    const token = localStorage.getItem('token_usuario');
+                    
+                    const urlComentar = '/proyectoWeb/viajeros_peru/backend/api/comunidad.php?token=' + encodeURIComponent(token);
+                    const respuesta = await fetch(urlComentar, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            token: token,
+                            accion: 'crear_comentario',
+                            publicacion_id: this.publicacionId,
+                            contenido: contenido
+                        })
+                    });
+
+                    const resultado = await respuesta.json();
+                    
+                    console.log('Resultado comentario:', resultado);
+                    
+                    if (resultado.exito) {
+                        // Recargar la página para ver el nuevo comentario
+                        this.cargarDetalle();
+                        textarea.value = '';
+                    } else {
+                        alert('❌ Error: ' + resultado.error);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('❌ Error de conexión con el servidor');
+                }
+            }
+
+            async eliminarPublicacion() {
+                if (!confirm('¿Estás seguro de que quieres eliminar esta publicación? Esta acción no se puede deshacer.')) {
+                    return;
+                }
+
+                try {
+                    const token = localStorage.getItem('token_usuario');
+                    
+                    const urlEliminar = '/proyectoWeb/viajeros_peru/backend/api/comunidad.php?token=' + encodeURIComponent(token);
+                    const respuesta = await fetch(urlEliminar, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            token: token,
+                            accion: 'eliminar',
+                            id: this.publicacionId
+                        })
+                    });
+
+                    const resultado = await respuesta.json();
+                    
+                    if (resultado.exito) {
+                        alert('✅ Publicación eliminada exitosamente');
+                        window.location.href = 'foro.html';
+                    } else {
+                        alert('❌ Error: ' + resultado.error);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('❌ Error de conexión con el servidor');
+                }
+            }
+
+            mostrarError(mensaje) {
+                const contenedor = document.getElementById('detalle-contenedor');
+                contenedor.innerHTML = `
+                    <div class="alerta-error">
+                        <h3>Error</h3>
+                        <p>${mensaje}</p>
+                        <a href="foro.html" class="boton-principal boton-volver">Volver al foro</a>
+                    </div>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.manejadorDetalle = new ManejadorDetallePublicacion();
+        });
+    </script>
+</body>
+</html>

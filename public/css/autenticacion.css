@@ -1,0 +1,380 @@
+/* Estilos específicos para páginas de autenticación */
+.contenedor-auth {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.tarjeta-auth {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.cabecera-auth {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.cabecera-auth h2 {
+    color: var(--color-primario);
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.cabecera-auth p {
+    color: var(--color-secundario);
+}
+
+/* Formularios */
+.formulario-auth {
+    margin-bottom: 1.5rem;
+}
+
+.paso-formulario {
+    display: none;
+}
+
+.paso-formulario.activo {
+    display: block;
+}
+
+.grupo-formulario {
+    margin-bottom: 1.5rem;
+}
+
+.grupo-formulario label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--color-texto);
+}
+
+.grupo-formulario input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--color-borde);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.grupo-formulario input:focus {
+    outline: none;
+    border-color: var(--color-primario);
+}
+
+.grupo-formulario input.error {
+    border-color: var(--color-peligro);
+}
+
+.mensaje-error {
+    color: var(--color-peligro);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+.mensaje-error.mostrar {
+    display: block;
+}
+
+.grupo-campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Selección de rol */
+.seleccion-rol {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.opcion-rol {
+    border: 2px solid var(--color-borde);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.opcion-rol:hover {
+    border-color: var(--color-primario);
+    transform: translateY(-2px);
+}
+
+.opcion-rol.seleccionado {
+    border-color: var(--color-primario);
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+}
+
+.icono-rol {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.opcion-rol h4 {
+    margin-bottom: 1rem;
+    color: var(--color-texto);
+}
+
+.opcion-rol p {
+    color: var(--color-secundario);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.opcion-rol ul {
+    text-align: left;
+    color: var(--color-secundario);
+    font-size: 0.8rem;
+    padding-left: 1rem;
+}
+
+.opcion-rol li {
+    margin-bottom: 0.25rem;
+}
+
+/* Acciones del formulario */
+.acciones-formulario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.boton-siguiente, .boton-registro {
+    background: var(--color-primario);
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.boton-siguiente:hover, .boton-registro:hover {
+    background: var(--color-primario-oscuro);
+}
+
+.boton-siguiente:disabled, .boton-registro:disabled {
+    background: var(--color-secundario);
+    cursor: not-allowed;
+}
+
+/* Enlace de autenticación */
+.enlace-auth {
+    text-align: center;
+    color: var(--color-secundario);
+}
+
+.enlace-auth a {
+    color: var(--color-primario);
+    text-decoration: none;
+}
+
+.enlace-auth a:hover {
+    text-decoration: underline;
+}
+
+/* Mensajes */
+.mensaje-exito {
+    background: var(--color-exito);
+    color: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.mensaje-error-general {
+    background: var(--color-peligro);
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tarjeta-auth {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+    }
+
+    .grupo-campos {
+        grid-template-columns: 1fr;
+    }
+
+    .seleccion-rol {
+        grid-template-columns: 1fr;
+    }
+
+    .acciones-formulario {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .acciones-formulario button {
+        width: 100%;
+    }
+}
+
+/* Indicador de progreso */
+.indicador-progreso {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.paso-progreso {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--color-borde);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.5rem;
+    font-weight: bold;
+    color: var(--color-secundario);
+}
+
+.paso-progreso.activo {
+    background: var(--color-primario);
+    color: white;
+}
+
+.linea-progreso {
+    flex: 1;
+    height: 2px;
+    background: var(--color-borde);
+    margin: 0 0.5rem;
+    align-self: center;
+}
+
+/* Mensajes de error generales */
+.mensaje-error-general {
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    display: none;
+    position: relative;
+}
+
+.mensaje-error-general button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    color: #dc2626;
+}
+
+.mensaje-error-general strong {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Estilos específicos para login */
+.opciones-login {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.recordarme {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-secundario);
+    font-size: 0.9rem;
+}
+
+.enlace-olvidado {
+    color: var(--color-primario);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.enlace-olvidado:hover {
+    text-decoration: underline;
+}
+
+.separador {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+    color: var(--color-secundario);
+}
+
+.separador::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--color-borde);
+    z-index: 1;
+}
+
+.separador span {
+    background: white;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.login-social {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.boton-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 2px solid var(--color-borde);
+    border-radius: 0.5rem;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.boton-social:hover {
+    border-color: var(--color-primario);
+    background: var(--color-fondo);
+}
+
+.boton-google:hover {
+    border-color: #db4437;
+}
+
+.boton-facebook:hover {
+    border-color: #4267B2;
+}

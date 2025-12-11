@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajustes de Perfil - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+
+        .navegacion .menu-usuario .contenedor-configuracion{
+            display: none;
+        }
+
+        body {
+            background-color: #f5f6fa;
+        }
+
+        .ajustes-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .ajustes-titulo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .seccion-ajustes {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #3498db;
+        }
+
+        .seccion-ajustes h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+        }
+
+        .icono-seccion {
+            font-size: 22px;
+        }
+
+        .grupo-control {
+            margin-bottom: 20px;
+        }
+
+        .grupo-control:last-child {
+            margin-bottom: 0;
+        }
+
+        .etiqueta {
+            display: block;
+            font-weight: 500;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .etiqueta-obligatoria::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        .descripcion-campo {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 4px;
+            margin-left: 4px;
+        }
+
+        select,
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        select:focus,
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .opciones-radio {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .opcion-radio {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border: 1px solid #ecf0f1;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .opcion-radio:hover {
+            background-color: #f8f9fa;
+            border-color: #3498db;
+        }
+
+        .opcion-radio input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .opcion-radio input[type="radio"]:checked {
+            accent-color: #27ae60;
+        }
+
+        .etiqueta-opcion {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .titulo-opcion {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .descripcion-opcion {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .botones-accion {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .boton {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            flex: 1;
+        }
+
+        .boton-guardar {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .boton-guardar:hover:not(:disabled) {
+            background-color: #229954;
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+
+        .boton-guardar:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .boton-cancelar {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .boton-cancelar:hover {
+            background-color: #7f8c8d;
+        }
+
+        /* Estilos para notificaciones flotantes (Toasts) */
+        .mensaje-exito,
+        .mensaje-error {
+            position: fixed; /* Fija el mensaje a la pantalla, no al documento */
+            top: 20px;
+            right: 20px;     /* Esquina superior derecha */
+            z-index: 9999;   /* Asegura que esté encima de todo */
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra para dar profundidad */
+            font-weight: 500;
+            min-width: 300px;
+            display: none;   /* Oculto por defecto */
+            animation: slideIn 0.5s ease forwards; /* Animación de entrada */
+        }
+
+        /* Colores específicos */
+        .mensaje-exito {
+            background-color: #d4edda;
+            border-left: 5px solid #28a745; /* Borde verde a la izquierda */
+            color: #155724;
+        }
+
+        .mensaje-error {
+            background-color: #f8d7da;
+            border-left: 5px solid #dc3545; /* Borde rojo a la izquierda */
+            color: #721c24;
+        }
+
+        /* Clase para mostrarlo */
+        .mensaje-exito.mostrar,
+        .mensaje-error.mostrar {
+            display: block;
+        }
+
+        /* Animación para que entre deslizándose suavemente */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%); /* Empieza fuera de la pantalla a la derecha */
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);    /* Termina en su sitio */
+                opacity: 1;
+            }
+        }
+
+        /* Ajuste para móviles: que salga abajo o ocupe el ancho */
+        @media (max-width: 768px) {
+            .mensaje-exito,
+            .mensaje-error {
+                top: auto;
+                bottom: 20px; /* En móvil, mejor abajo para que el dedo no lo tape */
+                right: 10px;
+                left: 10px;   /* Ocupa el ancho */
+                min-width: auto;
+            }
+        }
+
+        .cargando {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .ajustes-container {
+                padding: 15px;
+            }
+
+            .ajustes-titulo {
+                font-size: 22px;
+            }
+
+            .seccion-ajustes {
+                padding: 18px;
+            }
+
+            .botones-accion {
+                flex-direction: column;
+            }
+
+            .boton {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navegacion-global">
+        <!-- La navegación se cargará aquí automáticamente -->
+    </div>
+
+    <div class="ajustes-container">
+        <header class="header-panel">
+            <h1 class="ajustes-titulo">⚙️ Ajustes de Perfil</h1>
+        </header>
+
+        <!-- Mensajes de estado -->
+        <div id="mensajeExito" class="mensaje-exito">
+            <strong>✓ Cambios guardados exitosamente</strong>
+        </div>
+        <div id="mensajeError" class="mensaje-error">
+            <strong>✗ Error al guardar los cambios</strong>
+        </div>
+
+        <!-- Contenedor del formulario -->
+        <form id="formularioAjustes" method="POST">
+
+            <!-- SECCIÓN 1: PREFERENCIAS DE IDIOMA Y ZONA HORARIA (RP1) -->
+            <div class="seccion-ajustes">
+                <h3>
+                    <span class="icono-seccion">🌐</span>
+                    Preferencias de Idioma y Zona Horaria
+                </h3>
+
+                <!-- Selección de Idioma -->
+                <div class="grupo-control">
+                    <label class="etiqueta etiqueta-obligatoria">Idioma de la Interfaz</label>
+                    <select name="idioma" id="idioma" required>
+                        <option value="">Selecciona un idioma</option>
+                        <option value="es">Español</option>
+                        <option value="en">English (Inglés)</option>
+                    </select>
+                    <div class="descripcion-campo">
+                        El idioma seleccionado se aplicará a toda la interfaz de la aplicación
+                    </div>
+                </div>
+
+                <!-- Selección de Zona Horaria -->
+                <div class="grupo-control">
+                    <label class="etiqueta etiqueta-obligatoria">Zona Horaria</label>
+                    <select name="zona_horaria" id="zonaHoraria" required>
+                        <option value="">Selecciona tu zona horaria</option>
+                        <optgroup label="Perú">
+                            <option value="America/Lima">Perú (UTC-5)</option>
+                        </optgroup>
+                        <optgroup label="América del Sur">
+                            <option value="America/Caracas">Venezuela (UTC-4)</option>
+                            <option value="America/Bogota">Colombia (UTC-5)</option>
+                            <option value="America/Quito">Ecuador (UTC-5)</option>
+                            <option value="America/La_Paz">Bolivia (UTC-4)</option>
+                            <option value="America/Santiago">Chile (UTC-3)</option>
+                            <option value="America/Argentina/Buenos_Aires">Argentina (UTC-3)</option>
+                            <option value="America/Sao_Paulo">Brasil (UTC-3)</option>
+                        </optgroup>
+                        <optgroup label="América Central y del Norte">
+                            <option value="America/Mexico_City">México (UTC-6)</option>
+                            <option value="America/New_York">EE.UU. - Este (UTC-5)</option>
+                            <option value="America/Chicago">EE.UU. - Centro (UTC-6)</option>
+                            <option value="America/Denver">EE.UU. - Montaña (UTC-7)</option>
+                            <option value="America/Los_Angeles">EE.UU. - Oeste (UTC-8)</option>
+                        </optgroup>
+                        <optgroup label="Europa">
+                            <option value="Europe/Madrid">España (UTC+1)</option>
+                            <option value="Europe/London">Reino Unido (UTC+0)</option>
+                            <option value="Europe/Paris">Francia (UTC+1)</option>
+                            <option value="Europe/Berlin">Alemania (UTC+1)</option>
+                        </optgroup>
+                        <optgroup label="Asia">
+                            <option value="Asia/Manila">Filipinas (UTC+8)</option>
+                            <option value="Asia/Bangkok">Tailandia (UTC+7)</option>
+                            <option value="Asia/Tokyo">Japón (UTC+9)</option>
+                        </optgroup>
+                        <optgroup label="Otros">
+                            <option value="Australia/Sydney">Australia - Sídney (UTC+10)</option>
+                            <option value="Pacific/Auckland">Nueva Zelanda (UTC+12)</option>
+                        </optgroup>
+                    </select>
+                    <div class="descripcion-campo">
+                        Se utilizará para mostrar fechas y horas en tu zona horaria local
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: VISIBILIDAD DEL PERFIL (RP2) -->
+            <div class="seccion-ajustes">
+                <h3>
+                    <span class="icono-seccion">👁️</span>
+                    Visibilidad del Perfil
+                </h3>
+
+                <div class="grupo-control">
+                    <label class="etiqueta etiqueta-obligatoria">¿Quién puede ver tu perfil?</label>
+                    <div class="descripcion-campo" style="margin-bottom: 15px;">
+                        Controla quién puede acceder a tu información de perfil
+                    </div>
+
+                    <div class="opciones-radio">
+                        <div class="opcion-radio">
+                            <input type="radio" name="visibilidad_perfil" id="visiPublico" value="publico" required>
+                            <label for="visiPublico" class="etiqueta-opcion">
+                                <span class="titulo-opcion">🌍 Público</span>
+                                <span class="descripcion-opcion">
+                                    Cualquier persona puede ver tu perfil, incluidos usuarios no registrados
+                                </span>
+                            </label>
+                        </div>
+
+                        <div class="opcion-radio">
+                            <input type="radio" name="visibilidad_perfil" id="visiVerificados" value="solo_verificados" required>
+                            <label for="visiVerificados" class="etiqueta-opcion">
+                                <span class="titulo-opcion">✔️ Solo Usuarios Verificados</span>
+                                <span class="descripcion-opcion">
+                                    Solo pueden ver tu perfil los usuarios que han completado la verificación de identidad
+                                </span>
+                            </label>
+                        </div>
+
+                        <div class="opcion-radio">
+                            <input type="radio" name="visibilidad_perfil" id="visiPrivado" value="privado" required>
+                            <label for="visiPrivado" class="etiqueta-opcion">
+                                <span class="titulo-opcion">🔒 Privado</span>
+                                <span class="descripcion-opcion">
+                                    Solo puedes ver tu propio perfil. Otros usuarios no podrán acceder a tu información
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: NOTIFICACIONES -->
+            <div class="seccion-ajustes">
+                <h3>
+                    <span class="icono-seccion">🔔</span>
+                    Configuración de Notificaciones
+                </h3>
+
+                <div class="grupo-control">
+                    <label class="etiqueta">Recibir notificaciones por email</label>
+                    <div class="opciones-radio">
+                        <div class="opcion-radio">
+                            <input type="radio" name="notificaciones_email" id="notiEmailSi" value="si" required>
+                            <label for="notiEmailSi" class="etiqueta-opcion">
+                                <span class="titulo-opcion">📧 Sí, recibir notificaciones por email</span>
+                                <span class="descripcion-opcion">Recibirás avisos sobre mensajes, solicitudes y reseñas</span>
+                            </label>
+                        </div>
+                        <div class="opcion-radio">
+                            <input type="radio" name="notificaciones_email" id="notiEmailNo" value="no" required>
+                            <label for="notiEmailNo" class="etiqueta-opcion">
+                                <span class="titulo-opcion">🚫 No, no quiero notificaciones por email</span>
+                                <span class="descripcion-opcion">Solo recibirás notificaciones dentro de la aplicación</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grupo-control">
+                    <label class="etiqueta">Frecuencia de sugerencias por email</label>
+                    <select name="frecuencia_sugerencias" id="frecuenciaSugerencias" required>
+                        <option value="">Selecciona frecuencia</option>
+                        <option value="diario">Diario - Recibir sugerencias todos los días</option>
+                        <option value="semanal">Semanal - Recibir sugerencias una vez por semana</option>
+                        <option value="nunca">Nunca - No recibir sugerencias por email</option>
+                    </select>
+                    <div class="descripcion-campo">
+                        Esta configuración controla con qué frecuencia recibes sugerencias personalizadas
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="seccion-ajustes">
+                <div class="botones-accion">
+                    <button type="submit" class="boton boton-guardar" id="btnGuardar">
+                        <span id="indicadorGuardando"></span>
+                        Guardar Cambios
+                    </button>
+                    <button type="button" class="boton boton-cancelar" onclick="volverAtras()">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        console.log('=' .repeat(60));
+        console.log('🚀 SCRIPT DE AJUSTES INICIADO');
+        console.log('=' .repeat(60));
+        
+        // Estado global
+        let estadoSesion = {
+            token: null,
+            usuarioId: null,
+            valido: false
+        };
+        
+        // Verificar si hay sesión válida
+        function validarSesion() {
+            console.log('\n🔍 VALIDANDO SESIÓN...');
+            
+            // Buscar token en todos los lugares
+            let token = localStorage.getItem('token_usuario') 
+                     || sessionStorage.getItem('token_usuario')
+                     || localStorage.getItem('token')
+                     || sessionStorage.getItem('token');
+            
+            // Buscar datos de usuario
+            let datosUsuario = localStorage.getItem('datos_usuario');
+            
+            console.log('   Token encontrado:', !!token);
+            console.log('   Datos usuario encontrados:', !!datosUsuario);
+            
+            if (!token) {
+                console.log('❌ NO HAY TOKEN - Sesión inválida');
+                return false;
+            }
+            
+            if (!datosUsuario) {
+                console.log('⚠️  Token existe pero sin datos de usuario');
+                // Intentar decodificar token para obtener usuario_id
+                try {
+                    const parts = token.split('.');
+                    if (parts.length === 3) {
+                        let payload64 = parts[1];
+                        payload64 = payload64.replace(/-/g, '+').replace(/_/g, '/');
+                        const pad = payload64.length % 4;
+                        if (pad) payload64 += '='.repeat(4 - pad);
+                        const payload = JSON.parse(atob(payload64));
+                        console.log('   Usuario ID del token:', payload.usuario_id);
+                    }
+                } catch (e) {
+                    console.error('Error decodificando token:', e);
+                }
+            }
+            
+            estadoSesion.token = token;
+            estadoSesion.valido = true;
+            
+            console.log('✅ Sesión VÁLIDA');
+            return true;
+        }
+        
+        // Inicializar cuando el DOM está listo
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('\n📄 DOM COMPLETAMENTE CARGADO');
+            
+            // Validar sesión inmediatamente
+            if (!validarSesion()) {
+                console.log('🔄 Esperando navegación.js...');
+                // Dar tiempo a que navegacion.js se cargue
+                setTimeout(function() {
+                    console.log('⏰ SEGUNDO INTENTO DE VALIDACIÓN');
+                    if (!validarSesion()) {
+                        console.log('❌ VALIDACIÓN FALLÓ - REDIRIGIENDO A LOGIN');
+                        setTimeout(() => {
+                            window.location.href = '/proyectoWeb/viajeros_peru/app/vistas/auth/iniciar_sesion.html';
+                        }, 500);
+                        return;
+                    }
+                    verificarAutenticacion();
+                }, 1000);
+            } else {
+                verificarAutenticacion();
+            }
+        });
+        
+        // Escuchar evento de navegacion cargada si existe
+        window.addEventListener('navegacionCargada', function() {
+            console.log('👂 Evento de navegación cargada recibido');
+        });
+        
+        // Verificar si el usuario está autenticado
+        function verificarAutenticacion() {
+            let token = estadoSesion.token || localStorage.getItem('token_usuario');
+            let datosUsuario = localStorage.getItem('datos_usuario');
+            
+            console.log('\n🔐 VERIFICAR AUTENTICACIÓN');
+            console.log('   Token:', token ? token.substring(0, 30) + '...' : 'NO');
+            console.log('   Datos usuario:', datosUsuario ? 'SÍ' : 'NO');
+            
+            if (!token || !datosUsuario) {
+                console.log('❌ Sesión incompleta');
+                mostrarPantallaCargando();
+                setTimeout(() => {
+                    window.location.href = '/proyectoWeb/viajeros_peru/app/vistas/auth/iniciar_sesion.html';
+                }, 1000);
+                return;
+            }
+
+            console.log('✅ Sesión válida, cargando ajustes...');
+            cargarAjustes(token);
+        }
+        
+        // Mostrar pantalla de cargando
+        function mostrarPantallaCargando() {
+            const form = document.getElementById('formularioAjustes');
+            if (form) {
+                form.innerHTML = '<div style="text-align: center; padding: 50px;"><p>Redirigiendo...</p></div>';
+            }
+        }        
+        // Cargar ajustes del usuario
+        function cargarAjustes(token) {
+            try {
+                // Decodificar JWT
+                const parts = token.split('.');
+                if (parts.length !== 3) {
+                    throw new Error('Token inválido');
+                }
+                
+                let payload64 = parts[1];
+                payload64 = payload64.replace(/-/g, '+').replace(/_/g, '/');
+                const pad = payload64.length % 4;
+                if (pad) payload64 += '='.repeat(4 - pad);
+                
+                const payload = JSON.parse(atob(payload64));
+                const usuarioId = payload.usuario_id || payload.id;
+
+                console.log('👤 Usuario ID:', usuarioId);
+
+                // Hacer petición al servidor
+                fetch('/proyectoWeb/viajeros_peru/backend/api/perfiles.php?accion=obtener_ajustes&usuario_id=' + usuarioId, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('📦 Datos recibidos:', data);
+                    if (data.exito && data.ajustes) {
+                        rellenarFormulario(data.ajustes);
+                    } else {
+                        console.log('⚠️ Sin ajustes previos, usando valores por defecto');
+                        rellenarFormularioPorDefecto();
+                    }
+                    configurarFormulario(token, usuarioId);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    rellenarFormularioPorDefecto();
+                    configurarFormulario(token, usuarioId);
+                });
+
+            } catch (error) {
+                console.error('Error decodificando token:', error);
+                // Limpiar token inválido
+                localStorage.removeItem('token_usuario');
+                sessionStorage.removeItem('token_usuario');
+                window.location.href = '/proyectoWeb/viajeros_peru/app/vistas/auth/iniciar_sesion.html';
+            }
+        }
+
+        // Rellenar formulario con datos
+        function rellenarFormulario(ajustes) {
+            document.getElementById('idioma').value = ajustes.idioma || 'es';
+            document.getElementById('zonaHoraria').value = ajustes.zona_horaria || 'America/Lima';
+            
+            if (ajustes.visibilidad_perfil === 'solo_verificados') {
+                document.getElementById('visiVerificados').checked = true;
+            } else if (ajustes.visibilidad_perfil === 'privado') {
+                document.getElementById('visiPrivado').checked = true;
+            } else {
+                document.getElementById('visiPublico').checked = true;
+            }
+
+            if (ajustes.notificaciones_email === 'no') {
+                document.getElementById('notiEmailNo').checked = true;
+            } else {
+                document.getElementById('notiEmailSi').checked = true;
+            }
+
+            document.getElementById('frecuenciaSugerencias').value = ajustes.frecuencia_sugerencias || 'semanal';
+        }
+
+        // Rellenar con valores por defecto
+        function rellenarFormularioPorDefecto() {
+            document.getElementById('idioma').value = 'es';
+            document.getElementById('zonaHoraria').value = 'America/Lima';
+            document.getElementById('visiPublico').checked = true;
+            document.getElementById('notiEmailSi').checked = true;
+            document.getElementById('frecuenciaSugerencias').value = 'semanal';
+        }
+
+        // Configurar el envío del formulario
+        function configurarFormulario(token, usuarioId) {
+            document.getElementById('formularioAjustes').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const btn = document.getElementById('btnGuardar');
+                const loader = document.getElementById('indicadorGuardando');
+                
+                btn.disabled = true;
+                loader.innerHTML = '<span class="cargando"></span>';
+
+                const datos = {
+                    accion: 'actualizar_ajustes',
+                    usuario_id: usuarioId,
+                    idioma: document.getElementById('idioma').value,
+                    zona_horaria: document.getElementById('zonaHoraria').value,
+                    visibilidad_perfil: document.querySelector('input[name="visibilidad_perfil"]:checked').value,
+                    notificaciones_email: document.querySelector('input[name="notificaciones_email"]:checked').value,
+                    frecuencia_sugerencias: document.getElementById('frecuenciaSugerencias').value
+                };
+
+                console.log('📤 Enviando:', datos);
+
+                fetch('/proyectoWeb/viajeros_peru/backend/api/perfiles.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify(datos)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('✅ Respuesta:', data);
+                    btn.disabled = false;
+                    loader.innerHTML = '';
+
+                    if (data.exito) {
+                        mostrarMensaje('exito');
+                        setTimeout(() => ocultarMensaje('exito'), 3000);
+                        // Propagar cambio de idioma a la UI cliente
+                        try {
+                            const nuevoIdioma = datos.idioma;
+                            if (nuevoIdioma) {
+                                localStorage.setItem('idioma_preferido', nuevoIdioma);
+
+                                // Actualizar datos_usuario si existe
+                                const du = localStorage.getItem('datos_usuario');
+                                if (du) {
+                                    try {
+                                        const obj = JSON.parse(du);
+                                        obj.idioma = nuevoIdioma;
+                                        localStorage.setItem('datos_usuario', JSON.stringify(obj));
+                                    } catch (e) {
+                                        console.warn('No se pudo actualizar datos_usuario con idioma:', e);
+                                    }
+                                }
+
+                                // Si la navegación global está cargada, pedirle que aplique el idioma
+                                if (window.navegacionGlobal && typeof navegacionGlobal.aplicarIdioma === 'function') {
+                                    navegacionGlobal.aplicarIdioma(nuevoIdioma);
+                                } else {
+                                    // Emitir evento para que cualquier escucha (p. ej. navegación) reaccione
+                                    window.dispatchEvent(new CustomEvent('idiomaCambiado', { detail: { idioma: nuevoIdioma } }));
+                                }
+                            }
+                        } catch (e) {
+                            console.warn('No se pudo propagar idioma al cliente:', e);
+                        }
+                    } else {
+                        mostrarMensaje('error');
+                        setTimeout(() => ocultarMensaje('error'), 3000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    btn.disabled = false;
+                    loader.innerHTML = '';
+                    mostrarMensaje('error');
+                    setTimeout(() => ocultarMensaje('error'), 3000);
+                });
+            });
+        }
+
+        // Mostrar mensaje
+        function mostrarMensaje(tipo) {
+            const elemento = document.getElementById('mensaje' + (tipo === 'exito' ? 'Exito' : 'Error'));
+            if (elemento) {
+                elemento.classList.add('mostrar');
+            }
+        }
+
+        // Ocultar mensaje
+        function ocultarMensaje(tipo) {
+            const elemento = document.getElementById('mensaje' + (tipo === 'exito' ? 'Exito' : 'Error'));
+            if (elemento) {
+                elemento.classList.remove('mostrar');
+            }
+        }
+
+        // Volver atrás
+        function volverAtras() {
+            window.history.back();
+        }
+    </script>
+    <!-- Cargar navegación al final para que no interfiera -->
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+</body>
+</html>

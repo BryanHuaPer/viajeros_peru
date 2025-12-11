@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+
+        body {
+            background-color: #f5f6fa;
+        }
+
+        .notificaciones-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header-notificaciones h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Filtros */
+        .filtros-notificaciones {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .filtro-btn {
+            padding: 8px 16px;
+            border: 1px solid #cbd5e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .filtro-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .filtro-btn.activo {
+            background: linear-gradient(135deg, #193acd 0%, #072ef0 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Lista de notificaciones */
+        .lista-notificaciones-completa {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .lista-items-notificaciones {
+            min-height: 200px;
+        }
+
+        .item-notif-completo {
+            padding: 18px;
+            border-bottom: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .item-notif-completo:hover {
+            background: #f7fafc;
+        }
+
+        .item-notif-completo.no-leido {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+        }
+
+        .icono-notif-grande {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .contenido-notif-completo {
+            flex: 1;
+        }
+
+        .titulo-notif-completo {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+
+        .descripcion-notif-completo {
+            color: #718096;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            font-size: 0.95rem;
+        }
+
+        .fecha-y-origen {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .fecha-notif {
+            font-size: 0.85rem;
+            color: #a0aec0;
+        }
+
+        .btn-ver-origen {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+            font-weight: 500;
+        }
+
+        .btn-ver-origen:hover {
+            background: #5568d3;
+        }
+
+        .btn-ver-origen:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .punto-no-leido-grande {
+            width: 10px;
+            height: 10px;
+            background: #e53e3e;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 6px;
+        }
+
+        .sin-notificaciones-completo {
+            padding: 60px 20px;
+            text-align: center;
+            color: #718096;
+        }
+
+        .cargando-notificaciones {
+            padding: 40px 20px;
+            text-align: center;
+            color: #718096;
+        }
+
+        /* Paginación */
+        .paginacion {
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            background: white;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .btn-pagina {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e0;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-pagina:hover:not(:disabled) {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .btn-pagina.activo {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .btn-pagina:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal */
+        .modal-notificacion {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-notificacion.mostrar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-contenido {
+            background: white;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            transition: opacity 0.2s;
+        }
+
+        .modal-close:hover {
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .notif-detalle-item {
+            margin-bottom: 18px;
+        }
+
+        .notif-detalle-label {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #667eea;
+        }
+
+        .notif-detalle-valor {
+            color: #718096;
+            line-height: 1.6;
+            padding: 10px;
+            background: #f7fafc;
+            border-radius: 4px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            background: #f9fafb;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .btn-modal {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .btn-modal-primario {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-modal-primario:hover {
+            background: #5568d3;
+        }
+
+        .btn-modal-secundario {
+            background: #e2e8f0;
+            color: #2d3748;
+        }
+
+        .btn-modal-secundario:hover {
+            background: #cbd5e0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .notificaciones-container {
+                padding: 10px;
+            }
+
+            .header-notificaciones {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .header-notificaciones h1 {
+                font-size: 24px;
+            }
+
+            .filtros-notificaciones {
+                justify-content: center;
+            }
+
+            .modal-contenido {
+                width: 95%;
+            }
+
+            .fecha-y-origen {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .item-notif-completo {
+                gap: 10px;
+            }
+        }
+        /* Estilos para la actualización en tiempo real */
+        .item-notif-completo.no-leido {
+            background-color: #f0f9ff;
+            border-left: 3px solid #3498db;
+        }
+
+        .item-notif-completo:not(.no-leido) {
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .punto-no-leido-grande {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background-color: #e53e3e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .header-notif-completo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .estado-notif {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .estado-nuevo {
+            background-color: #e53e3e;
+            color: white;
+        }
+
+        .estado-visto {
+            background-color: #38a169;
+            color: white;
+        }
+
+        .badge-filtro {
+            background-color: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            margin-left: 5px;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0.3; }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s ease forwards;
+        }
+
+        /* Añade al final de tu CSS en notificaciones.html */
+        .btn-sin-enlace {
+            background-color: #6c757d !important;
+        }
+
+        .btn-sin-enlace:hover {
+            background-color: #5a6268 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+
+    <main class="contenedor">
+        <div class="notificaciones-container">
+            <!-- Header -->
+            <div class="header-panel">
+                <h1>📬 Notificaciones</h1>
+                <div class="btn-marcar-todas" id="btn-marcar-todas" disabled>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filtros-notificaciones" id="filtros">
+                <button class="filtro-btn activo" data-tipo="">📋 Todas</button>
+                <button class="filtro-btn" data-tipo="mensaje">💬 Mensajes</button>
+                <button class="filtro-btn" data-tipo="solicitud">📮 Solicitudes</button>
+                <button class="filtro-btn" data-tipo="reserva">🎫 Reservas</button>
+                <button class="filtro-btn" data-tipo="resena">⭐ Reseñas</button>
+                <button class="filtro-btn" data-tipo="sistema">⚙️ Sistema</button>
+            </div>
+
+            <!-- Lista -->
+            <div class="lista-notificaciones-completa">
+                <div class="lista-items-notificaciones" id="lista-notificaciones-completa">
+                    <div class="cargando-notificaciones">
+                        ⏳ Cargando notificaciones...
+                    </div>
+                </div>
+                <div class="paginacion" id="paginacion" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para ver origen -->
+    <div class="modal-notificacion" id="modal-notificacion">
+        <div class="modal-contenido">
+            <div class="modal-header">
+                <h2 id="modal-titulo">Detalles de Notificación</h2>
+                <button class="modal-close" id="btn-cerrar-modal-x">✕</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-modal-secundario" id="btn-cerrar-modal">
+                    Cerrar
+                </button>
+                <a href="#" class="btn-modal btn-modal-primario" id="btn-ir-origen" style="display:none; text-decoration:none;">
+                    📍 Ver Origen
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/notificaciones.js"></script>
+</body>
+</html>

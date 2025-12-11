@@ -1,0 +1,1682 @@
+/* Estilos específicos para perfil público */
+.header-perfil-publico {
+    background: linear-gradient(135deg, #195381 0%, #add58d 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.contenedor-header-publico {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.foto-perfil-publica {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid white;
+    object-fit: cover;
+}
+
+.info-principal-publica {
+    flex: 1;
+}
+
+.info-principal-publica h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+}
+
+.bio-publica {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.acciones-perfil-publico {
+    display: flex;
+    gap: 1rem;
+    margin-top: 20px;
+}
+
+.grid-perfil-publico {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Estilo para el icono de verificación */
+.badge-verificado {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* Estado para botón de favoritos activo */
+.activo-favorito {
+    background-color: #e91e63 !important;
+    color: white !important;
+}
+
+.activo-favorito:hover {
+    background-color: #d81b60 !important;
+}
+
+/* Estilos para el sistema de calificaciones */
+.calificacion-perfil {
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+    background: #f8f9fa;
+    padding: 10px 18px;
+    border-radius: 24px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    max-width: 400px;
+}
+
+.calificacion-item {
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #4CAF50;
+}
+
+/* ================================
+   ESTILOS PARA RESEÑAS EN PERFIL PÚBLICO
+   ================================ */
+
+.seccion-resenas {
+    grid-column: 1 / -1; /* Ocupa todo el ancho */
+    margin-top: 2rem;
+}
+
+.contenedor-resenas {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.resumen-resenas {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.calificacion-promedio {
+    text-align: center;
+    min-width: 150px;
+}
+
+.numero-promedio {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #333;
+    line-height: 1;
+}
+
+.estrellas-promedio {
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+}
+
+.total-resenas {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.distribucion-resenas {
+    flex: 1;
+}
+
+.barra-distribucion {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.estrellas-bar {
+    min-width: 50px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.barra-container {
+    flex: 1;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.barra-progreso {
+    height: 100%;
+    background: linear-gradient(to right, #FFD700, #FFC107);
+    border-radius: 4px;
+}
+
+.cantidad-bar {
+    min-width: 30px;
+    text-align: right;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Lista de reseñas individuales */
+.lista-resenas {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Scrollbar personalizado para lista de reseñas */
+.lista-resenas::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lista-resenas::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.lista-resenas::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.lista-resenas::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+.resena-item {
+    padding: 1.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: #f9f9f9;
+}
+
+.resena-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.resena-autor {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Contenedor de la foto del autor */
+.contenedor-foto-autor {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.contenedor-foto-autor:hover {
+    transform: scale(1.05);
+}
+
+.foto-autor-resena {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-resena-iniciales {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.info-autor {
+    flex: 1;
+}
+
+.info-autor strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    color: #2563eb;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.info-autor strong:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+.fecha-resena {
+    color: #666;
+    font-size: 0.85rem;
+    display: block;
+}
+
+.resena-calificacion {
+    display: flex;
+    gap: 2px;
+}
+
+.resena-comentario {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 3px solid #4CAF50;
+    margin: 1rem 0;
+}
+
+.resena-comentario p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.resena-contexto {
+    color: #666;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed #ddd;
+}
+
+.resena-contexto small {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+/* Modal de contacto */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal-contenido {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-cerrar {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-cuerpo {
+    padding: 1.5rem;
+}
+
+.modal-acciones {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+
+/* ===== ESTILOS RESPONSIVE UNIFICADOS ===== */
+
+/* Tablets y pantallas medianas (768px - 1024px) */
+@media (max-width: 1024px) {
+    .contenedor-header-publico {
+        gap: 1.5rem;
+        padding: 0 1.5rem;
+    }
+    
+    .foto-perfil-publica {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .info-principal-publica h1 {
+        font-size: 1.75rem;
+    }
+    
+    .grid-perfil-publico {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        padding: 0 1.5rem;
+    }
+    
+    .contenedor-resenas {
+        padding: 1.5rem;
+    }
+    
+    .resumen-resenas {
+        gap: 2rem;
+    }
+}
+
+/* Tablets pequeñas y móviles grandes (576px - 768px) */
+@media (max-width: 768px) {
+    .header-perfil-publico {
+        padding: 1.5rem 0;
+    }
+    
+    .contenedor-header-publico {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .foto-perfil-publica {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .info-principal-publica h1 {
+        font-size: 1.5rem;
+    }
+    
+    .bio-publica {
+        font-size: 1rem;
+        margin: 0.75rem 0;
+    }
+    
+    .acciones-perfil-publico {
+        justify-content: center;
+        flex-wrap: wrap;
+        flex-direction: row;
+        width: 100%;
+    }
+    
+    .grid-perfil-publico {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .seccion-perfil {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e2e8f0;
+        padding: 1.5rem;
+    }
+    
+    /* Listas de badges */
+    .lista-habilidades,
+    .lista-idiomas,
+    .lista-intereses,
+    .lista-redes-sociales {
+        gap: 0.5rem;
+    }
+    
+    .badge-habilidad,
+    .badge-idioma,
+    .badge-interes,
+    .badge-red-social {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Experiencias previas */
+    .lista-experiencias {
+        gap: 0.5rem;
+        color: black;
+    }
+    
+    .experiencia-item {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Disponibilidad */
+    .badge-disponibilidad {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Calificación */
+    .calificacion-perfil {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+        padding: 8px 12px;
+        margin: 0.5rem auto;
+    }
+    
+    /* Reseñas responsive */
+    .contenedor-resenas {
+        padding: 1rem;
+    }
+    
+    .resumen-resenas {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .calificacion-promedio {
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        min-width: auto;
+    }
+    
+    .numero-promedio {
+        font-size: 2.5rem;
+    }
+    
+    .estrellas-promedio {
+        justify-content: flex-start;
+        margin: 0;
+    }
+    
+    .resena-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .resena-calificacion {
+        align-self: flex-start;
+    }
+    
+    .lista-resenas {
+        max-height: 400px;
+    }
+    
+    .contenedor-foto-autor {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .avatar-resena-iniciales {
+        font-size: 1rem;
+    }
+    
+    .resena-autor {
+        gap: 0.75rem;
+    }
+    
+    .estadisticas-perfil {
+        justify-content: center;
+    }
+}
+
+/* Móviles (hasta 576px) */
+@media (max-width: 576px) {
+    .header-perfil-publico {
+        padding: 1rem 0;
+        margin-bottom: 1rem;
+    }
+    
+    .contenedor-header-publico {
+        padding: 0 1rem;
+        gap: 0.75rem;
+    }
+    
+    .foto-perfil-publica {
+        width: 80px;
+        height: 80px;
+        border-width: 3px;
+    }
+    
+    .info-principal-publica h1 {
+        font-size: 1.25rem;
+    }
+    
+    .bio-publica {
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+    }
+    
+    .estadisticas-perfil {
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .estadistica {
+        min-width: 80px;
+    }
+    
+    .estadistica strong {
+        font-size: 1.25rem;
+    }
+    
+    .estadistica span {
+        font-size: 0.8rem;
+    }
+    
+    .grid-perfil-publico {
+        gap: 1rem;
+        padding: 0 0.5rem;
+    }
+    
+    .seccion-perfil {
+        padding: 1rem;
+        margin: 0.25rem;
+    }
+    
+    .seccion-perfil h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .info-grid {
+        gap: 0.75rem;
+    }
+    
+    .info-item label {
+        font-size: 0.8rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .info-item p {
+        font-size: 0.9rem;
+    }
+    
+    /* Reseñas en móviles */
+    .barra-distribucion {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .barra-container {
+        width: 100%;
+    }
+    
+    .cantidad-bar {
+        text-align: left;
+    }
+    
+    .resena-item {
+        padding: 1rem;
+    }
+    
+    .resena-autor {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .contenedor-foto-autor {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .info-autor strong {
+        font-size: 0.9rem;
+    }
+    
+    /* Modal responsive */
+    .modal {
+        padding: 0.5rem;
+    }
+    
+    .modal-contenido {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .modal-cabecera,
+    .modal-cuerpo {
+        padding: 1rem;
+    }
+    
+    .modal-acciones {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+    
+    .modal-acciones button {
+        width: 100%;
+    }
+}
+
+/* Móviles muy pequeños (hasta 360px) */
+@media (max-width: 360px) {
+    .contenedor-header-publico {
+        padding: 0 0.5rem;
+    }
+    
+    .foto-perfil-publica {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .info-principal-publica h1 {
+        font-size: 1.1rem;
+    }
+    
+    .bio-publica {
+        font-size: 0.85rem;
+    }
+    
+    .acciones-perfil-publico {
+        flex-direction: column;
+        width: 100%;
+        max-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .acciones-perfil-publico button {
+        width: 100%;
+        margin: 5px 0 !important;
+    }
+    
+    .grid-perfil-publico {
+        padding: 0 0.25rem;
+    }
+    
+    .seccion-perfil {
+        padding: 0.75rem;
+        margin: 0.25rem;
+    }
+    
+    .contenedor-resenas {
+        padding: 0.75rem;
+    }
+    
+    .resena-item {
+        padding: 0.75rem;
+    }
+}
+
+/* Ajustes para modo landscape en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header-perfil-publico {
+        padding: 1rem 0;
+    }
+    
+    .contenedor-header-publico {
+        flex-direction: row;
+        text-align: left;
+        gap: 0.5rem;
+    }
+    
+    .foto-perfil-publica {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .info-principal-publica h1 {
+        font-size: 1.1rem;
+    }
+    
+    .bio-publica {
+        font-size: 0.8rem;
+        margin: 0.25rem 0;
+    }
+    
+    .lista-resenas {
+        max-height: 300px;
+    }
+}
+
+/* Soporte para pantallas de alta densidad */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .foto-perfil-publica {
+        border: 3px solid white;
+    }
+}
+
+/* Mejoras de accesibilidad en focus */
+@media (max-width: 768px) {
+    .boton-principal:focus,
+    .boton-secundario:focus {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+    }
+}
+
+
+/* ================================
+   ESTILOS PARA EL MODAL DE MENSAJERÍA
+   ================================ */
+
+/* Modal principal */
+.modal-mensajeria {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+    padding: 1rem;
+}
+
+.modal-mensajeria .modal-contenido {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+}
+
+/* Cabecera del modal */
+.modal-mensajeria .modal-cabecera {
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-mensajeria .modal-cabecera h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.modal-mensajeria .cerrar-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.modal-mensajeria .cerrar-modal:hover {
+    background: #f5f5f5;
+    color: #333;
+    transform: scale(1.1);
+}
+
+/* Cuerpo del modal */
+.modal-mensajeria .modal-cuerpo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* Área de mensajes */
+.modal-mensajeria .conversacion-mensajes {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    min-height: 200px;
+    background: #f9f9f9;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Mensaje del sistema */
+.modal-mensajeria .mensaje-sistema {
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    line-height: 1.4;
+    border-left: 4px solid #2196f3;
+    text-align: center;
+}
+
+/* Contenedor de mensajes individuales */
+.mensaje-chat {
+    margin-bottom: 15px;
+    animation: fadeInUp 0.3s ease;
+    display: flex;
+}
+
+.mensaje-propio {
+    justify-content: flex-end;
+}
+
+.mensaje-recibido {
+    justify-content: flex-start;
+}
+
+/* Contenido del mensaje */
+.contenido-mensaje {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.mensaje-propio .contenido-mensaje {
+    background: #0084ff;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.mensaje-recibido .contenido-mensaje {
+    background: #e4e6eb;
+    color: #333;
+    border-bottom-left-radius: 4px;
+}
+
+.contenido-mensaje p {
+    margin: 0 0 5px 0;
+    line-height: 1.4;
+}
+
+/* Hora del mensaje */
+.hora-mensaje {
+    font-size: 11px;
+    opacity: 0.7;
+    display: block;
+    text-align: right;
+}
+
+.mensaje-propio .hora-mensaje {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.mensaje-recibido .hora-mensaje {
+    color: #666;
+}
+
+/* Formulario de mensaje */
+.modal-mensajeria .formulario-mensaje {
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-mensajeria .formulario-mensaje textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: none;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: all 0.2s;
+    min-height: 60px;
+    max-height: 120px;
+    background: white;
+    color: #333;
+}
+
+.modal-mensajeria .formulario-mensaje textarea:focus {
+    outline: none;
+    border-color: #0084ff;
+    box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
+}
+
+/* Botón de enviar */
+.modal-mensajeria .boton-enviar {
+    background: #0084ff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s;
+    align-self: flex-end;
+}
+
+.modal-mensajeria .boton-enviar:hover {
+    background: #0066cc;
+    transform: translateY(-1px);
+}
+
+.modal-mensajeria .boton-enviar:active {
+    transform: translateY(0);
+}
+
+.modal-mensajeria .boton-enviar:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Mensajes de error y éxito */
+.mensaje-error-modal {
+    background: #ffebee !important;
+    color: #c62828 !important;
+    padding: 8px 12px !important;
+    border-radius: 4px !important;
+    margin: 10px 0 !important;
+    font-size: 14px !important;
+    border-left: 4px solid #f44336 !important;
+    animation: fadeIn 0.3s ease !important;
+}
+
+.mensaje-exito-modal {
+    background: #e8f5e9 !important;
+    color: #2e7d32 !important;
+    padding: 8px 12px !important;
+    border-radius: 4px !important;
+    margin: 10px 0 !important;
+    font-size: 14px !important;
+    border-left: 4px solid #4caf50 !important;
+    animation: fadeIn 0.3s ease !important;
+}
+
+/* ================================
+   ANIMACIONES
+   ================================ */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================================
+   RESPONSIVE PARA EL MODAL
+   ================================ */
+
+/* Tablets (768px o menos) */
+@media (max-width: 768px) {
+    .modal-mensajeria {
+        padding: 0.5rem;
+    }
+    
+    .modal-mensajeria .modal-contenido {
+        max-height: 85vh;
+        width: 95%;
+    }
+    
+    .modal-mensajeria .modal-cabecera {
+        padding: 15px;
+    }
+    
+    .modal-mensajeria .modal-cabecera h3 {
+        font-size: 16px;
+    }
+    
+    .modal-mensajeria .conversacion-mensajes {
+        padding: 15px;
+        min-height: 150px;
+    }
+    
+    .modal-mensajeria .formulario-mensaje {
+        padding: 15px;
+    }
+    
+    .contenido-mensaje {
+        max-width: 85%;
+    }
+}
+
+/* Móviles (576px o menos) */
+@media (max-width: 576px) {
+    .modal-mensajeria .modal-contenido {
+        width: 100%;
+        height: 90vh;
+        max-height: 90vh;
+        border-radius: 0;
+    }
+    
+    .modal-mensajeria {
+        padding: 0;
+    }
+    
+    .modal-mensajeria .modal-cabecera {
+        padding: 12px 15px;
+    }
+    
+    .modal-mensajeria .conversacion-mensajes {
+        padding: 12px;
+        min-height: 120px;
+    }
+    
+    .modal-mensajeria .formulario-mensaje {
+        padding: 12px;
+    }
+    
+    .modal-mensajeria .formulario-mensaje textarea {
+        padding: 10px;
+        font-size: 13px;
+    }
+    
+    .modal-mensajeria .boton-enviar {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+    
+    .contenido-mensaje {
+        max-width: 90%;
+        padding: 10px 14px;
+    }
+    
+    .hora-mensaje {
+        font-size: 10px;
+    }
+}
+
+/* Móviles pequeños (360px o menos) */
+@media (max-width: 360px) {
+    .modal-mensajeria .modal-cabecera h3 {
+        font-size: 14px;
+    }
+    
+    .modal-mensajeria .conversacion-mensajes {
+        padding: 10px;
+    }
+    
+    .modal-mensajeria .formulario-mensaje {
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .contenido-mensaje p {
+        font-size: 13px;
+    }
+}
+
+/* ================================
+   MEJORAS DE ACCESIBILIDAD
+   ================================ */
+.modal-mensajeria .cerrar-modal:focus,
+.modal-mensajeria .boton-enviar:focus,
+.modal-mensajeria .formulario-mensaje textarea:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* ================================
+   MEJORAS DE SCROLL SUAVE
+   ================================ */
+.modal-mensajeria .conversacion-mensajes {
+    scroll-behavior: smooth;
+}
+
+/* Scrollbar personalizado */
+.modal-mensajeria .conversacion-mensajes::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-mensajeria .conversacion-mensajes::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.modal-mensajeria .conversacion-mensajes::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.modal-mensajeria .conversacion-mensajes::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* ================================
+   ESTADO DE CARGA
+   ================================ */
+.conversacion-cargando {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+.conversacion-cargando::after {
+    content: '...';
+    animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+/* ================================
+   INDICADOR DE NUEVO MENSAJE
+   ================================ */
+.nuevo-mensaje-indicator {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    background: #ff4757;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ================================
+   ESTILOS PARA RESEÑAS EN PERFIL PÚBLICO
+   ================================ */
+
+.seccion-resenas {
+    grid-column: 1 / -1; /* Ocupa todo el ancho */
+    margin-top: 2rem;
+}
+
+.contenedor-resenas {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.resumen-resenas {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    align-items: start;
+}
+
+.calificacion-promedio {
+    text-align: center;
+    min-width: 120px;
+}
+
+.numero-promedio {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #333;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.estrellas-promedio {
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+}
+
+.total-resenas {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.distribucion-resenas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.barra-distribucion {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.estrellas-bar {
+    min-width: 50px;
+    color: #666;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.barra-container {
+    flex: 1;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.barra-progreso {
+    height: 100%;
+    background: linear-gradient(to right, #FFD700, #FFC107);
+    border-radius: 4px;
+}
+
+.cantidad-bar {
+    min-width: 30px;
+    text-align: right;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Lista de reseñas individuales */
+.lista-resenas {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Scrollbar personalizado para lista de reseñas */
+.lista-resenas::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lista-resenas::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.lista-resenas::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.lista-resenas::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+.resena-item {
+    padding: 1.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: #f9f9f9;
+}
+
+.resena-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.resena-autor {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Contenedor de la foto del autor */
+.contenedor-foto-autor {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.contenedor-foto-autor:hover {
+    transform: scale(1.05);
+}
+
+.foto-autor-resena {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-resena-iniciales {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.info-autor {
+    flex: 1;
+}
+
+.info-autor strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    color: #2563eb;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.info-autor strong:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+.fecha-resena {
+    color: #666;
+    font-size: 0.85rem;
+    display: block;
+}
+
+.resena-calificacion {
+    display: flex;
+    gap: 2px;
+}
+
+.resena-comentario {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 3px solid #4CAF50;
+    margin: 1rem 0;
+}
+
+.resena-comentario p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.resena-contexto {
+    color: #666;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed #ddd;
+}
+
+.resena-contexto small {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+/* ===== MEJORAS RESPONSIVE ESPECÍFICAS PARA RESEÑAS ===== */
+
+/* Tablets pequeñas y móviles grandes (768px o menos) */
+@media (max-width: 768px) {
+    .contenedor-resenas {
+        padding: 1.5rem;
+    }
+    
+    .resumen-resenas {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    
+    .calificacion-promedio {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        min-width: auto;
+        text-align: left;
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    
+    .numero-promedio {
+        font-size: 2.5rem;
+        margin: 0;
+    }
+    
+    .estrellas-promedio {
+        justify-content: flex-start;
+        margin: 0;
+        order: 2;
+    }
+    
+    .total-resenas {
+        margin: 0;
+        font-size: 0.85rem;
+        color: #666;
+        background: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #e2e8f0;
+    }
+    
+    .distribucion-resenas {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    
+    .barra-distribucion {
+        gap: 0.75rem;
+    }
+    
+    .estrellas-bar {
+        min-width: 60px;
+    }
+    
+    .resena-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .resena-calificacion {
+        align-self: flex-start;
+    }
+    
+    .lista-resenas {
+        max-height: 400px;
+    }
+    
+    .contenedor-foto-autor {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .resena-autor {
+        gap: 0.75rem;
+    }
+}
+
+/* Móviles (576px o menos) */
+@media (max-width: 576px) {
+    .contenedor-resenas {
+        padding: 1rem;
+    }
+    
+    .resumen-resenas {
+        gap: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    .calificacion-promedio {
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 0.75rem;
+    }
+    
+    .numero-promedio {
+        font-size: 2rem;
+    }
+    
+    .total-resenas {
+        font-size: 0.8rem;
+    }
+    
+    .distribucion-resenas {
+        padding: 0.75rem;
+    }
+    
+    .barra-distribucion {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .estrellas-bar {
+        min-width: 55px;
+        font-size: 0.85rem;
+    }
+    
+    .barra-container {
+        height: 6px;
+    }
+    
+    .cantidad-bar {
+        min-width: 25px;
+        font-size: 0.8rem;
+    }
+    
+    .resena-item {
+        padding: 1rem;
+    }
+    
+    .resena-autor {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .contenedor-foto-autor {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .info-autor strong {
+        font-size: 0.9rem;
+    }
+}
+
+/* Móviles pequeños (360px o menos) */
+@media (max-width: 360px) {
+    .calificacion-promedio {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .numero-promedio {
+        font-size: 1.75rem;
+    }
+    
+    .estrellas-promedio {
+        flex-wrap: wrap;
+    }
+    
+    .barra-distribucion {
+        gap: 0.25rem;
+    }
+    
+    .estrellas-bar {
+        min-width: 50px;
+        font-size: 0.8rem;
+    }
+    
+    .contenedor-foto-autor {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .resena-autor {
+        gap: 0.5rem;
+    }
+}
+
+/* Modo landscape en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+    .resumen-resenas {
+        grid-template-columns: auto 1fr;
+        gap: 1rem;
+    }
+    
+    .calificacion-promedio {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 100px;
+    }
+    
+    .numero-promedio {
+        font-size: 2rem;
+    }
+    
+    .lista-resenas {
+        max-height: 200px;
+    }
+}

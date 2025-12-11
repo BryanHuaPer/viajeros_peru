@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Anuncios - Viajeros Perú</title>
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+</head>
+<body>
+    <div class="contenedor-panel">
+        <header class="cabecera-panel">
+            <h1>Mis Anuncios</h1>
+            <div class="usuario-info">
+                <span id="nombre-usuario"></span>
+                <button onclick="manejadorAnuncios.cerrarSesion()">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <nav class="navegacion-panel">
+            <a href="inicio.html">Inicio</a>
+            <a href="perfil.html">Mi Perfil</a>
+            <a href="anuncios.html" class="activo">Mis Anuncios</a>
+            <a href="mensajes.html">Mensajes</a>
+            <a href="reservas.html">Reservas</a>
+        </nav>
+
+        <main class="contenido-panel">
+            <div class="cabecera-contenido">
+                <h2>Gestiona tus anuncios</h2>
+                <button id="btn-crear-anuncio" class="boton-principal">Crear Nuevo Anuncio</button>
+            </div>
+
+            <div id="listado-anuncios" class="listado-anuncios">
+                <!-- Los anuncios se cargarán aquí -->
+            </div>
+        </main>
+    </div>
+
+    <script src="/proyectoWeb/viajeros_peru/public/js/anuncios.js"></script>
+</body>
+</html>

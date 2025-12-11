@@ -1,0 +1,578 @@
+/* ===== ESTILOS PARA PANEL DE ADMINISTRACIÓN ===== */
+.navegacion-admin {
+    display: flex;
+    gap: 0.5rem;
+    margin: 2rem 0;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+}
+
+.navegacion-admin button {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.navegacion-admin button:hover {
+    background: #edf2f7;
+    border-color: #a0aec0;
+}
+
+.navegacion-admin button.nav-admin-activo {
+    background: #4299e1;
+    color: white;
+    border-color: #4299e1;
+}
+
+.seccion-admin {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Estadísticas Admin */
+.grid-estadisticas-admin {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.tarjeta-estadistica-admin {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.tarjeta-estadistica-admin:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.icono-estadistica-admin {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.contenido-estadistica-admin h3 {
+    margin: 0;
+    font-size: 2rem;
+    color: #2d3748;
+}
+
+.contenido-estadistica-admin p {
+    margin: 0.5rem 0 0 0;
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+/* Cabecera de secciones */
+.cabecera-seccion-admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.cabecera-seccion-admin h3 {
+    margin: 0;
+    color: #2d3748;
+}
+
+.buscador-admin input,
+.filtros-admin select {
+    padding: 0.5rem 1rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.buscador-admin input:focus,
+.filtros-admin select:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+/* Tablas */
+.contenido-tabla {
+    overflow-x: auto;
+}
+
+.tabla-admin {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.tabla-admin th {
+    background: #f7fafc;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #4a5568;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.tabla-admin td {
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+.tabla-admin tr:hover {
+    background: #f8fafc;
+}
+
+/* Estados en tablas - VERSIÓN CORREGIDA */
+.estado-activo {
+    color: #38a169;
+    font-weight: 500;
+}
+
+.estado-inactivo {
+    color: #e53e3e;
+    font-weight: 500;
+}
+
+/* ESTADO PENDIENTE GENERAL (para usuarios, anuncios, etc.) */
+.estado-pendiente {
+    color: #d69e2e;
+    font-weight: 500;
+}
+
+.estado-aceptada {
+    color: #38a169;
+    font-weight: 500;
+}
+
+.estado-rechazada {
+    color: #e53e3e;
+    font-weight: 500;
+}
+
+.estado-completada {
+    color: #4299e1;
+    font-weight: 500;
+}
+
+.estado-cancelada {
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.estado-verificado {
+    color: #38a169;
+    font-weight: 500;
+}
+
+.estado-rechazado {
+    color: #e53e3e;
+    font-weight: 500;
+}
+
+/* Acciones */
+.acciones-admin {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.boton-accion-admin {
+    padding: 0.25rem 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.boton-suspender {
+    background: #fef5e7;
+    color: #d69e2e;
+    border: 1px solid #fbd38d;
+}
+
+.boton-suspender:hover {
+    background: #fbd38d;
+}
+
+.boton-activar {
+    background: #f0fff4;
+    color: #38a169;
+    border: 1px solid #9ae6b4;
+}
+
+.boton-activar:hover {
+    background: #9ae6b4;
+}
+
+.boton-eliminar {
+    background: #fed7d7;
+    color: #e53e3e;
+    border: 1px solid #feb2b2;
+}
+
+.boton-eliminar:hover {
+    background: #feb2b2;
+}
+
+/* Estados de carga */
+.cargando {
+    text-align: center;
+    padding: 2rem;
+    color: #718096;
+    font-style: italic;
+}
+
+.sin-datos {
+    text-align: center;
+    padding: 2rem;
+    color: #a0aec0;
+    font-style: italic;
+}
+
+/* ===== ESTILOS ESPECÍFICOS PARA VERIFICACIONES ===== */
+
+/* Contador de verificaciones */
+.contador-verificaciones {
+    background: #e53e3e;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Información de usuario en tabla */
+.usuario-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.foto-usuario-mini {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+}
+
+.avatar-mini {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #4299e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+}
+
+.correo-usuario {
+    font-size: 0.8rem;
+    color: #718096;
+    margin-top: 0.25rem;
+}
+
+/* Botones específicos para verificaciones */
+.boton-aprobar {
+    background: #f0fff4;
+    color: #38a169;
+    border: 1px solid #9ae6b4;
+}
+
+.boton-aprobar:hover {
+    background: #38a169;
+    color: white;
+}
+
+.boton-rechazar {
+    background: #fed7d7;
+    color: #e53e3e;
+    border: 1px solid #feb2b2;
+}
+
+.boton-rechazar:hover {
+    background: #e53e3e;
+    color: white;
+}
+
+.boton-detalle {
+    background: #e6fffa;
+    color: #319795;
+    border: 1px solid #81e6d9;
+}
+
+.boton-detalle:hover {
+    background: #319795;
+    color: white;
+}
+
+/* Estados específicos para VERIFICACIONES (usamos clases diferentes) */
+.estado-verificacion-pendiente {
+    background: #fef5e7;
+    color: #d69e2e;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.estado-verificacion-aprobado {
+    background: #f0fff4;
+    color: #38a169;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.estado-verificacion-rechazado {
+    background: #fed7d7;
+    color: #e53e3e;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* Modal de detalles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-width: 700px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #2d3748;
+}
+
+.modal-header button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #718096;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-header button:hover {
+    background: #f7fafc;
+    color: #e53e3e;
+}
+
+.detalles-verificacion {
+    padding: 1.5rem;
+}
+
+.usuario-info-detalle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.usuario-info-detalle img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e2e8f0;
+}
+
+.grid-detalles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.detalle-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.detalle-item label {
+    display: block;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.detalle-item p {
+    margin: 0;
+    color: #2d3748;
+}
+
+.documentos {
+    margin-top: 1.5rem;
+}
+
+.documentos h4 {
+    margin-bottom: 1rem;
+    color: #2d3748;
+}
+
+.documento img {
+    max-width: 100%;
+    max-height: 300px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.documento img:hover {
+    transform: scale(1.02);
+}
+
+.notas-admin {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navegacion-admin {
+        flex-direction: column;
+    }
+    
+    .cabecera-seccion-admin {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .grid-estadisticas-admin {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .tabla-admin {
+        font-size: 0.8rem;
+    }
+    
+    .acciones-admin {
+        flex-direction: column;
+    }
+
+    .grid-detalles {
+        grid-template-columns: 1fr;
+    }
+    
+    .usuario-info-detalle {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+}
+
+/* ===== ESTILOS PARA NAVEGACIÓN DE VERIFICACIONES ===== */
+.navegacion-verificaciones {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.navegacion-verificaciones button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.navegacion-verificaciones button:hover {
+    background: #edf2f7;
+    border-color: #a0aec0;
+}
+
+.navegacion-verificaciones button.boton-filtro-activo {
+    background: #4299e1;
+    color: white;
+    border-color: #4299e1;
+}
+

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/mensajes.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+        <div class="contenedor">
+            <div class="menu">
+                <span id="nombre-usuario" style="margin-right: 1rem;"></span>
+            </div>
+        </div>
+
+    <main class="contenedor">
+        <!-- Header -->
+        <header class="header-panel">
+            <div class="bienvenida">
+                <h2>💬 Mis Mensajes</h2>
+                <p>Gestiona tus conversaciones con otros usuarios</p>
+            </div>
+            <div class="estado-usuario">
+                <div class="badge-rol" id="badge-rol">Usuario</div>
+                <div class="estado-cuenta" id="estado-cuenta">Activo</div>
+            </div>
+        </header>
+
+        <!-- Contenedor Principal de Mensajes -->
+        <section class="contenedor-mensajes">
+            <!-- Lista de Chats -->
+            <div class="lista-chats" id="seccion-lista-chats">
+                <div class="cabecera-chats">
+                    <h3>Conversaciones</h3>
+                    <div class="buscador-chats">
+                        <input type="text" id="buscar-chats" placeholder="Buscar conversación..." onkeyup="filtrarChats()">
+                    </div>
+                </div>
+                <div class="contenedor-lista-chats" id="lista-chats">
+                    <!-- Los chats se cargarán aquí dinámicamente -->
+                    <div class="cargando-chats">Cargando conversaciones...</div>
+                </div>
+            </div>
+
+            <!-- Panel derecho: Chat Activo O Mensaje de selección -->
+            <div class="panel-derecho-chat" id="panel-derecho-chat">
+                <!-- Vista cuando no hay chat seleccionado -->
+                <div class="sin-chat-seleccionado" id="sin-chat-seleccionado">
+                    <div class="contenido-sin-chat">
+                        <div class="icono-sin-chat">💬</div>
+                        <h3>Selecciona una conversación</h3>
+                        <p>Elige un chat de la lista para empezar a conversar</p>
+                        <p class="texto-secundario">Puedes contactar anfitriones desde los anuncios</p>
+                    </div>
+                </div>
+
+                <!-- Chat Activo -->
+                <div class="chat-activo" id="seccion-chat-activo" style="display: none;">
+                    <!-- CABECERA MOBILE CON BOTÓN VOLVER (solo visible en mobile) -->
+                    <div class="cabecera-chat-mobile">
+                        <button class="boton-volver" onclick="volverAListaMobile()" aria-label="Volver a lista de chats">
+                            ←
+                        </button>
+                        <div class="info-usuario-chat-mobile">
+                            <div class="foto-usuario-chat-mobile" id="foto-usuario-chat-mobile"></div>
+                            <div class="info-texto-usuario-mobile">
+                                <h3 id="nombre-chat-activo-mobile">Nombre del Usuario</h3>
+                                <span id="estado-chat-activo-mobile">Conectado</span>
+                            </div>
+                            <div class="info-conversacion" id="info-conversacion-mobile"></div>
+                        </div>
+                        <div class="acciones-chat-mobile">
+                            <div class="menu-tres-puntos">
+                                <button class="boton-menu" onclick="toggleMenuOpcionesMobile()" title="Opciones">⋮</button>
+                                <div class="menu-opciones" id="menu-opciones-mobile">
+                                    <button onclick="verPerfilUsuario()">👤 Ver perfil</button>
+                                    <button onclick="reportarChatGlobal()">⚠️ Reportar</button>
+                                    <button onclick="bloquearUsuarioGlobal()" id="opcion-bloquear-mobile">🚫 Bloquear</button>
+                                    <button onclick="cerrarChat()">✕ Cerrar chat</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CABECERA DESKTOP (solo visible en desktop) -->
+                    <div class="cabecera-chat-activo">
+                        <div class="info-usuario-chat">
+                            <!-- Contenedor para la foto del usuario en desktop -->
+                            <div class="foto-usuario-chat" id="foto-usuario-chat">
+                                <!-- La foto se cargará dinámicamente aquí -->
+                            </div>
+                            <div class="info-texto-usuario">
+                                <h3 id="nombre-chat-activo">Nombre del Usuario</h3>
+                                <span id="estado-chat-activo">Conectado</span>
+                            </div>
+                            <div style="margin-left: 5px;"class="info-conversacion" id="info-conversacion-desktop"></div>
+                        </div>
+                        <!-- Menú de tres puntos en desktop -->
+                        <div class="acciones-chat" id="acciones-chat">
+                            <div class="menu-tres-puntos">
+                                <button class="boton-menu" onclick="toggleMenuOpciones()" title="Opciones">⋮</button>
+                                <div class="menu-opciones" id="menu-opciones">
+                                    <button onclick="verPerfilUsuario()">👤 Ver perfil</button>
+                                    <button onclick="reportarChatGlobal()">⚠️ Reportar</button>
+                                    <button onclick="bloquearUsuarioGlobal()" id="opcion-bloquear">🚫 Bloquear</button>
+                                    <button onclick="cerrarChat()">✕ Cerrar chat</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contenedor-mensajes-chat" id="mensajes-chat">
+                        <!-- Los mensajes se cargarán aquí -->
+                        <div class="mensaje-sistema">
+                            💡 Esta conversación está protegida. Comunícate solo a través de esta plataforma.
+                        </div>
+                    </div>
+                    
+                    <div class="formulario-mensaje-chat">
+                        <textarea 
+                            id="input-mensaje" 
+                            placeholder="Escribe un mensaje..." 
+                            rows="3"
+                            onkeypress="manejarEnter(event)"
+                        ></textarea>
+                        <button onclick="enviarMensajeChat()" class="boton-enviar">
+                            Enviar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/mensajes.js"></script>
+</body>
+</html>

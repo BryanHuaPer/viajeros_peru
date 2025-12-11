@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viajeros Perú - Plataforma Colaborativa</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+</head>
+<body>
+    <!-- Navegación -->
+    <div id="navegacion-global">
+        <!-- La navegación se cargará aquí automáticamente -->
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="contenedor">
+            <div class="hero-contenido">
+                <div class="logo-hero">
+                    <img src="/proyectoWeb/viajeros_peru/public/img/logos/logo-hero.png" alt="Viajeros Perú" 
+                         onerror="this.parentElement.innerHTML='🌍<h2>Viajeros Perú</h2>'">
+                </div>
+                <h2>Conectamos Viajeros con Anfitriones en Todo el Perú</h2>
+                <p class="hero-descripcion">
+                    Descubre experiencias únicas intercambiando alojamiento por ayuda en proyectos locales. 
+                    ¡Viaja diferente, conecta con la comunidad!
+                </p>
+                
+                <!-- Buscador Principal -->
+                <div class="buscador-principal">
+                    <div class="campo-busqueda">
+                        <input type="text" id="busqueda-destino" placeholder="¿Qué destino buscas? (ej: Cusco, Lima, Arequipa)">
+                    </div>
+                    <div class="campo-busqueda">
+                        <select id="tipo-actividad">
+                            <option value="">Todas las actividades</option>
+                            <option value="agricultura">🌱 Agricultura</option>
+                            <option value="ensenanza">📚 Enseñanza</option>
+                            <option value="construccion">🏗️ Construcción</option>
+                            <option value="cocina">👨‍🍳 Cocina</option>
+                            <option value="ninos">👶 Cuidado de niños</option>
+                            <option value="animales">🐕 Cuidado de animales</option>
+                        </select>
+                    </div>
+                    <button class="boton-buscar" onclick="realizarBusqueda()">
+                        🔍 Buscar Anuncios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Anuncios Destacados -->
+    <section class="seccion-anuncios" id="anuncios">
+        <div class="contenedor">
+            <div class="cabecera-seccion">
+                <h3>Anuncios Destacados</h3>
+                <a href="busqueda.html" class="boton-ver-todos">Ver todos los anuncios</a>
+            </div>
+            <div class="grid-anuncios" id="lista-anuncios">
+                <!-- Los anuncios se cargarán dinámicamente -->
+                <div class="cargando">Cargando anuncios...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comunidad -->
+    <!-- Reemplaza la sección Comunidad actual con esta: -->
+    <section class="seccion-comunidad" id="comunidad">
+        <div class="contenedor">
+            <div class="cabecera-seccion">
+                <h3>Comunidad de Viajeros</h3>
+                <a href="../comunidad/foro.html" class="boton-ver-todos">Ver Foro Completo</a>
+            </div>
+            
+            <div class="grid-comunidad">
+                <div class="tarjeta-comunidad">
+                    <div class="icono-comunidad">💬</div>
+                    <h4>Foro Activo</h4>
+                    <p>Únete a conversaciones con otros viajeros y anfitriones</p>
+                    <div class="estadistica">+200 discusiones</div>
+                </div>
+                <div class="tarjeta-comunidad">
+                    <div class="icono-comunidad">📖</div>
+                    <h4>Experiencias</h4>
+                    <p>Lee historias reales de intercambios culturales</p>
+                    <div class="estadistica">+150 experiencias</div>
+                </div>
+                <div class="tarjeta-comunidad">
+                    <div class="icono-comunidad">🤝</div>
+                    <h4>Consejos</h4>
+                    <p>Comparte y recibe recomendaciones de la comunidad</p>
+                    <div class="estadistica">+300 consejos</div>
+                </div>
+                <div class="tarjeta-comunidad">
+                    <div class="icono-comunidad">🎉</div>
+                    <h4>Eventos</h4>
+                    <p>Encuentros y actividades para viajeros</p>
+                    <div class="estadistica">Próximo: Meetup Lima</div>
+                </div>
+            </div>
+
+            <!-- Preview del foro -->
+            <div class="preview-foro">
+                <h4>Últimas Publicaciones</h4>
+                <div class="lista-publicaciones">
+                    <div class="publicacion">
+                        <h5>¿Mejor época para visitar Cusco?</h5>
+                        <p>Por: Ana • Hace 2 días • 15 comentarios</p>
+                    </div>
+                    <div class="publicacion">
+                        <h5>Mi experiencia en granja orgánica - Fotos!</h5>
+                        <p>Por: Carlos • Hace 3 días • 28 comentarios</p>
+                    </div>
+                    <div class="publicacion">
+                        <h5>Consejos para viajeros primerizos</h5>
+                        <p>Por: María • Hace 5 días • 42 comentarios</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Características -->
+    <section class="caracteristicas">
+        <div class="contenedor">
+            <h3>¿Cómo funciona?</h3>
+            <div class="grid-caracteristicas">
+                <div class="caracteristica">
+                    <div class="icono">👤</div>
+                    <h4>Regístrate</h4>
+                    <p>Crea tu perfil como viajero o anfitrión</p>
+                </div>
+                <div class="caracteristica">
+                    <div class="icono">🔍</div>
+                    <h4>Encuentra</h4>
+                    <p>Busca oportunidades que se ajusten a tus intereses</p>
+                </div>
+                <div class="caracteristica">
+                    <div class="icono">💬</div>
+                    <h4>Conecta</h4>
+                    <p>Conversa directamente con anfitriones o viajeros</p>
+                </div>
+                <div class="caracteristica">
+                    <div class="icono">🌟</div>
+                    <h4>Vive</h4>
+                    <p>Disfruta experiencias culturales auténticas</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section class="seccion-contacto" id="contacto">
+        <div class="contenedor">
+            <div class="grid-contacto">
+                <div class="info-contacto">
+                    <h3>Contacto</h3>
+                    <p>¿Tienes preguntas? Estamos aquí para ayudarte.</p>
+                    
+                    <div class="detalles-contacto">
+                        <div class="detalle-contacto">
+                            <span class="icono-contacto">📧</span>
+                            <span>info@viajerosperu.com</span>
+                        </div>
+                        <div class="detalle-contacto">
+                            <span class="icono-contacto">📱</span>
+                            <span>+51 987 654 321</span>
+                        </div>
+                        <div class="detalle-contacto">
+                            <span class="icono-contacto">📍</span>
+                            <span>Tacna, Perú</span>
+                        </div>
+                    </div>
+
+                    <div class="redes-sociales">
+                        <a href="#" class="icono-social">📘</a>
+                        <a href="#" class="icono-social">📷</a>
+                        <a href="#" class="icono-social">🐦</a>
+                        <a href="#" class="icono-social">💼</a>
+                    </div>
+                </div>
+                
+                <div class="formulario-contacto">
+                    <h4>Envíanos un mensaje</h4>
+                    <form id="formulario-contacto">
+                        <div class="grupo-formulario">
+                            <input type="text" id="nombre-contacto" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="grupo-formulario">
+                            <input type="email" id="email-contacto" placeholder="Tu correo electrónico" required>
+                        </div>
+                        <div class="grupo-formulario">
+                            <textarea id="mensaje-contacto" placeholder="Tu mensaje..." rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="boton-principal">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="pie-pagina">
+        <div class="contenedor">
+            <div class="grid-pie-pagina">
+                <div class="columna-pie">
+                    <div class="logo-pie">
+                        <img src="/proyectoWeb/viajeros_peru/public/img/logos/logo-footer.png" alt="Viajeros Perú"
+                             onerror="this.parentElement.innerHTML='🌍<h4>Viajeros Perú</h4>'">
+                    </div>
+                    <p>Conectando viajeros con anfitriones para experiencias auténticas en el Perú.</p>
+                </div>
+                
+                <div class="columna-pie">
+                    <h5>Enlaces Rápidos</h5>
+                    <a href="#anuncios">Anuncios</a>
+                    <a href="#comunidad">Comunidad</a>
+                    <a href="#contacto">Contacto</a>
+                    <a href="../auth/registro.html">Registrarse</a>
+                </div>
+                
+                <div class="columna-pie">
+                    <h5>Legal</h5>
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+            
+            <div class="pie-inferior">
+                <p>&copy; 2024 Viajeros Perú. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/aplicacion.js"></script>
+    <script>
+        // Manejar el formulario de contacto CON ENVÍO REAL
+        document.getElementById('formulario-contacto')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                nombre: document.getElementById('nombre-contacto').value,
+                email: document.getElementById('email-contacto').value,
+                mensaje: document.getElementById('mensaje-contacto').value
+            };
+
+            try {
+                const respuesta = await fetch('../backend/api/contacto.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const resultado = await respuesta.json();
+
+                if (resultado.exito) {
+                    alert('✅ Mensaje enviado correctamente. Te contactaremos pronto.');
+                    this.reset();
+                } else {
+                    alert('❌ Error al enviar el mensaje: ' + (resultado.error || 'Intenta nuevamente'));
+                }
+            } catch (error) {
+                alert('❌ Error de conexión. Por favor, intenta más tarde.');
+            }
+        });
+    </script>
+</body>
+</html>

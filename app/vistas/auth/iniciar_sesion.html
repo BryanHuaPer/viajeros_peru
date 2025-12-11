@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/autenticacion.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa, .menu-usuario .boton-secundario{
+            display: none;
+        }
+        .input-con-icono {
+    position: relative;
+}
+
+/* Asegúrate de que el input tenga espacio para el botón */
+.input-con-icono input {
+    padding-right: 40px; /* Ajusta según el tamaño de tu botón */
+    width: 100%; /* Si tus inputs ya tienen 100% de ancho */
+    box-sizing: border-box; /* Para que el padding no desborde el ancho */
+}
+
+/* Estilo del botón de alternar */
+.toggle-password-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1rem; /* Ajusta el tamaño del icono/emoji */
+}
+
+/* Opcional: estilo al pasar el ratón por encima */
+.toggle-password-btn:hover {
+    color: #000;
+}
+.toggle-password-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.toggle-password-btn:hover {
+    color: #000;
+}
+    </style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+
+    <main class="contenedor-auth">
+        <div class="tarjeta-auth">
+            <div class="cabecera-auth">
+                <h2>Iniciar Sesión</h2>
+                <p>Accede a tu cuenta para continuar</p>
+                
+                <!-- Mensaje de registro exitoso - Ahora manejado por JavaScript -->
+                <div id="mensaje-registro-exitoso" class="mensaje-exito" style="display: none; margin-bottom: 1rem; padding: 1rem;">
+                    ✅ ¡Cuenta creada exitosamente! Ya puedes iniciar sesión.
+                </div>
+            </div>
+
+            <form id="formulario-login" class="formulario-auth">
+                <div id="mensaje-error-general" class="mensaje-error-general" style="display: none;"></div>
+
+                <div class="grupo-formulario">
+                    <label for="correo">Correo Electrónico *</label>
+                    <input type="email" id="correo" name="correo" required>
+                    <div class="mensaje-error" id="error-correo"></div>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label for="contrasena">Contraseña *</label>
+                    <div class="input-con-icono">
+                        <input type="password" id="contrasena" name="contrasena" required>
+                        <button type="button" id="toggle-password" class="toggle-password-btn"><i class="fas fa-eye"></i> </button>
+                    </div>
+                    <div class="mensaje-error" id="error-contrasena"></div>
+                </div>
+
+                <div class="opciones-login">
+                    <label class="recordarme">
+                        <input type="checkbox" id="recordarme" name="recordarme">
+                        Recordar sesión
+                    </label>
+                    <a href="recuperar_contrasena.html" class="enlace-olvidado">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
+
+                <button type="submit" class="boton-principal boton-login" style="width: 100%;">
+                    Iniciar Sesión
+                </button>
+
+                <div class="separador">
+                    <span>o continuar con</span>
+                </div>
+
+                <div class="login-social">
+                    <button type="button" class="boton-social boton-google"> 
+                        <span style="font-size: 1.2rem;">🔍</span>
+                        Google
+                    </button>
+                    <button type="button" class="boton-social boton-facebook">
+                        <span style="font-size: 1.2rem;">👤</span>
+                        Facebook
+                    </button>
+                </div>
+            </form>
+
+            <div class="enlace-auth">
+                ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+            </div>
+        </div>
+    </main>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/login.js"></script>
+    <script>
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('contrasena');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Cambiar íconos Font Awesome
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+    </script>
+</body>
+</html>

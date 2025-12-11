@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Favoritos - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/favoritos.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+        .icono-favorito {
+            width: 100%;
+            height: 200px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tarjeta-favorito .icono-favorito {
+            background: linear-gradient(135deg, #667eea 0%, #17af3d 100%);
+            color: white;
+        }
+
+        .imagen-favorito {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="navegacion-global">
+        <!-- La navegación se cargará aquí automáticamente -->
+    </div>
+
+    <main class="contenedor-favoritos">
+        <!-- Header -->
+        <header class="header-panel">
+            <h1>❤️ Mis Favoritos</h1>
+            <p id="contador-favoritos">Tienes 0 favoritos guardados</p>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs-favoritos">
+            <button class="tab-btn activo" onclick="app.cambiarTab('anuncios')">
+                📍 Anuncios (<span id="count-anuncios">0</span>)
+            </button>
+            <button class="tab-btn" onclick="app.cambiarTab('perfiles')">
+                👥 Perfiles (<span id="count-perfiles">0</span>)
+            </button>
+        </div>
+
+        <!-- Contenedor de favoritos -->
+        <div id="contenedor-anuncios" class="tab-content">
+            <div class="contenedor-favoritos-grid" id="grid-favoritos-anuncios">
+                <!-- Se cargará dinámicamente -->
+            </div>
+        </div>
+
+        <div id="contenedor-perfiles" class="tab-content" style="display: none;">
+            <div class="contenedor-favoritos-grid" id="grid-favoritos-perfiles">
+                <!-- Se cargará dinámicamente -->
+            </div>
+        </div>
+    </main>
+
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/favoritos.js"></script>
+</body>
+</html>

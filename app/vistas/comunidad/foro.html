@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro de la Comunidad - Viajeros Perú</title>
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/comunidad.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+        <div class="contenedor">
+            <div class="menu" id="menu-usuario">
+                <!-- Cargado dinámicamente -->
+            </div>
+        </div>
+
+    <main class="contenedor">
+        <section class="hero">
+            <header class="contenedor">
+                <h1>💬 Foro de la Comunidad</h1>
+                <p>Comparte experiencias, haz preguntas y conecta con otros viajeros</p>
+            </header>
+        </section>
+        
+        <div class="grid-comunidad-foro">
+            <!-- Sidebar con categorías -->
+            <aside class="sidebar-categorias">
+                <div style="text-align: center;margin: 20px;"><button id="btn-nueva-publicacion" class="boton-principal">➕ Nueva Publicación</button></div>
+                <h3>Categorías</h3>
+                <div class="lista-categorias">
+                    <button class="categoria activa" data-categoria="todas">📝 Todas las publicaciones</button>
+                    <button class="categoria" data-categoria="experiencia">🌟 Experiencias</button>
+                    <button class="categoria" data-categoria="pregunta">❓ Preguntas</button>
+                    <button class="categoria" data-categoria="consejo">💡 Consejos</button>
+                    <button class="categoria" data-categoria="evento">🎉 Eventos</button>
+                </div>
+            </aside>
+
+            <!-- Contenido principal -->
+            <section class="contenido-foro">
+                <!-- Formulario nueva publicación (oculto inicialmente) -->
+                <div id="form-nueva-publicacion" class="form-nueva-publicacion" style="display: none;">
+                    <h3>Crear Nueva Publicación</h3>
+                    <form id="formulario-publicacion">
+                        <div class="campo-formulario">
+                            <label for="titulo-publicacion">Título</label>
+                            <input type="text" id="titulo-publicacion" placeholder="Escribe un título descriptivo" required>
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="categoria-publicacion">Categoría</label>
+                            <select id="categoria-publicacion" required>
+                                <option value="">Selecciona una categoría</option>
+                                <option value="experiencia">🌟 Experiencias</option>
+                                <option value="pregunta">❓ Preguntas</option>
+                                <option value="consejo">💡 Consejos</option>
+                                <option value="evento">🎉 Eventos</option>
+                            </select>
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="contenido-publicacion">Contenido</label>
+                            <textarea id="contenido-publicacion" placeholder="Comparte tu experiencia, pregunta o consejo..." rows="6" required></textarea>
+                        </div>
+                        <div class="acciones-formulario">
+                            <button type="submit" class="boton-principal">Publicar</button>
+                            <button type="button" id="btn-cancelar" class="boton-secundario">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Lista de publicaciones -->
+                <div id="lista-publicaciones" class="lista-publicaciones">
+                    <div class="cargando">Cargando publicaciones...</div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script>
+        class ManejadorForo {
+            constructor() {
+                this.publicaciones = [];
+                this.categoriaActual = 'todas';
+                this.paginaActual = 1;
+                this.totalPaginas = 1;
+                this.usuario = null;
+                this.inicializar();
+            }
+
+            inicializar() {
+                this.verificarAutenticacion();
+                this.cargarMenuUsuario();
+                this.configurarEventos();
+                this.cargarPublicaciones();
+            }
+
+            verificarAutenticacion() {
+                const token = localStorage.getItem('token_usuario');
+                const datosUsuario = localStorage.getItem('datos_usuario');
+                
+                if (token && datosUsuario) {
+                    try {
+                        this.usuario = JSON.parse(datosUsuario);
+                        console.log('Usuario autenticado:', this.usuario);
+                    } catch (e) {
+                        console.error('Error parseando datos usuario:', e);
+                        this.usuario = null;
+                    }
+                }
+            }
+
+            cargarMenuUsuario() {
+                const menuElement = document.getElementById('menu-usuario');
+                // Tu código existente para cargar menú
+            }
+
+            configurarEventos() {
+                // Botón nueva publicación
+                document.getElementById('btn-nueva-publicacion').addEventListener('click', () => {
+                    if (!this.usuario) {
+                        alert('🔐 Debes iniciar sesión para publicar');
+                        window.location.href = '../auth/iniciar_sesion.html';
+                        return;
+                    }
+                    this.mostrarFormulario();
+                });
+
+                // Cancelar publicación
+                document.getElementById('btn-cancelar').addEventListener('click', () => {
+                    this.ocultarFormulario();
+                });
+
+                // Enviar publicación
+                document.getElementById('formulario-publicacion').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.crearPublicacion();
+                });
+
+                // Filtros por categoría
+                document.querySelectorAll('.categoria').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.categoria').forEach(b => b.classList.remove('activa'));
+                        btn.classList.add('activa');
+                        this.categoriaActual = btn.dataset.categoria;
+                        this.paginaActual = 1;
+                        this.cargarPublicaciones();
+                    });
+                });
+            }
+
+            mostrarFormulario() {
+                document.getElementById('form-nueva-publicacion').style.display = 'block';
+                document.getElementById('lista-publicaciones').style.display = 'none';
+            }
+
+            ocultarFormulario() {
+                document.getElementById('form-nueva-publicacion').style.display = 'none';
+                document.getElementById('lista-publicaciones').style.display = 'block';
+                document.getElementById('formulario-publicacion').reset();
+            }
+
+            async cargarPublicaciones(pagina = this.paginaActual) {
+                this.paginaActual = pagina;
+                
+                try {
+                    const respuesta = await fetch(
+                        `/proyectoWeb/viajeros_peru/backend/api/comunidad.php?accion=obtener&filtro=${this.categoriaActual}&pagina=${pagina}`
+                    );
+                    const datos = await respuesta.json();
+                    
+                    console.log('Datos recibidos:', datos);
+                    
+                    if (datos.exito) {
+                        this.publicaciones = datos.publicaciones || [];
+                        this.totalPaginas = datos.total_paginas || 1;
+                        this.mostrarPublicaciones();
+                        this.mostrarPaginacion();
+                    } else {
+                        console.error('Error en API:', datos.error);
+                        this.mostrarPublicacionesEjemplo();
+                    }
+                } catch (error) {
+                    console.error('Error cargando publicaciones:', error);
+                    this.mostrarPublicacionesEjemplo();
+                }
+            }
+
+            mostrarPublicaciones() {
+                const contenedor = document.getElementById('lista-publicaciones');
+                
+                if (this.publicaciones.length === 0) {
+                    contenedor.innerHTML = `
+                        <div class="sin-resultados" style="text-align: center; padding: 3rem; color: #666;">
+                            <h3>📭 No hay publicaciones</h3>
+                            <p>No hay publicaciones en esta categoría aún.</p>
+                            ${this.usuario ? 
+                                '<button onclick="manejadorForo.mostrarFormulario()" class="boton-principal" style="margin-top: 1rem;">Crear la primera publicación</button>' : 
+                                '<p><a href="../auth/iniciar_sesion.html">Inicia sesión</a> para crear la primera publicación.</p>'
+                            }
+                        </div>
+                    `;
+                    return;
+                }
+                
+                contenedor.innerHTML = this.publicaciones.map(pub => this.crearTarjetaPublicacion(pub)).join('');
+            }
+
+            crearTarjetaPublicacion(publicacion) {
+                const iconos = {
+                    'experiencia': '🌟',
+                    'pregunta': '❓', 
+                    'consejo': '💡',
+                    'evento': '🎉'
+                };
+                
+                const nombresCategoria = {
+                    'experiencia': 'Experiencia',
+                    'pregunta': 'Pregunta', 
+                    'consejo': 'Consejo',
+                    'evento': 'Evento'
+                };
+                
+                const icono = iconos[publicacion.tipo] || '📝';
+                const nombreCategoria = nombresCategoria[publicacion.tipo] || 'Publicación';
+                
+                return `
+                    <div class="tarjeta-publicacion" data-categoria="${publicacion.tipo}">
+                        <div class="cabecera-publicacion">
+                            <h3><a href="detalle_publicacion.html?id=${publicacion.id}" class="enlace-publicacion">${publicacion.titulo}</a></h3>
+                            <span class="badge-categoria ${publicacion.tipo}">
+                                ${icono} ${nombreCategoria}
+                            </span>
+                        </div>
+                        <div class="cuerpo-publicacion">
+                            <p>${publicacion.contenido_corto || publicacion.contenido.substring(0, 200) + (publicacion.contenido.length > 200 ? '...' : '')}</p>
+                        </div>
+                        <div class="pie-publicacion">
+                            <div class="info-autor">
+                                <img src="${publicacion.foto_perfil || '/proyectoWeb/viajeros_peru/public/img/placeholder-usuario.jpg'}" 
+                                    alt="${publicacion.autor_nombre_completo}" class="avatar-miniatura">
+                                <div>
+                                    <span class="autor">${publicacion.autor_nombre_completo}</span>
+                                    <span class="fecha">${publicacion.fecha_formateada || publicacion.fecha_publicacion}</span>
+                                </div>
+                            </div>
+                            <div class="estadisticas">
+                                <span class="comentarios">💬 ${publicacion.total_comentarios || 0} comentarios</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            mostrarPaginacion() {
+                let html = '<div class="paginacion">';
+                
+                // Botón anterior
+                if (this.paginaActual > 1) {
+                    html += `<button class="boton-paginacion" onclick="manejadorForo.cargarPublicaciones(${this.paginaActual - 1})">← Anterior</button>`;
+                }
+                
+                // Números de página
+                for (let i = 1; i <= this.totalPaginas; i++) {
+                    if (i === 1 || i === this.totalPaginas || (i >= this.paginaActual - 2 && i <= this.paginaActual + 2)) {
+                        html += `<button class="boton-paginacion ${i === this.paginaActual ? 'activo' : ''}" onclick="manejadorForo.cargarPublicaciones(${i})">${i}</button>`;
+                    } else if (i === this.paginaActual - 3 || i === this.paginaActual + 3) {
+                        html += '<span class="puntos">...</span>';
+                    }
+                }
+                
+                // Botón siguiente
+                if (this.paginaActual < this.totalPaginas) {
+                    html += `<button class="boton-paginacion" onclick="manejadorForo.cargarPublicaciones(${this.paginaActual + 1})">Siguiente →</button>`;
+                }
+                
+                html += '</div>';
+                
+                // Insertar después de la lista de publicaciones
+                const contenedor = document.getElementById('lista-publicaciones');
+                const paginacionExistente = contenedor.nextElementSibling;
+                
+                if (paginacionExistente && paginacionExistente.className === 'paginacion') {
+                    paginacionExistente.outerHTML = html;
+                } else {
+                    contenedor.insertAdjacentHTML('afterend', html);
+                }
+            }
+
+            mostrarPublicacionesEjemplo() {
+                const publicacionesEjemplo = [
+                    {
+                        id: 1,
+                        titulo: "¿Mejor época para visitar Cusco?",
+                        contenido: "Estoy planeando mi viaje y me gustaría saber cuál es la mejor época para visitar Cusco...",
+                        tipo: "pregunta",
+                        autor_nombre_completo: "Ana García",
+                        fecha_formateada: "15/01/2024",
+                        total_comentarios: 15,
+                        foto_perfil: "/proyectoWeb/viajeros_peru/public/uploads/perfiles/ana-garcia.jpg"
+                    },
+                    {
+                        id: 2,
+                        titulo: "Mi experiencia en granja orgánica - ¡Fotos!",
+                        contenido: "Pasé 3 semanas ayudando en una granja orgánica en el Valle Sagrado...",
+                        tipo: "experiencia", 
+                        autor_nombre_completo: "Carlos López",
+                        fecha_formateada: "14/01/2024",
+                        total_comentarios: 28,
+                        foto_perfil: "/proyectoWeb/viajeros_peru/public/uploads/perfiles/carlos-lopez.jpg"
+                    }
+                ];
+
+                const contenedor = document.getElementById('lista-publicaciones');
+                contenedor.innerHTML = publicacionesEjemplo.map(pub => this.crearTarjetaPublicacion(pub)).join('');
+                
+                // Mostrar mensaje de ejemplo
+                contenedor.insertAdjacentHTML('beforebegin', 
+                    '<div class="alerta-info" style="margin-bottom: 1rem; padding: 1rem; background: #dbeafe; border-radius: 0.5rem;">' +
+                    '⚠️ Mostrando datos de ejemplo. Asegúrate de que el backend esté funcionando correctamente.' +
+                    '</div>'
+                );
+            }
+
+            async crearPublicacion() {
+                const titulo = document.getElementById('titulo-publicacion').value.trim();
+                const categoria = document.getElementById('categoria-publicacion').value;
+                const contenido = document.getElementById('contenido-publicacion').value.trim();
+
+                if (!titulo || !contenido || !categoria) {
+                    alert('Por favor, completa todos los campos requeridos');
+                    return;
+                }
+
+                if (!this.usuario) {
+                    alert('Debes iniciar sesión para publicar');
+                    window.location.href = '../auth/iniciar_sesion.html';
+                    return;
+                }
+
+                try {
+                    const token = localStorage.getItem('token_usuario');
+                    
+                    // URL CORREGIDA - usar ruta absoluta
+                    const urlCrear = '/proyectoWeb/viajeros_peru/backend/api/comunidad.php?token=' + encodeURIComponent(token);
+                    const respuesta = await fetch(urlCrear, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            token: token,
+                            accion: 'crear',
+                            titulo: titulo,
+                            categoria: categoria,
+                            contenido: contenido
+                        })
+                    });
+
+                    const resultado = await respuesta.json();
+                    
+                    console.log('Resultado creación:', resultado);
+
+                    if (resultado.exito) {
+                        alert('✅ Publicación creada exitosamente');
+                        this.ocultarFormulario();
+                        this.cargarPublicaciones(1); // Recargar en primera página
+                    } else {
+                        alert('❌ Error: ' + (resultado.error || 'Error desconocido'));
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('❌ Error de conexión con el servidor');
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.manejadorForo = new ManejadorForo();
+        });
+    </script>
+</body>
+</html>

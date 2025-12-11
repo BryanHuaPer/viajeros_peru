@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Anuncio - Viajeros Perú</title>
+    <link rel="icon" href="../../../public/img/logos/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/detalle_anuncio.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/panel_control.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa {
+            display: none;
+        } 
+    </style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+        <div class="contenedor">
+            <div class="menu">
+                <span id="nombre-usuario" style="margin-right: 1rem;"></span>
+                <!-- Solo mostrar Panel para usuarios autenticados -->
+                <a href="../perfil/panel_control.html" id="panel-link" class="boton-secundario" style="display: none;">Panel</a>
+            </div>
+        </div>
+
+    <main class="contenedor">
+        <!-- Cabecera -->
+        <header class="header-panel">
+            <div class="bienvenida">
+                <h1 id="titulo-anuncio">Cargando anuncio...</h1>
+                <p id="subtitulo-anuncio">Detalle del anuncio</p>
+            </div>
+            <div class="estado-usuario">
+                <div class="badge-rol" id="badge-rol">Usuario</div>
+                <div class="estado-cuenta" id="estado-anuncio">Cargando...</div>
+            </div>
+        </header>
+
+        <!-- Contenido Principal -->
+        <section class="contenido-detalle">
+            <div class="grid-detalle">
+                <!-- Columna Izquierda: Información del Anuncio -->
+                <div class="columna-info">
+                    <!-- Galería de Imágenes del Anuncio -->
+                    <div class="tarjeta-detalle galeria-anuncio" id="galeria-anuncio" style="margin-bottom:2rem;">
+                        <h2>🖼️ Imágenes del Anuncio</h2>
+                        <div id="imagenes-anuncio" class="imagenes-anuncio">
+                            <div class="sin-imagenes">Cargando imágenes...</div>
+                        </div>
+                    </div>
+                    <!-- Información Básica -->
+                    <div class="tarjeta-detalle">
+                        <h2>📋 Información del Anuncio</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <strong>📍 Ubicación:</strong>
+                                <span id="info-ubicacion">Cargando...</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>🎯 Tipo de Actividad:</strong>
+                                <span id="info-actividad">Cargando...</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>⏱️ Duración:</strong>
+                                <span id="info-duracion">Cargando...</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>👥 Cupos Disponibles:</strong>
+                                <span id="info-cupos">Cargando...</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>📅 Publicado:</strong>
+                                <span id="info-fecha">Cargando...</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>🔄 Estado:</strong>
+                                <span id="info-estado">Cargando...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Descripción Completa -->
+                    <div class="tarjeta-detalle">
+                        <h2>📝 Descripción Completa</h2>
+                        <div id="descripcion-completa" class="descripcion-completa">
+                            Cargando descripción...
+                        </div>
+                    </div>
+
+                    <!-- Requisitos -->
+                    <div class="tarjeta-detalle" id="seccion-requisitos">
+                        <h2>📋 Requisitos para el Viajero</h2>
+                        <div id="info-requisitos" class="contenido-texto">
+                            Cargando requisitos...
+                        </div>
+                    </div>
+
+                    <!-- Comodidades -->
+                    <div class="tarjeta-detalle" id="seccion-comodidades">
+                        <h2>🏠 Comodidades Incluidas</h2>
+                        <div id="info-comodidades" class="contenido-texto">
+                            Cargando comodidades...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Anfitrión y Acciones -->
+                <div class="columna-acciones">
+                    <!-- Información del Anfitrión -->
+                    <div class="tarjeta-detalle">
+                        <h2>👤 Sobre el Anfitrión</h2>
+                        <div class="anfitrion-info">
+                            <div class="avatar-anfitrion" id="avatar-anfitrion">AN</div>
+                            <div class="detalle-anfitrion">
+                                <div style="display: flex; align-items: center; gap: 20px;">
+                                    <h3 id="nombre-anfitrion">Cargando...</h3>
+                                    <button id="btn-verPerfil" class="boton-accion boton-primario">Ver perfil</button>
+                                </div>    
+                                <p id="correo-anfitrion">Cargando...</p>
+                                <p id="experiencia-anfitrion">Anfitrión en Viajeros Perú</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acciones Disponibles -->
+                    <div class="tarjeta-detalle">
+                        <h2>🚀 Acciones Disponibles</h2>
+                        <div class="acciones-detalle">
+                            <!-- Para Viajeros -->
+                            <button id="btn-contactar" class="boton-accion boton-primario">
+                                💬 Contactar al Anfitrión
+                            </button>
+                            <button id="btn-reservar" class="boton-accion boton-secundario">
+                                📅 Solicitar Reserva
+                            </button>
+
+                            <button id="btn-favorito" class="boton-accion boton-favorito">
+                                🤍 Agregar a Favoritos
+                            </button>
+
+                            <!-- Para Anfitriones (si es su anuncio) -->
+                            <button id="btn-editar" class="boton-accion boton-primario">
+                                ✏️ Editar Anuncio
+                            </button>
+                            <button id="btn-eliminar" class="boton-accion boton-peligro">
+                                🗑️ Eliminar Anuncio
+                            </button>
+
+                            <!-- Para usuarios no autenticados -->
+                            <button id="btn-login" class="boton-accion boton-primario">
+                                🔐 Iniciar Sesión para Acceder
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Información de Seguridad -->
+                    <div class="tarjeta-detalle info-seguridad">
+                        <h2>🛡️ Tu Seguridad es Primero</h2>
+                        <ul>
+                            <li>✅ Comunícate solo a través de la plataforma</li>
+                            <li>✅ Verifica la identidad del anfitrión</li>
+                            <li>✅ Lee las reseñas anteriores</li>
+                            <li>✅ Reporta comportamientos sospechosos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/detalle_anuncio.js"></script>
+</body>
+</html>

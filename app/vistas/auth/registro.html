@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Viajeros Perú</title>
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/estilo_principal.css">
+    <link rel="stylesheet" href="/proyectoWeb/viajeros_peru/public/css/autenticacion.css">
+    <style>
+        /* Indicar que esta página no necesita la navegación principal */
+        .navegacion-principal, .menu-hamburguesa, .menu-usuario .boton-principal {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Global -->
+    <div id="navegacion-global"></div>
+
+    <main class="contenedor-auth">
+        <div class="tarjeta-auth">
+            <div class="cabecera-auth">
+                <h2>Crear Cuenta</h2>
+                <p>Únete a nuestra comunidad de viajeros y anfitriones</p>
+            </div>
+
+            <form id="formulario-registro" class="formulario-auth">
+                <!-- Paso 1: Información Básica -->
+                <div class="paso-formulario activo" id="paso-1">
+                    <h3>Información Básica</h3>
+                    
+                    <div class="grupo-campos">
+                        <div class="grupo-formulario">
+                            <label for="nombre">Nombre *</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                            <div class="mensaje-error" id="error-nombre"></div>
+                        </div>
+
+                        <div class="grupo-formulario">
+                            <label for="apellido">Apellido *</label>
+                            <input type="text" id="apellido" name="apellido" required>
+                            <div class="mensaje-error" id="error-apellido"></div>
+                        </div>
+                    </div>
+
+                    <div class="grupo-formulario">
+                        <label for="correo">Correo Electrónico *</label>
+                        <input type="email" id="correo" name="correo" required>
+                        <div class="mensaje-error" id="error-correo"></div>
+                    </div>
+
+                    <div class="grupo-campos">
+                        <div class="grupo-formulario">
+                            <label for="contrasena">Contraseña *</label>
+                            <input type="password" id="contrasena" name="contrasena" required>
+                            <div class="mensaje-error" id="error-contrasena"></div>
+                        </div>
+
+                        <div class="grupo-formulario">
+                            <label for="confirmar_contrasena">Confirmar Contraseña *</label>
+                            <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" required>
+                            <div class="mensaje-error" id="error-confirmar-contrasena"></div>
+                        </div>
+                    </div>
+
+                    <div class="acciones-formulario">
+                        <button type="button" class="boton-siguiente" onclick="siguientePaso(1)">
+                            Siguiente →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 2: Tipo de Usuario -->
+                <div class="paso-formulario" id="paso-2">
+                    <h3>¿Cómo quieres participar?</h3>
+                    
+                    <div class="seleccion-rol">
+                        <div class="opcion-rol" onclick="seleccionarRol('viajero')">
+                            <div class="icono-rol">🎒</div>
+                            <h4>Viajero</h4>
+                            <p>Busco alojamiento a cambio de ayuda en proyectos</p>
+                            <ul>
+                                <li>Encuentra anfitriones en todo Perú</li>
+                                <li>Vive experiencias culturales auténticas</li>
+                                <li>Aprende nuevas habilidades</li>
+                            </ul>
+                        </div>
+
+                        <div class="opcion-rol" onclick="seleccionarRol('anfitrion')">
+                            <div class="icono-rol">🏠</div>
+                            <h4>Anfitrión</h4>
+                            <p>Ofrezco alojamiento a cambio de ayuda en mi proyecto</p>
+                            <ul>
+                                <li>Recibe ayuda en tus proyectos</li>
+                                <li>Conoce personas de todo el mundo</li>
+                                <li>Comparte tu cultura y conocimientos</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="rol" name="rol" required>
+
+                    <div class="acciones-formulario">
+                        <button type="button" class="boton-secundario" onclick="anteriorPaso(2)">
+                            ← Anterior
+                        </button>
+                        <button type="submit" class="boton-principal" id="boton-registro">
+                            Crear Cuenta
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="enlace-auth">
+                ¿Ya tienes cuenta? <a href="iniciar_sesion.html">Inicia sesión aquí</a>
+            </div>
+        </div>
+
+        <div id="mensaje-exito" class="mensaje-exito" style="display: none;">
+            <h3>¡Cuenta creada exitosamente!</h3>
+            <p>Te hemos enviado un correo de confirmación. Redirigiendo...</p>
+        </div>
+    </main>
+    <script src="/proyectoWeb/viajeros_peru/public/js/componentes/navegacion.js"></script>
+    <script src="/proyectoWeb/viajeros_peru/public/js/autenticacion.js"></script>
+</body>
+</html>

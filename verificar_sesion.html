@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verificar Sesión</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        .info { background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .exito { color: green; }
+        .error { color: red; }
+        button { padding: 10px 20px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Verificar Estado de Sesión</h1>
+    
+    <div class="info">
+        <h3>Información en localStorage:</h3>
+        <div id="localStorage"></div>
+    </div>
+    
+    <div class="info">
+        <h3>Información en sessionStorage:</h3>
+        <div id="sessionStorage"></div>
+    </div>
+    
+    <div class="info">
+        <h3>Estado de autenticación:</h3>
+        <div id="estado"></div>
+    </div>
+    
+    <button onclick="verificar()">🔄 Refrescar</button>
+    <button onclick="irALogin()">➡️ Ir a Login</button>
+    <button onclick="irAAjustes()">⚙️ Ir a Ajustes</button>
+    
+    <script>
+        function verificar() {
+            const tokenUsuario = localStorage.getItem('token_usuario');
+            const datosUsuario = localStorage.getItem('datos_usuario');
+            const tokenSession = sessionStorage.getItem('token_usuario');
+            const datosSession = sessionStorage.getItem('datos_usuario');
+            
+            let html = '<ul>';
+            html += '<li>token_usuario: <span class="' + (tokenUsuario ? 'exito' : 'error') + '">' + (tokenUsuario ? '✓ SÍ (primeros 30 caracteres: ' + tokenUsuario.substring(0, 30) + '...)' : '✗ NO') + '</span></li>';
+            html += '<li>datos_usuario: <span class="' + (datosUsuario ? 'exito' : 'error') + '">' + (datosUsuario ? '✓ SÍ' : '✗ NO') + '</span></li>';
+            html += '</ul>';
+            document.getElementById('localStorage').innerHTML = html;
+            
+            html = '<ul>';
+            html += '<li>token_usuario: <span class="' + (tokenSession ? 'exito' : 'error') + '">' + (tokenSession ? '✓ SÍ' : '✗ NO') + '</span></li>';
+            html += '<li>datos_usuario: <span class="' + (datosSession ? 'exito' : 'error') + '">' + (datosSession ? '✓ SÍ' : '✗ NO') + '</span></li>';
+            html += '</ul>';
+            document.getElementById('sessionStorage').innerHTML = html;
+            
+            const estaSesion = tokenUsuario && datosUsuario;
+            html = '<p class="' + (estaSesion ? 'exito' : 'error') + '">';
+            if (estaSesion) {
+                html += '✅ ESTÁS LOGUEADO - Puedes acceder a ajustes.html';
+                try {
+                    const datos = JSON.parse(datosUsuario);
+                    html += '<br>Usuario: ' + (datos.nombre || 'Desconocido');
+                } catch (e) {
+                    html += '<br>Error al parsear datos de usuario';
+                }
+            } else {
+                html += '❌ NO ESTÁS LOGUEADO - Debes iniciar sesión primero';
+            }
+            html += '</p>';
+            document.getElementById('estado').innerHTML = html;
+        }
+        
+        function irALogin() {
+            window.location.href = '/proyectoWeb/viajeros_peru/app/vistas/auth/iniciar_sesion.html';
+        }
+        
+        function irAAjustes() {
+            window.location.href = '/proyectoWeb/viajeros_peru/app/vistas/perfil/ajustes.html';
+        }
+        
+        // Ejecutar al cargar
+        window.addEventListener('DOMContentLoaded', verificar);
+    </script>
+</body>
+</html>
